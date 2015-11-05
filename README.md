@@ -4,7 +4,7 @@
 * [2 Add Two Numbers](#2-add-two-numbers)
 * 
 <br>
-### 1 Two Sum
+### <a name="1-two-sum"></a>1 Two Sum
 
 >Given an array of integers, find two numbers such that they add up to a specific target number.
 
@@ -23,3 +23,30 @@
 **Space Complexity** O(n)
 
 **Tags** HashMap
+
+```C++
+  class Solution {
+  public:
+      vector<int> twoSum(vector<int> &numbers, int target) {
+          vector<int> answer;
+          map<int,int> mp;
+          map<int,int>::iterator pt;
+          for (int i = 0; i<numbers.size();i++)
+          {
+              pt = mp.find(target - numbers[i]);
+              if (pt!=mp.end())
+              {
+                  answer.push_back(pt->second);
+                  answer.push_back(i+1);
+                  return answer;
+              }
+              pt = mp.find(numbers[i]);
+              if (pt==mp.end())
+              {
+                  mp[numbers[i]]=i+1;
+              }
+          }
+          
+      }
+  };
+```
