@@ -1,4 +1,4 @@
-### Overview
+## Overview
 
 * [1 Two Sum](#1-two-sum)
 * [2 Add Two Numbers](#2-add-two-numbers)
@@ -16,7 +16,7 @@
 
 >Output: index1=1, index2=2
 
-**Solution C++**: Use HashMap to record the number one by one and check if it exist the target at the same time, only use one loop.
+**C++ Code**: Use HashMap to record the number one by one and check if it exist the target at the same time, only use one loop.
 
 **Time Complexity** O(n)
 
@@ -25,24 +25,24 @@
 **Tags** HashMap
 
 ```C++
-  class Solution {
-  public:
-      vector<int> twoSum(vector<int>& nums, int target) {
-          unordered_map<int,int> mp;
-          vector<int> result;
-          for (int i = 0;i < nums.size();i++) {
-              if (mp.count(target-nums[i])>0) {
-                  result.push_back(mp[target - nums[i]]);
-                  result.push_back(i + 1);
-                  return result;
-              }
-              mp[nums[i]] = i + 1;
-          }
-      }
-  };
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int,int> mp;
+        vector<int> result;
+        for (int i = 0;i < nums.size();i++) {
+            if (mp.count(target-nums[i])>0) {
+                result.push_back(mp[target - nums[i]]);
+                result.push_back(i + 1);
+                return result;
+            }
+            mp[nums[i]] = i + 1;
+        }
+    }
+};
 ```
 
-**Solution C#**:
+**C# Code**:
 ```C#
 public class Solution {
     public int[] TwoSum(int[] nums, int target) {
@@ -64,6 +64,121 @@ public class Solution {
         return null;
     }
 }
+```
+<br>
+
+### <a name="2-add-two-numbers"></a>2 Add Two Numbers
+> You are given two linked lists representing two non-negative numbers.
+> The digis are stored in reverse order and each of their nodes contain a single digit.
+> Add the two numbers and return it as a linked list.
+>
+> **`Input:`** `(2 -> 4 -> 3) + (5 -> 6 -> 4)`
+>
+> **`Output:`** `(7 -> 0 -> 8)`
+
+**Idea**
+
+Digits are stored in reverse order, that means `(2 -> 4 -> 3)` is `342`. When it reaches 10 after addition, the next node shall add 1 and current node shall only keep the unit number: `(3 -> 2) + (9 -> 1) = (2 -> 4)`; if one integer doesn't have more numbers, add the remaining digits to  result.
+
+**Attention**: After both l1 and l2 reach to the end, check the carry. If carry != 0, add an additional node to the result. 
 
 
+
+**C++ Code**
+```C++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        if(l1 == NULL) return l2;
+        if(l2 == NULL) return l1;
+        ListNode *l3 = new ListNode(0);
+        ListNode *p = l3;
+        int carry = 0;
+        while (l1 && l2) {
+            int sum = l1->val + l2->val + carry;
+            int mod = sum % 10;
+            carry = sum / 10;
+            p->next = new ListNode(mod);
+            p = p->next;
+            l1 = l1->next;
+            l2 = l2->next;
+        }
+        while (l1) {
+            int sum = l1->val + carry;
+            int mod = sum % 10;
+            carry = sum / 10;
+            p->next = new ListNode(mod);
+            p = p->next;
+            l1 = l1->next;
+        }
+        while (l2) {
+            int sum = l2->val + carry;
+            int mod = sum % 10;
+            carry = sum / 10;
+            p->next = new ListNode(mod);
+            p = p->next;
+            l2 = l2->next;
+        }
+        if (carry > 0)
+        p->next = new ListNode(carry);
+        return l3->next;
+    }
+};
+```
+
+***C#***
+```c#
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode AddTwoNumbers(ListNode l1, ListNode l2) {
+        if(l1 == null) return l2;
+        if(l2 == null) return l1;
+        ListNode l3 = new ListNode(0);
+        ListNode p = l3;
+        int carry = 0;
+        while (l1 != null && l2 != null) {
+            int sum = l1.val + l2.val + carry;
+            int mod = sum % 10;
+            carry = sum / 10;
+            p.next = new ListNode(mod);
+            p = p.next;
+            l1 = l1.next;
+            l2 = l2.next;
+        }
+        while (l1 != null) {
+            int sum = l1.val + carry;
+            int mod = sum % 10;
+            carry = sum / 10;
+            p.next = new ListNode(mod);
+            p = p.next;
+            l1 = l1.next;
+        }
+        while (l2 != null) {
+            int sum = l2.val + carry;
+            int mod = sum % 10;
+            carry = sum / 10;
+            p.next = new ListNode(mod);
+            p = p.next;
+            l2 = l2.next;
+        }
+        if (carry > 0)
+        p.next = new ListNode(carry);
+        return l3.next;
+    }
+}
 ```
