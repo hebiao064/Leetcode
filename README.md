@@ -2,7 +2,7 @@
 
 * [1 Two Sum](#1-two-sum)
 * [2 Add Two Numbers](#2-add-two-numbers)
-* 
+
 <br>
 ### <a name="1-two-sum"></a>1 Two Sum
 
@@ -27,26 +27,43 @@
 ```C++
   class Solution {
   public:
-      vector<int> twoSum(vector<int> &numbers, int target) {
-          vector<int> answer;
-          map<int,int> mp;
-          map<int,int>::iterator pt;
-          for (int i = 0; i<numbers.size();i++)
-          {
-              pt = mp.find(target - numbers[i]);
-              if (pt!=mp.end())
-              {
-                  answer.push_back(pt->second);
-                  answer.push_back(i+1);
-                  return answer;
+      vector<int> twoSum(vector<int>& nums, int target) {
+          unordered_map<int,int> mp;
+          vector<int> result;
+          for (int i = 0;i < nums.size();i++) {
+              if (mp.count(target-nums[i])>0) {
+                  result.push_back(mp[target - nums[i]]);
+                  result.push_back(i + 1);
+                  return result;
               }
-              pt = mp.find(numbers[i]);
-              if (pt==mp.end())
-              {
-                  mp[numbers[i]]=i+1;
-              }
+              mp[nums[i]] = i + 1;
           }
-          
       }
   };
+```
+
+**Solution C#**:
+```C#
+public class Solution {
+    public int[] TwoSum(int[] nums, int target) {
+        Hashtable book = new Hashtable();
+        int[] result = new int[2];
+        for(int i = 0; i < nums.Length; i++){
+            if (book.ContainsKey(target - nums[i])){
+                result[0] = (int)book[target - nums[i]];
+                result[1] = i + 1;
+                return result;
+            }
+            if (book.ContainsKey(nums[i])){
+                book[nums[i]] = i + 1;
+            }
+            else{
+                book.Add(nums[i], i + 1);
+            }
+        }
+        return null;
+    }
+}
+
+
 ```
