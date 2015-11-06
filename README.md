@@ -2,6 +2,7 @@
 
 * [1 Two Sum](#1-two-sum)
 * [2 Add Two Numbers](#2-add-two-numbers)
+* [3 Longest Substring Without Repeating Characters](#3-longest-substring-without-repeating-characters)
 
 <br>
 ### <a name="1-two-sum"></a>1 Two Sum
@@ -16,7 +17,7 @@
 
 >Output: index1=1, index2=2
 
-**C++ Code**: Use HashMap to record the number one by one and check if it exist the target at the same time, only use one loop.
+**Idea**: Use HashMap to record the number one by one and check if it exist the target at the same time, only use one loop.
 
 **Time Complexity** O(n)
 
@@ -24,6 +25,7 @@
 
 **Tags** HashMap
 
+***C++ Code***
 ```C++
 class Solution {
 public:
@@ -134,7 +136,7 @@ public:
 };
 ```
 
-***C#***
+***C# Code***
 ```c#
 /**
  * Definition for singly-linked list.
@@ -179,6 +181,57 @@ public class Solution {
         if (carry > 0)
         p.next = new ListNode(carry);
         return l3.next;
+    }
+}
+```
+
+<br>
+
+### <a name="3-longest-substring-without-repeating-characters"></a>3 Longest Substring Without Repeating Characters
+> Given a string, find the length of the longest substring without repeating characters. For example, the longest substring without repeating letters for "abcabcbb" is "abc", which the length is 3. For "bbbbb" the longest substring is "b", with the length of 1.
+
+**Idea**
+
+首先，这是个求最值的题，考虑dp。
+
+遍历一遍字符串，每当遇到重复字符时便将start置为之前出现的这个字符的位置+1。
+
+在每一次操作中都记录下下标位置，以便在之后重复时找到位置。
+
+在每一次操作中比较目前长度和maxlen的大小，取最大值。
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        vector<int> dp(256, -1);
+        int result = 0, start = 0;
+        for (int i = 0;i < s.length();i++) {
+            if (dp[s[i]] >= start) start = dp[s[i]]+1;
+            dp[s[i]] = i;
+            result = max(result, i-start+1);
+        }
+        return result;
+    }
+};
+```
+
+***C# Code***
+```C#
+public class Solution {
+    public int LengthOfLongestSubstring(string s) {
+        int[] dp = new int[256];
+        for (int i = 0;i < 256;i++) {
+            dp[i] = -1;
+        }
+        int result = 0, start = 0;
+        for (int i = 0;i < s.Length;i++) {
+            if (dp[s[i]] >= start) start = dp[s[i]]+1;
+            dp[s[i]] = i;
+            result = Math.Max(result, i-start+1);
+        }
+        return result;
     }
 }
 ```
