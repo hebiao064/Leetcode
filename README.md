@@ -1,4 +1,4 @@
-## Overview
+### Overview
 
 * [1 Two Sum](#1-two-sum)
 * [2 Add Two Numbers](#2-add-two-numbers)
@@ -10,6 +10,9 @@
 * [8 String to Integer (atoi)](#8-string-to-integer)
 * [9 Palindrome Number](#9-palindrome-number)
 * [11 Container With Most Water](#11-container-with-most-water)
+
+###Others
+* [1 Fibonacci](#1-fibonacci)
 
 <br>
 ### <a name="1-two-sum"></a>1 Two Sum
@@ -578,3 +581,38 @@ public class Solution {
     }
 }
 ```
+
+###<a name="1-fibonacci"></a>1 Fibonacci
+
+***Recursive C++ Code***
+```C++
+int recursive(int x){
+    if (x == 0) return 0;
+    if (x == 1) return 1;
+    cout << x << " ";
+    return recursive(x-1) + recursive(x-2);
+}
+```
+***Time:*** T(n)=T(n−1)+T(n−2)+Θ(1) ==> O(2^n)
+
+***Space*** O(1)? O(2^n)? 
+
+It should be O(n), as we should draw the recursion tree, we will find it may be O(2^n), but in the stack frame.
+For example when Fib(2) = Fib(1) + Fib(0) done, the stack memory of Fib(1) and Fib(0) will return so the memory will pop back, then the maximum stack memory should be Fib(n-1) + Fib(n-2) + ... + Fib(1) = O(n);
+
+***Iterative C++ Code***
+```C++
+int iterative(int n) {
+    vector<int> dp;
+    dp.push_back(0);
+    dp.push_back(1);
+    for (int i = 2;i <= n;i++) {
+        dp.push_back(dp[i-1] + dp[i-2]);
+    }
+    return dp[n];
+}
+```
+
+***Time:*** O(n)
+
+***Space:*** O(n)
