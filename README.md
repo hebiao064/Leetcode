@@ -235,3 +235,51 @@ public class Solution {
     }
 }
 ```
+<br>
+
+### <a name="median-of-two-sorted-arrays"></a>4 Median of Two Sorted Arrays
+> There are two sorted arrays nums1 and nums2 of size m and n respectively. Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).
+
+**Idea**
+
+将找中位数问题=>泛化成找两个数列中第k大的数：
+
+1. 比较两个数列的中间数大小
+
+2. 若a[mid] <= b[mid] then return findKth(a+mid+1, m-mid-1, b, n, k-mid-1);
+
+3. 若a[mid] >  b[mid] then return findKth(a, m, b+mid+1, n-mid-1,k-mid-1);
+
+在每次findKth时，判断m是否为0以及k是否为1。
+并且每次控制a串比b串短
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    double findKthElement(vector<int>::iterator a,int m,vector<int>::iterator b,int n,int k) {
+        if (m > n) return findKthElement(b,n,a,m,k);
+        if (m == 0) return b[k-1];
+        if (k == 1) return min(a[0],b[0]);
+        int mid_a = min(k/2,m);
+        int mid_b = k - mid_a;
+        if (a[mid_a-1] <= b[mid_b-1]) return findKthElement(a + mid_a,m - mid_a,b,n,k-mid_a);
+        else return findKthElement(a,m,b+mid_b,n-mid_b,k-mid_b);
+    }
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        auto a = nums1.begin();
+        auto b = nums2.begin();
+        int m = nums1.size();
+        int n = nums2.size();
+        int len = nums1.size() + nums2.size();
+        if (len % 2 == 0) return 0.5*(findKthElement(a,m,b,n,len/2) + findKthElement(a,m,b,n,len/2+1));
+        else return findKthElement(a,m,b,n,len/2+1);
+    }
+};
+```
+
+***C# Code***
+```C#
+
+```
+
