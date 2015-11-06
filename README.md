@@ -3,6 +3,9 @@
 * [1 Two Sum](#1-two-sum)
 * [2 Add Two Numbers](#2-add-two-numbers)
 * [3 Longest Substring Without Repeating Characters](#3-longest-substring-without-repeating-characters)
+* [4 Median of Two Sorted Arrays](#4-median-of-two-sorted-arrays)
+* [5 Longest Palidromic Substring](#5-longest-palidromic-substring)
+* [6 ZigZag Conversion](#6-zigzag-conversion)
 
 <br>
 ### <a name="1-two-sum"></a>1 Two Sum
@@ -237,7 +240,7 @@ public class Solution {
 ```
 <br>
 
-### <a name="median-of-two-sorted-arrays"></a>4 Median of Two Sorted Arrays
+### <a name="4-median-of-two-sorted-arrays"></a>4 Median of Two Sorted Arrays
 > There are two sorted arrays nums1 and nums2 of size m and n respectively. Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).
 
 **Idea**
@@ -282,4 +285,98 @@ public:
 ```C#
 
 ```
+
+### <a name="5-longest-palidromic-substring"></a>5 Longest Palidromic Substring
+> Given a string S, find the longest palindromic substring in S. You may assume that the maximum length of S is 1000, and there exists one unique longest palindromic substring.
+
+
+### <a name="6-zigzag-conversion">6 ZigZag Conversion
+
+> The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)
+
+<pre>
+P   A   H   N
+A P L S I I G
+Y   I   R
+</pre>
+
+> And then read line by line: "PAHNAPLSIIGYIR"
+Write the code that will take a string and make this conversion given a number of rows:
+
+<pre>
+string convert(string text, int nRows);
+</pre>
+
+> convert("PAYPALISHIRING", 3) should return "PAHNAPLSIIGYIR".
+
+**Idea**
+
+这种题找不到头绪可以找规律，从nRows = 3, nRows = 4, nRows = 5画出来能发现两个通式：
+
+1. 第一行和最后一行，每列相隔 2 * (nRows - 1)
+
+2. 中间的行，交替出现 2 * (nRows - i - 1) 和 2 * i
+
+然后只要两个for循环，一个走行一个走列即可
+
+***C++ Code***
+```C++
+class Solution{
+public:
+    string convert(string s, int numRows){
+        string result;
+        if (numRows == 1) return s;
+        for (int i = 0;i < numRows;++i) {
+            bool flag = true;
+            for (int j = i;j < s.length();) {
+                result.push_back(s[j]);
+                if (i == 0 || i == numRows-1) {
+                    
+                    j += 2*(numRows - 1);
+                }
+                else {
+                    if (flag) {
+                        j += 2*(numRows - i - 1);
+                    }
+                    else {
+                        j += 2*i;
+                    }
+                    flag = !flag;
+                }
+            }
+        }
+        return result;
+    }
+};
+```
+
+***C# Code***
+```C#
+public class Solution {
+    public string Convert(string s, int numRows) {
+        string result = "";
+        if (s.Length == 1 || numRows == 1) return s;
+        for (int i = 0;i < numRows;++i) {
+            bool flag = true;
+            for (int j = i;j < s.Length;) {
+                result += s[j];
+                if (i == 0 || i == numRows-1) {
+                    j += 2 * (numRows - 1);
+                }
+                else {
+                    if (flag) {
+                        j += 2 * (numRows - i - 1);
+                    }
+                    else {
+                        j += 2 * i;
+                    }
+                    flag = !flag;
+                }
+            }
+        }
+        return result;
+    }
+}
+```
+
 
