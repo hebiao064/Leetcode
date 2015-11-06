@@ -9,6 +9,7 @@
 * [7 Reverse Integer](#7-reverse-integer)
 * [8 String to Integer (atoi)](#8-string-to-integer)
 * [9 Palindrome Number](#9-palindrome-number)
+* [11 Container With Most Water](#11-container-with-most-water)
 
 <br>
 ### <a name="1-two-sum"></a>1 Two Sum
@@ -534,4 +535,46 @@ public:
 };
 ```
 
+###<a name = "11-container-with-most-water"></a>11 Container With Most Water
 
+> Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.
+
+> ***Note:*** You may not slant the container.
+
+**Idea**
+Greedy Algorithm, start from the outer two pointers, and compare the height, move the pointer which is smaller.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int i = 0;
+        int j = height.size() - 1;
+        int result = 0;
+        while (i < j) {
+            result = max(result, min(height[i],height[j])*(j-i));
+            if (height[i] < height[j]) i++;
+            else j--;
+        }
+        return result;
+    }
+};
+```
+
+***C# Code***
+```C#
+public class Solution {
+    public int MaxArea(int[] height) {
+        int i = 0;
+        int j = height.Length - 1;
+        int result = 0;
+        while (i < j) {
+            result = Math.Max(result, Math.Min(height[i],height[j])*(j-i));
+            if (height[i]<height[j]) i++;
+            else j--;
+        }
+        return result;
+    }
+}
+```
