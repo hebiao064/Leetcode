@@ -8,6 +8,7 @@
 * [6 ZigZag Conversion](#6-zigzag-conversion)
 * [7 Reverse Integer](#7-reverse-integer)
 * [8 String to Integer (atoi)](#8-string-to-integer)
+* [9 Palindrome Number](#9-palindrome-number)
 
 <br>
 ### <a name="1-two-sum"></a>1 Two Sum
@@ -461,7 +462,7 @@ public:
 };
 ```
 
-###<a name = "9-palidrome-number">9 Palidrome Number
+###<a name = "9-palindrome-number">9 Palindrome Number
 > Determine whether an integer is a palindrome. Do this without extra space.
 
 **Idea**
