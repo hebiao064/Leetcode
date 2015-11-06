@@ -6,6 +6,8 @@
 * [4 Median of Two Sorted Arrays](#4-median-of-two-sorted-arrays)
 * [5 Longest Palidromic Substring](#5-longest-palidromic-substring)
 * [6 ZigZag Conversion](#6-zigzag-conversion)
+* [7 Reverse Integer](#7-reverse-integer)
+* [8 String to Integer (atoi)](#8-string-to-integer)
 
 <br>
 ### <a name="1-two-sum"></a>1 Two Sum
@@ -377,6 +379,158 @@ public class Solution {
         return result;
     }
 }
+```
+
+### <a name = "7-reverse-integer">7 Reverse Integer
+> Reverse digits of an integer.
+
+> ***Example1:*** x = 123, return 321
+
+> ***Example2:*** x = -123, return -321
+
+**Attention:** Watch out the case of overflow,  Assume the input is a 32-bit integer, then the reverse of 1000000003 overflows. How should you handle such cases?
+
+For the purpose of this problem, assume that your function returns 0 when the reversed integer overflows.
+
+**Idea**
+
+从最简单的反转123考虑，每一次保留个位数加入新数做累积累加 result = result*10 + mod;
+
+1.考虑第一个问题：负号，实际上不用考虑 -321 = -3*100 + -2*10 + -1
+2.考虑第二个went：溢出，若溢出，那么溢出的结果 /10 一定不能复原，因此每次都保存temp 验证result/10 == temp? 即可
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int reverse (int n) {
+        int result = 0;
+        int mod = 0;
+        int temp = 0;
+        while (n){
+            mod = n % 10;
+            temp = result;
+            result = result * 10 + mod;
+            if (result / 10 != temp) return 0;
+            n /= 10;
+        }
+        return result;
+    }
+};
+```
+
+***C# Code***
+```C#
+public class Solution {
+    public int Reverse(int x) {
+        int result = 0;
+        int mod = 0;
+        int temp = 0;
+        while (x != 0){
+            mod = x % 10;
+            temp = result;
+            result = result * 10 + mod;
+            if (result / 10 != temp) return 0;
+            x /= 10;
+        }
+        return result;
+    }
+}
+```
+
+###<a name = "8-string-to-integer">8 String to Integer (atoi)
+> Implement atoi to convert a string to an integer.
+
+> ***Hint:*** Carefully consider all possible input cases. If you want a challenge, please do not see below and ask yourself what are the possible input cases.
+
+> ***Notes:*** It is intended for this problem to be specified vaguely (ie, no given input specs). You are responsible to gather all the input requirements up front.
+
+**Idea**
+
+***C++ Code Solution 1 using istringstream***
+```C++
+class Solution {
+public:
+    int myAtoi(string str) {
+        if (str=="") return 0;
+        istringstream iss(str);
+        int a;
+        iss>>a;
+        return a;
+    }
+};
+```
+
+###<a name = "9-palidrome-number">9 Palidrome Number
+> Determine whether an integer is a palindrome. Do this without extra space.
+
+**Idea**
+* Solution 1: I used a string to store this int, and check the head and tail if they are the same, otherwise report false. But it will use O(n) space complexity.
+
+* Solution 2: I used the reverse integer function to check it, but it will not handle the overflow case although it can still pass the OJ.
+
+* Solution 3: I follow the thought from solution 1 without construct a string, only use two pointers.
+
+***C++ Code Solution 1***
+```C++
+class Solution1 {
+public:
+    bool isPalindrome(int x) {
+        if (x<0) return false;
+        string str = to_string(x);
+        int n = (int)str.length();
+        int i = 0;
+        while (i < n/2) {
+            if (str[i] != str[n-i-1]) return false;
+            i++;
+        }
+        return true;
+    }
+};
+```
+
+***C++ Code Solution 2***
+```C++
+class Solution2 {
+public:
+    bool isPalindrome(int x) {
+        if (x<0) return false;
+        int result = 0;
+        int mod = 0;
+        int save = x;
+        while (x) {
+            mod = x % 10;
+            result = result * 10 + mod;
+            x /= 10;
+        }
+        return result == save;
+    }
+};
+```
+
+***C++ Code Solution 3***
+```C++
+class Solution3 {
+public:
+    bool isPalindrome(int x) {
+        if (x<0) return false;
+        int temp = x;
+        int digit = 1;
+        while (temp >= 10) {
+            digit *= 10;
+            temp /= 10;
+        }
+        while (x) {
+            int left = x / digit;
+            int right = x % 10;
+            if (left != right) return false;
+            x = (x % digit) / 10;
+            digit /= 100;
+        }
+        
+        return true;
+    }
+};
 ```
 
 
