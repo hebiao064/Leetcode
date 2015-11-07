@@ -12,6 +12,7 @@
 * [11 Container With Most Water](#11-container-with-most-water)
 * [12 Integer to Roman](#12-integer-to-roman)
 * [13 Roman to Integer](#13-roman-to-integer)
+* [14 Longest Common Prefix](#14-longest-common-prefix)
 
 ###Others
 * [1 Fibonacci](#1-fibonacci)
@@ -639,8 +640,9 @@ public:
 > Input is guaranteed to be within the range from 1 to 3999.
 
 **Idea** 
-* 先将罗马数字映射进map，注意map的initialization, pair可以直接用{ }初始化
+* 先将罗马数字映射进map，注意map的initialization, pair可以直接用{ }初始化。
 * 遍历字符串，分为三种情况，一种前比后大直接加，一种前比后小要减去，一种前后相等要累积 之后才能判断加减。
+* 用一个temp数字来保存之前相等的累计数。
 
 ***C++ Code***
 
@@ -669,6 +671,50 @@ public:
 };
 ```
 
+###<a name = "14-longest-common-prefix">14 Longest Common Prefix
+
+> Write a function to find the longest common prefix string amongst an array of strings.
+
+**Idea** Compare every character in all strings.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        if (strs.size() == 0) return "";
+        if (strs.size() == 1) return strs[0];
+        string result = "";
+        for (int i = 0;i < strs[0].length();i++) {
+            char check = strs[0][i];
+            for (int j = 0;j < strs.size();j++) {
+                if (check != strs[j][i] || i == strs[j].length()) return result;
+            }
+            result += check;
+        }
+        return result;
+    }
+};
+```
+
+***C# Code***
+```C#
+public class Solution {
+    public string LongestCommonPrefix(string[] strs) {
+        if (strs.Length == 0) return "";
+        if (strs.Length == 1) return strs[0];
+        string result = "";
+        for (int i = 0;i < strs[0].Length;i++) {
+            char check = strs[0][i];
+            for (int j = 0;j < strs.Length;j++) {
+                if (i == strs[j].Length || check != strs[j][i] ) return result;
+            }
+            result += check;
+        }
+        return result;
+    }
+}
+```
 
 ###<a name="1-fibonacci"></a>1 Fibonacci
 
