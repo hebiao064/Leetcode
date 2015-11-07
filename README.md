@@ -13,7 +13,8 @@
 * [12 Integer to Roman](#12-integer-to-roman)
 * [13 Roman to Integer](#13-roman-to-integer)
 * [14 Longest Common Prefix](#14-longest-common-prefix)
-* [15 3 Sum](#3-sum)
+* [15 3 Sum](#15-3-sum)
+* [16 3 Sum Closet](#16-3-sum-closet)
 
 ###Others
 * [1 Fibonacci](#1-fibonacci)
@@ -717,7 +718,7 @@ public class Solution {
 }
 ```
 
-###<a name = "3-sum"></a>15 3 Sum
+###<a name = "15-3-sum"></a>15 3 Sum
 
 > Given an array S of n integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in the array which gives the sum of zero.
 
@@ -770,6 +771,47 @@ public:
     }
 };
 ```
+
+###<a name="3-sum-closet"></a>16 3 Sum Closet
+
+> Given an array S of n integers, find three integers in S such that the sum is closest to a given number, target. Return the > sum of the three integers. You may assume that each input would have exactly one solution.
+
+- For example, given array S = {-1 2 1 -4}, and target = 1.
+
+- The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
+
+**Idea** Just follow the 3 Sum to find the closet
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int threeSumClosest(vector<int>& nums, int target) {
+        int distance = INT32_MAX;
+        int result = 0;
+        if (nums.size() < 3) return 0;
+        sort(nums.begin(),nums.end());
+        for (int i = 0;i < nums.size()-2;i++) {
+            int newtarget = target - nums[i];
+            int start = i+1;
+            int end = nums.size()-1;
+            while (start < end) {
+                if (abs(newtarget - nums[start] - nums[end]) < distance) {
+                    distance = abs(newtarget - nums[start] - nums[end]);
+                    result = nums[start] + nums[end] + nums[i];
+                }
+                if (distance == 0) return target;
+                else if (nums[start] + nums[end] > newtarget) end--;
+                else start++;
+            }
+        }
+        return result;
+    }
+};
+```
+
+
+###Others
 
 ###<a name="1-fibonacci"></a>1 Fibonacci
 
