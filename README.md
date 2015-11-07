@@ -10,6 +10,8 @@
 * [8 String to Integer (atoi)](#8-string-to-integer)
 * [9 Palindrome Number](#9-palindrome-number)
 * [11 Container With Most Water](#11-container-with-most-water)
+* [12 Integer to Roman](#12-integer-to-roman)
+* [13 Roman to Integer](#13-roman-to-integer)
 
 ###Others
 * [1 Fibonacci](#1-fibonacci)
@@ -581,6 +583,92 @@ public class Solution {
     }
 }
 ```
+
+###<a name=""12-integer-to-roman></a>12 Integer to Roman
+
+> Given an integer, convert it to a roman numeral.
+
+> Input is guaranteed to be within the range from 1 to 3999.
+
+**Idea** 找规律填数字，每次循环注意digit分为四种情况即可: <1-3>,<4>,<5-8>,<9>
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    string intToRoman(int num) {
+        string result;
+        vector<char> roman = {'M','D','C','L','X','V','I'};
+        int t = num / 1000 + 1;
+        num = t>0 ? num%1000 : t;
+        while (--t) {
+            result += roman[0];
+        }
+        int flag = 100;
+        for (int i = 0;i < 3;i++,flag /= 10) {
+            if (num < flag) continue;
+            int digit = num / flag;
+            if (digit == 9) {
+                result = result + roman[2*i+2]+ roman[2*i];
+            }
+            else if (digit >= 5) {
+                result = result + roman[2*i+1];
+                while (--digit >= 5) {
+                    result = result + roman[2*i+2];
+                }
+            }
+            else if (digit == 4) {
+                result = result + roman[2*i+2] + roman[2*i+1];
+            }
+            else {
+                while (--digit >= 0) {
+                    result = result + roman[2*i+2];
+                }
+            }
+            num %= flag;
+        }
+        return result;
+    }
+};
+```
+
+###<a name="13-roman-to-integer"></a>13 Roman to Integer
+
+> Given a roman numeral, convert it to an integer.
+
+> Input is guaranteed to be within the range from 1 to 3999.
+
+**Idea** 
+* 先将罗马数字映射进map，注意map的initialization, pair可以直接用{ }初始化
+* 遍历字符串，分为三种情况，一种前比后大直接加，一种前比后小要减去，一种前后相等要累积 之后才能判断加减。
+
+***C++ Code***
+
+```C++
+class Solution {
+public:
+    int romanToInt(string s) {
+        int result = 0;
+        unordered_map<char, int> mp = {{'I',1},{'V',5},{'X',10},{'L',50},{'C',100},{'D',500},{'M',1000}};
+        int temp = 0;
+        for (int i = 0;i < s.length() - 1;i++) {
+            if (mp[s[i]] == mp[s[i+1]]) temp += mp[s[i]];
+            else if (mp[s[i]] > mp[s[i+1]]) {
+                result = result + temp + mp[s[i]];
+                temp = 0;
+            }
+            else {
+                result = result - temp - mp[s[i]];
+                temp = 0;
+            }
+        }
+        result += mp[s[s.length()-1]] + temp;
+
+        return result;
+    }
+};
+```
+
 
 ###<a name="1-fibonacci"></a>1 Fibonacci
 
