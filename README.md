@@ -15,6 +15,20 @@
 * [14 Longest Common Prefix](#14-longest-common-prefix)
 * [15 3 Sum](#15-3-sum)
 * [16 3 Sum Closet](#16-3-sum-closet)
+* [17 Letter Combinations of a Phone Number](#17-letter-combinations-of-a-phone-number)
+* [18 4Sum](#18-4sum)
+* [19 Remove Nth Node From End of List](#19-remove-nth-node-from-end-of-list)
+* [20 Valid Parentheses](#20-valid-parentheses)
+* [21 Merge Two Sorted Lists](#21-merge-two-sorted-lists)
+* [22 Generate Parentheses](#22-generate-parentheses)
+* [23 Merge k Sorted Lists](#23-merge-k-sorted-lists)
+* [24 Swap Nodes in Pairs](#24-swap-nodes-in-pairs)
+* [25 Reverse Nodes in kGroup](#25-reverse-nodes-in-kgroup)
+* [26 Remove Duplicates from Sorted Array](#26-remove-duplicates-from-sorted-array)
+* [27 Remove Element](#27-remove-element)
+* [28 Implement strStr](#28-implement-strstr)
+* [29 Divide Two Integers](#29-divide-two-integers)
+* [30 Substring with Concatenation of All Words](#30-substring-with-concatenation-of-all-words)
 
 ###Others
 * [1 Fibonacci](#1-fibonacci)
@@ -774,7 +788,7 @@ public:
 
 ###<a name="3-sum-closet"></a>16 3 Sum Closet
 
-> Given an array S of n integers, find three integers in S such that the sum is closest to a given number, target. Return the > sum of the three integers. You may assume that each input would have exactly one solution.
+> Given an array S of n integers, find three integers in S such that the sum is closest to a given number, target. Return the sum of the three integers. You may assume that each input would have exactly one solution.
 
 - For example, given array S = {-1 2 1 -4}, and target = 1.
 
@@ -810,6 +824,29 @@ public:
 };
 ```
 
+>  Given a digit string, return all possible letter combinations that the number could represent.
+
+> A mapping of digit to letters (just like on the telephone buttons) is given below.
+
+<pre>
+
+Input:Digit string "23"
+Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
+
+</pre>
+
+> Note:
+
+> Although the above answer is in lexicographical order, your answer could be in any order you want.
+
+**Idea**
+
+**Complexity**
+
+***C++ Code***
+```C++
+
+```
 
 ###Others
 
