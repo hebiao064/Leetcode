@@ -878,6 +878,62 @@ public:
 };
 ```
 
+###<a name="18-4-sum">18 4 Sum
+
+>Given an array S of n integers, are there elements a, b, c, and d in S such that a + b + c + d = target? Find all unique quadruplets in the array which gives the sum of target.
+
+>Note:
+
+- Elements in a quadruplet (a,b,c,d) must be in **non-descending order**. (ie, a ≤ b ≤ c ≤ d)
+
+- The solution set must **not contain duplicate quadruplets**.
+ 
+ 
+ For example, given array S = {1 0 -1 0 -2 2}, and target = 0.
+
+        A solution set is:
+   	    (-1,  0, 0, 1)
+        (-2, -1, 1, 2)
+        (-2,  0, 0, 2)
+    
+<br>
+
+**Idea** Like 3 sum, still be carefull for duplicates with 4 individual number;
+
+**Complexity** Time O(n^3) Space O(n^2)
+
+```C++
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+    vector<vector<int>> result;
+    if (nums.size() < 4) return result;
+    sort(nums.begin(),nums.end());
+    for (int i = 0;i < nums.size() - 3;i++) {
+        if (i > 0 && nums[i] == nums[i-1]) continue;
+        for (int j = i + 1;j < nums.size() - 2;j++) {
+            if (j>i+1 && nums[j] == nums[j-1]) continue;
+            int newtarget = target - nums[i] - nums[j];
+            int start = j + 1;
+            int end = (int)nums.size() - 1;
+            while (start < end) {
+                if (nums[start] + nums[end] == newtarget) {
+                    vector<int> line({nums[i],nums[j],nums[start],nums[end]});
+                    result.push_back(line);
+                    start ++;
+                    end--;
+                    while (nums[start] == nums[start-1]) start++;
+                    while (nums[end] == nums[end+1]) end--;
+                }
+                else if (nums[start] + nums[end] > newtarget) end--;
+                else start++;
+            }
+        }
+    }
+    return result;
+}
+};
+```
 
 
 ###Others
