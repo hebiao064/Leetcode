@@ -1223,7 +1223,8 @@ public:
 
 > Returns the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
 
-**Idea**
+**Idea** We don't need to implement kmp algorithm usually. We can figure out the for loop by drawing "northwestern" -> "west"
+Two for loop will be useful.
 
 ***C++***
 ```C++
