@@ -1191,6 +1191,32 @@ public:
 };
 ```
 
+###<a name=""27-remove-element></a>27 Remove Element
+
+> Given an array and a value, remove all instances of that value in place and return the new length.
+
+> The order of elements can be changed. It doesn't matter what you leave beyond the new length.
+
+**Idea** Two pointer is the best solution
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        if (nums.empty()) return 0;
+        int count = 0;
+        for (int i = 0;i < nums.size();++i) {
+            if (nums[i] != val) {
+                nums[count] = nums[i];
+                ++count;
+            }
+        }
+        return count;
+    }
+};
+```
+
 ###Others
 
 ###<a name="1-fibonacci"></a>1 Fibonacci
