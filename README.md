@@ -1098,6 +1098,40 @@ public:
 };
 ```
 
+###<a name="24-swap-nodes-in-pairs"></a>24 Swap Nodes in Pairs
+> Given a linked list, swap every two adjacent nodes and return its head.
+
+> For example,
+
+> Given 1->2->3->4, you should return the list as 2->1->4->3.
+
+> Your algorithm should use only constant space. You may not modify the values in the list, only nodes itself can be changed.
+
+**Idea** Swap one by one, remember using dummy node;
+
+***C++***
+
+```C++
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        if (head == NULL || head->next ==NULL) return head;
+        ListNode dummy(-1);
+        ListNode* temp = &dummy;
+        while (head && head->next) {
+            temp->next = head->next;   //these three lines are used to swap sequence
+            head->next = head->next->next;
+            temp->next->next = head;
+            
+            temp = head;               // these two lines are used to move forward
+            head = head->next;
+        }
+        temp->next = head;
+        return dummy.next;
+    }
+};
+```
+
 
 ###Others
 
