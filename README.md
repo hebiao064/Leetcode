@@ -1016,6 +1016,38 @@ public:
 };
 ```
 
+###<a name="21-merge-two-sorted-lists"></a>21 Merge Two Sorted Lists
+
+> Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
+
+**Idea** Naive implemetion by creating a new list node, be careful for dummynode.
+
+***C++ Code ***
+```C++
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        ListNode dummynode(0);
+        ListNode *l3 = &dummynode;
+        while (l1 && l2) {
+            if (l1->val <= l2->val) {
+                l3->next = l1;
+                l1 = l1->next;
+            }
+            else { 
+                l3->next = l2; 
+                 l2 = l2->next;
+            }
+            l3 = l3->next;
+        }
+        if (l1) l3->next = l1;
+        else l3->next = l2;
+        return dummynode.next;
+    }
+};
+```
+
+
 ###Others
 
 ###<a name="1-fibonacci"></a>1 Fibonacci
