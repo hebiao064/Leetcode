@@ -1132,6 +1132,64 @@ public:
 };
 ```
 
+###<a name="26-remove-duplicates-from-sorted-array"></a>26 Remove Duplicates from Sorted Array
+
+> Given a sorted array, remove the duplicates in place such that each element appear only once and return the new length.
+
+> Do not allocate extra space for another array, you must do this in place with constant memory.
+
+> For example,
+
+> Given input array nums = [1,1,2],
+
+> Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively. It doesn't matter 
+ 
+> what you leave beyond the new length.
+
+**Idea**
+
+***C++ Solution 1 using dynamic vector***
+```C++
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        if (nums.empty()) return 0;
+        int count = 1;
+        for (int i = 1,n = 1;n < nums.size();n++) {
+            if (nums[i] == nums[i-1]) {
+                int temp = nums[i];
+                nums.erase(nums.begin()+i);
+                nums.push_back(temp);
+            }
+            else {
+                ++count;
+                ++i;
+            }
+        }
+        return count;
+    }
+};
+```
+
+***C++ Solution 2 using normal arrays*** 
+```C++
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        if (nums.empty()) return 0;
+        int count = 1;
+        for (int i = 1,p = 1;i < nums.size();i++) {      //Two Pointers to store the current index and should store index
+            while (nums[i] == nums[i-1]) i++;
+            if (i< nums.size()) {
+                nums[p] = nums[i];
+                count++;
+                p++;
+            }
+        }
+        return count;
+    }
+};
+```
 
 ###Others
 
