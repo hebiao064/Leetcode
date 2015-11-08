@@ -16,7 +16,7 @@
 * [15 3 Sum](#15-3-sum)
 * [16 3 Sum Closet](#16-3-sum-closet)
 * [17 Letter Combinations of a Phone Number](#17-letter-combinations-of-a-phone-number)
-* [18 4Sum](#18-4sum)
+* [18 4 Sum](#18-4-sum)
 * [19 Remove Nth Node From End of List](#19-remove-nth-node-from-end-of-list)
 * [20 Valid Parentheses](#20-valid-parentheses)
 * [21 Merge Two Sorted Lists](#21-merge-two-sorted-lists)
@@ -935,6 +935,48 @@ public:
 };
 ```
 
+###<a name="19-remove-nth-node-from-end-of-list"></a>19 Remove Nth Node From End of List
+
+Given linked list: 1->2->3->4->5, and n = 2.
+
+After removing the second node from the end, the linked list becomes 1->2->3->5.
+
+***Note:***
+
+Given n will always be valid.
+Try to do this in one pass.
+
+**Idea** Create a fast node which is n step fast than head, and for corner case i would advise use dummynode.
+
+***C++***
+```C++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode dummynode(0);
+        dummynode.next = head;
+        ListNode *fast = head;
+        while (n--) {
+            fast = fast->next;
+        }
+        head = &dummynode;
+        while (fast) {
+            head = head->next;
+            fast = fast->next;
+        }
+        head->next = head->next->next;
+        return dummynode.next;
+    }
+};
+```
 
 ###Others
 
