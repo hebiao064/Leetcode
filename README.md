@@ -824,6 +824,8 @@ public:
 };
 ```
 
+###<a name = "17-letter-combinations-of-a-phone-number"></a>17 Letter Combinations of a Phone Number
+
 >  Given a digit string, return all possible letter combinations that the number could represent.
 
 > A mapping of digit to letters (just like on the telephone buttons) is given below.
@@ -839,14 +841,44 @@ Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
 
 > Although the above answer is in lexicographical order, your answer could be in any order you want.
 
-**Idea**
+**Idea** Backtracking
+
+backtracking的标准写法: 
+
+- 写一个helper，helper第一个部分判断是否combinations完毕，是的话return
+
+- 第二个部分添加push_back这个字符，执行本函数并将位置加一，再pop_back之前那个字符
 
 **Complexity**
+O(k ^ n), k is possible choice of each digit, n is the length of digits
 
 ***C++ Code***
 ```C++
-
+class Solution {
+public:
+    void letterCombinationsHelper(vector<string> &result, vector<string> letters,string digits, string &line, int start) {
+        if (start == digits.length()) {
+            result.push_back(line);
+            return;
+        }
+        for (int i = 0;i < letters[digits[start]-'0'].length();i++) {
+            line.push_back(letters[digits[start]-'0'][i]);
+            letterCombinationsHelper(result,letters,digits,line,start+1);
+            line.pop_back();
+        }
+    }
+    vector<string> letterCombinations(string digits) {
+        vector<string> result;
+        vector<string> letters({"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"});
+        string line = "";
+        if (digits.length() == 0) return result;
+        letterCombinationsHelper(result,letters,digits,line,0);
+        return result;
+    }
+};
 ```
+
+
 
 ###Others
 
