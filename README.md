@@ -1047,6 +1047,57 @@ public:
 };
 ```
 
+###<a name="22-generate-parantheses"></a>22 Generate Parentheses
+
+> Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+
+> For example, given n = 3, a solution set is:
+
+        "((()))", "(()())", "(())()", "()(())", "()()()"
+
+**Idea** Backtracking
+It's like combination, for example of 3, it's like combinations of (),(),(),(),(),() but it has constraint.
+
+You should first add '(' and the count of ')' never exceed count of '('.
+
+Then in the helper function: 
+
+we can consider the combination of "((()))", and use left right pointer for constraint.
+
+Then follow the normal backtracking method to fill the function, be care to replace for loop with two if clause.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> result;
+        string line;
+        int count = n;
+        int left = 0, right = 2*n - 1;
+        generate(result,line,left,right,count);
+        return result;
+    }
+    void generate(vector<string> &result, string &line, int left, int right,int x)
+    {
+        if (left > right) {
+            result.push_back(line);
+            return;
+        }
+        if (left < x) {
+            line.push_back('(');
+            generate(result,line,left+1,right,x);
+            line.pop_back();
+        }
+        if (2*x - right - 1 < left){
+            line.push_back(')');
+            generate(result,line,left,right-1,x);
+            line.pop_back();
+        }
+    }
+};
+```
+
 
 ###Others
 
