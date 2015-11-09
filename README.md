@@ -49,6 +49,16 @@
 * [48 Rotate Image](#48-rotate-image)
 * [49 Group Anagrams](#49-group-anagrams)
 * [50 Pow](#50-pow)
+* [51 N Queens](#51-n-queens)
+* [52 N Queens II](#52-n-queens-ii)
+* [53 Maximum Subarray](#53-maximum-subarray)
+* [54 Spiral Matrix](#54-spiral-matrix)
+* [55 Jump Game](#55-jump-game)
+* [56 Merge Intervals](#56-merge-intervals)
+* [57 Insert Interval](#57-insert-interval)
+* [58 Length of Last Word](#58-length-of-last-word)
+* [59 Spiral Matrix II](#59-spiral-matrix-ii)
+* [60 Permutation Sequence](#60-permutation-sequence)
 
 ###Others
 * [1 Fibonacci](#1-fibonacci)
@@ -1354,9 +1364,10 @@ public:
 > [1,2,3], [1,3,2], [2,1,3], [2,3,1], [3,1,2], and [3,2,1].
 
 **Idea** Using swap in permutations, and using push_back in combinations. 
-Difference, in the for loop, (int i = start) (permutations) while (int i = 0) (combinations)
+         Difference, in the for loop, (int i = start) (permutations) while (int i = 0) (combinations)
 
-*** C++ Code using swap***
+
+***C++ Code using swap***
 ```C++
 class Solution {
 public:
@@ -1452,6 +1463,118 @@ public:
             }
             
         }
+    }
+};
+```
+
+###<a name="60-permutation-sequence"></a>60 Permutation Sequence
+
+> The set [1,2,3,…,n] contains a total of n! unique permutations.
+
+> By listing and labeling all of the permutations in order,
+
+> We get the following sequence (ie, for n = 3):
+
+<pre>
+"123"
+"132"
+"213"
+"231"
+"312"
+"321"
+</pre>
+
+> Given n and k, return the kth permutation sequence.
+
+> ***Note:*** Given n will be between 1 and 9 inclusive.
+
+**Idea** One naive implementation through list all permutations in order and find the kth permutation.
+Another quicker solution used factorial number, if you write the 4! from 1234 -> 4321 we can find the relation between k and kth sequence.
+
+<pre>
+1234
+1243
+1324
+1342
+1423
+1432
+2134
+2143
+2314  <= k = 9
+2341
+2413
+2431
+3124
+3142
+3214
+3241
+3412
+3421
+4123
+4132
+4213
+4231
+4312
+4321
+</pre>
+
+***C++ Code Naive Implementation***
+```C++
+class Solution {
+public:
+    void permutationsHelper(vector<vector<int>> &result,vector<int> &line,vector<int> &visited,int n,int start) {
+        if (start == n) {
+            result.push_back(line);
+            return;
+        }
+        for (int i = 0;i < n;i++) {
+            if (visited[i] == 1) continue;
+            line.push_back(i+1);
+            visited[i] = 1;
+            permutationsHelper(result,line,visited,n,start + 1);
+            line.pop_back();
+            visited[i] = 0;
+        }
+        return;
+    }
+    vector<vector<int>> permutations(int n) {
+        vector<vector<int>> result;
+        vector<int> line;
+        vector<int> visited(n,0);
+        permutationsHelper(result,line,visited,n,0);
+        return result;
+    }
+    string getPermutation(int n, int k) {
+        vector<vector<int>> result = permutations(n);
+        vector<int> final = result[k-1];
+        string output = "";
+        for (auto s:final) {
+            output += s + '0';
+        }
+        return output;
+    }
+};
+```
+
+***C++ Code using factorial number***
+```C++
+class Solution {
+public:
+    string getPermutation(int n, int k) {
+        k--;
+        string result;
+        vector<int> factorial = {1, 1, 2, 6, 24, 120, 720, 5040, 40320};
+        vector<char> nums;
+        for (int i = 0;i < n;i++) {
+            nums.push_back(i + '1');
+        }
+        for (int i = n;i > 0 ;i--) {
+            int which = k/factorial[i-1];
+            k=k%factorial[i-1];
+            result += nums[which];
+            nums.erase(nums.begin()+which);
+        }
+        return result;
     }
 };
 ```
