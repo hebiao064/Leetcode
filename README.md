@@ -62,9 +62,11 @@
 
 ###Others
 * [1 Fibonacci](#1-fibonacci)
+* [2 Binary Search Template](#2-binary-search-template)
 
 <br>
 ### <a name="1-two-sum"></a>1 Two Sum
+
 
 >Given an array of integers, find two numbers such that they add up to a specific target number.
 
@@ -1615,3 +1617,19 @@ int iterative(int n) {
 ***Time:*** O(n)
 
 ***Space:*** O(n)
+
+###<a name="2-binary-search-template"></a>2 Binary Search Template
+
+***C++ Code***
+```C++
+bool binarySearch(vector<int>& nums,int target) {
+    int low = 0, high = (int)nums.size() - 1;
+    while (low <= high) {
+        int mid = low + ((high - low)>>1);
+        if (target == nums[mid]) return true;
+        else if (target > nums[mid]) low = mid + 1;
+        else high = mid - 1;
+    }
+    return false;
+}
+```
