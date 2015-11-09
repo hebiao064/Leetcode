@@ -1343,7 +1343,10 @@ public:
 
 > [1,2,3], [1,3,2], [2,1,3], [2,3,1], [3,1,2], and [3,2,1].
 
-*** C++ Code***
+**Idea** Using swap in permutations, and using push_back in combinations. 
+Difference, in the for loop, (int i = start) (permutations) while (int i = 0) (combinations)
+
+*** C++ Code using swap***
 ```C++
 class Solution {
 public:
@@ -1365,6 +1368,84 @@ public:
     }
 };
 ```
+
+***C++ Code without using swap***
+```C++
+class Solution {
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> result;
+        vector<int> line;
+        vector<int> visited(nums.size(),0);
+        permuteHelper(result,nums,line,visited,0);
+        return result;
+    }
+    
+    void permuteHelper(vector<vector<int>> &result, vector<int>& nums,vector<int> &line,vector<int> &visited, int start) {
+        if (start == nums.size()) {
+            result.push_back(line);
+            return;
+        }
+        for (int i = 0;i < nums.size();i++) {
+            if (visited[i]!=0) continue;
+            line.push_back(nums[i]);
+            visited[i] = 1;
+            permuteHelper(result,nums,line,visited,start+1);
+            line.pop_back();
+            visited[i] = 0;
+        }
+    }
+};
+```
+
+###<a name = "47-permutations"></a>47 Permutations
+
+> Given a collection of numbers that might contain duplicates, return all possible unique permutations.
+
+> For example,
+> [1,1,2] have the following unique permutations:
+> [1,1,2], [1,2,1], and [2,1,1].
+
+**Idea** 
+- 跟 Permutations的解法一样，就是要考虑“去重”。先对数组进行排序，这样在DFS的时候，可以先判断前面的一个数是否和自己相等，相等的时候则前面的数必须使用了，自己才能使用，这样就不会产生重复的排列了。
+
+***C++ Code without using swap***
+```C++
+class Solution {
+public:
+    vector<vector<int> > permuteUnique(vector<int> &num)
+    {
+        vector<vector<int>> result;
+        vector<int> line;
+        vector<int> visited(num.size(),0);
+        sort(num.begin(),num.end());
+        permutation(num,0,visited,result,line);
+        return result;
+    }
+    void permutation(vector<int> &num,int start,vector<int> &visited,vector<vector<int>> &result,vector<int> &line)
+    {
+        
+        if (start==num.size())
+        {
+            result.push_back(line);
+            return;
+        }
+        for (int i=0;i<num.size();i++)
+        {
+            if (visited[i]==0){
+                if(i>0 && num[i] == num[i-1] && visited[i-1] ==0) continue;
+                visited[i]=1;
+                line.push_back(num[i]);
+                permutation(num,start+1,visited,result,line);
+                line.pop_back();
+                visited[i]=0;
+            }
+            
+        }
+    }
+};
+```
+
 ###Others
 
 ###<a name="1-fibonacci"></a>1 Fibonacci
