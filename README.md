@@ -39,6 +39,16 @@
 * [38 Count and Say](#38-count-and-say)
 * [39 Combination Sum](#39-combination-sum)
 * [40 Combination Sum II](#40-combination-sum-ii)
+* [41 First Missing Positive](#41-first-missing-positive)
+* [42 Trapping Rain Water](#42-trapping-rain-water)
+* [43 Multiply Strings](#43-multiply-strings)
+* [44 Wildcard Matching](#44-wildcard-matching)
+* [45 Jump Game II](#45-jump-game-ii)
+* [46 Permutations](#46-permutations)
+* [47 Permutations II](#47-permutations-ii)
+* [48 Rotate Image](#48-rotate-image)
+* [49 Group Anagrams](#49-group-anagrams)
+* [50 Pow](#50-pow)
 
 ###Others
 * [1 Fibonacci](#1-fibonacci)
@@ -1387,7 +1397,7 @@ public:
             return;
         }
         for (int i = 0;i < nums.size();i++) {
-            if (visited[i]!=0) continue;
+            if (visited[i]!=0) continue;  // 防止出现 (1,1,1) (2,2,2) (3,3,3)
             line.push_back(nums[i]);
             visited[i] = 1;
             permuteHelper(result,nums,line,visited,start+1);
@@ -1398,7 +1408,7 @@ public:
 };
 ```
 
-###<a name = "47-permutations"></a>47 Permutations
+###<a name = "47-permutations-ii"></a>47 Permutations II
 
 > Given a collection of numbers that might contain duplicates, return all possible unique permutations.
 
@@ -1432,8 +1442,8 @@ public:
         }
         for (int i=0;i<num.size();i++)
         {
-            if (visited[i]==0){
-                if(i>0 && num[i] == num[i-1] && visited[i-1] ==0) continue;
+            if (visited[i]==0){  // 防止出现 (1,1,1) (2,2,2) (3,3,3)
+                if(i>0 && num[i] == num[i-1] && visited[i-1] ==0) continue;  //防止得到相同结果，必须之前使用过 才能使用
                 visited[i]=1;
                 line.push_back(num[i]);
                 permutation(num,start+1,visited,result,line);
