@@ -29,6 +29,16 @@
 * [28 Implement strStr](#28-implement-strstr)
 * [29 Divide Two Integers](#29-divide-two-integers)
 * [30 Substring with Concatenation of All Words](#30-substring-with-concatenation-of-all-words)
+* [31 Next Permutation](#31-next-permutation)
+* [32 Longest Valid Parentheses](#32-longest-valid-parentheses)
+* [33 Search in Rotated Sorted Array](#33-search-in-rotated-sorted-array)
+* [34 Search for a Range](#34-search-for-a-range)
+* [35 Search Insert Position](#35-search-insert-position)
+* [36 Valid Sudoku](#36-valid-sudoku)
+* [37 Sudoku Solver](#37-sudoku-solver)
+* [38 Count and Say](#38-count-and-say)
+* [39 Combination Sum](#39-combination-sum)
+* [40 Combination Sum II](#40-combination-sum-ii)
 
 ###Others
 * [1 Fibonacci](#1-fibonacci)
@@ -1244,6 +1254,85 @@ public:
 };
 ```
 
+###<a name="29-divide-two-integers"></a>29 Divide Two Integers
+
+> Divide two integers without using multiplication, division and mod operator.
+
+> If it is overflow, return MAX_INT.
+
+**Idea** 
+
+- For example, if we want to find 64 / 2; we can multiple 2 with 2 until it exceed 64, then we can get the answer 32 by loop five times.
+
+- If we want to find 127 / 2, we can follow the step 1 and then use minus, 63 - 2 - 2 - ... 2 < 0, we can get 31 by loop 31 times.
+
+- When the dividend becomes larger, the complexity will exceed as O(n), so we need to use O(log N) again, we use two while loop to accomplish these result.
+
+***C++***
+```C++
+class Solution {
+public:
+    int divide(int dividend, int divisor) {
+        if (!divisor || (dividend == INT_MIN && divisor == -1))
+            return INT_MAX;
+        int sign = ((dividend < 0) ^ (divisor < 0)) ? -1 : 1;
+        long long dvd = labs(dividend);
+        long long dvs = labs(divisor);
+        int res = 0;
+        while (dvd >= dvs) { 
+            long long temp = dvs, multiple = 1;
+            while (dvd >= (temp << 1)) {
+                temp <<= 1;
+                multiple <<= 1;
+            }
+            dvd -= temp;
+            res += multiple;
+        }
+        return sign == 1 ? res : -res; 
+    }
+};
+```
+
+###<a name = "31-next-permutation"></a>31 Next Permutation
+
+> Implement next permutation, which rearranges numbers into the lexicographically next greater permutation of numbers.
+
+> If such arrangement is not possible, it must rearrange it as the lowest possible order (ie, sorted in ascending order).
+
+> The replacement must be in-place, do not allocate extra memory.
+
+> Here are some examples. Inputs are in the left-hand column and its corresponding outputs are in the right-hand column.
+
+<pre>
+1,2,3 → 1,3,2
+3,2,1 → 1,2,3
+1,1,5 → 1,5,1
+</pre>
+
+**Idea**  
+
+- For example  4,8,7,6,3 => 6,3,4,7,8: 因为后四位数已成最大，只能把第一位数与之后的一位比4稍大的数交换，再将后缀正序。
+- 1.从后往前，找到第一个 A[i-1] < A[i]的。也就是第一个排列中的  6那个位置，可以看到A[i]到A[n-1]这些都是单调递减序列。
+- 2.从 A[n-1]到A[i]中找到一个比A[i-1]大的值（也就是说在A[n-1]到A[i]的值中找到比A[i-1]大的集合中的最小的一个值）
+- 3.交换 这两个值，并且把A[n-1]到A[i]排序，从小到大。
+
+***C++ Code***
+
+```C++
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        if (nums.size() <= 1) return;
+        int left = (int)nums.size()-2;
+        while (left >= 0 && nums[left] >= nums[left+1]) --left;
+        if (left<0) {sort(nums.begin(),nums.end());return;}
+        int right = (int)nums.size()-1;
+        while (right > left && nums[right] <= nums[left]) right--;
+        swap(nums[left],nums[right]);
+        sort(nums.begin() + left+1,nums.end());
+    }
+};
+```
 
 ###Others
 
