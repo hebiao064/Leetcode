@@ -1620,7 +1620,60 @@ public:
 };
 ```
 
-###<a name="34-Search-for-a-range">34 Search for 
+###<a name="34-Search-for-a-range">34 Search for a Range
+
+> Given a sorted array of integers, find the starting and ending position of a given target value.
+
+> Your algorithm's runtime complexity must be in the order of O(log n).
+
+> If the target is not found in the array, return [-1, -1].
+
+<pre>
+For example,
+Given [5, 7, 7, 8, 8, 10] and target value 8,
+return [3, 4].
+</pre>
+
+**Idea** Use binary search twice, one left one right.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int left = binarySearchLeft(nums, target);
+        int right = binarySearchRight(nums, target);
+        vector<int> result = {left,right};
+        return result;
+    }
+    
+    int binarySearchLeft(vector<int>& nums,int target) {
+        int low = 0, high = (int)nums.size() - 1;
+        while (low + 1 < high) {
+            int mid = low + ((high - low)>>1);
+            //if (target == nums[mid]) return mid;
+            if (target > nums[mid]) low = mid;
+            else high = mid;
+        }
+        if (nums[low] == target) return low;
+        if (nums[high] == target) return high;
+        return -1;
+    }
+
+    int binarySearchRight(vector<int>& nums,int target) {
+        int low = 0, high = (int)nums.size() - 1;
+        while (low + 1 < high) {
+            int mid = low + ((high - low)>>1);
+            //if (target == nums[mid]) return mid;
+            if (target < nums[mid]) high = mid;
+            else low = mid;
+        }
+        if (nums[high] == target) return high;
+        if (nums[low] == target) return low;
+        return -1;
+    }
+};
+```
 
 ###<a name="#153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
