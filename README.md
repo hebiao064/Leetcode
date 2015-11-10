@@ -59,6 +59,8 @@
 * [58 Length of Last Word](#58-length-of-last-word)
 * [59 Spiral Matrix II](#59-spiral-matrix-ii)
 * [60 Permutation Sequence](#60-permutation-sequence)
+* [153 Find Minimum in Rotated Sorted Array](#153-find-minimum-in-rotated-sorted-array)
+* [154 Find Minimum in Rotated Sorted Array II](#153-find-minimum-in-rotated-sorted-array-ii)
 
 ###Others
 * [1 Fibonacci](#1-fibonacci)
@@ -1577,6 +1579,74 @@ public:
             nums.erase(nums.begin()+which);
         }
         return result;
+    }
+};
+```
+
+###<a name="#153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
+
+> Suppose a sorted array is rotated at some pivot unknown to you beforehand.
+
+> (i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
+
+> Find the minimum element.
+
+> You may assume no duplicate exists in the array.
+
+**Idea**
+
+***C++ Code*** 
+In this problem, there is only 1 rotation, so that there are only limited cases when we split the array using the mid-element:
+ 1. the right part is ordered (A[mid] < A[ed])
+ 2. the right  part is unordered (A[mid] > A[ed])
+ Some might say that what about the left part of the array? Note that there is only 1 rotation, which indicates that if right part is unordered, the left part of array must be ordered.
+为什么比较end呢？因为这是寻找最小值，如果比较start，发现左边有序，则去右边寻找突变时，可能忽视整个数列都是有序的，错过第一个最小数，因此注意：
+- Find minimum in sorted array: compare ***mid*** and ***end***
+- Find maximum in sorted array: compare ***mid*** and ***start***
+
+```C++
+class Solution {
+public:
+    int findMin(vector<int> &num) 
+    {
+        if (num.size()==1) return num[0];
+        int low = 0, high = num.size()-1;
+        while (low + 1 < high)
+        {
+            int mid = low + (high - low)/2;
+            if (num[mid]<num[high]) high=mid;
+            else low=mid;
+        }
+        if (num[low]>=num[low+1]) return num[low+1]; 
+        else return num[low];
+    }
+};
+```
+
+###<a name="#154-find-minimum-in-rotated-sorted-array-ii">153 Find Minimum in Rotated Sorted Array II
+> Follow up for "Find Minimum in Rotated Sorted Array":
+
+> What if duplicates are allowed?
+
+> Would this affect the run-time complexity? How and why?
+
+**Idea**
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        if (nums.size()==1) return nums[0];
+        int low = 0, high = (int)nums.size() - 1;
+        while (low + 1 < high) {
+            int mid = low + (high - low)/2;
+            if (nums[mid] < nums[high]) high = mid;
+            else if (nums[mid] > nums[high]) low = mid;
+            else high--;
+        }
+        if (nums[low] >= nums[low + 1]) return nums[low+1];
+        else return nums[low];
     }
 };
 ```
