@@ -100,7 +100,7 @@
 * [100 Same Tree](#100-same-tree)
 * [153 Find Minimum in Rotated Sorted Array](#153-find-minimum-in-rotated-sorted-array)
 * [154 Find Minimum in Rotated Sorted Array II](#153-find-minimum-in-rotated-sorted-array-ii)
-
+* [216 Combination Sum III](#216-combination-sum-iii)
 ###Others
 * [1 Fibonacci](#1-fibonacci)
 * [2 Binary Search Template](#2-binary-search-template)
@@ -1520,6 +1520,47 @@ public:
     }
 };
 ```
+
+###<a name="36-valid-sudoku"></a>36 Valid Sudoku
+
+> Determine if a Sudoku is valid, according to: Sudoku Puzzles - The Rules.
+
+> The Sudoku board could be partially filled, where empty cells are filled with the character '.'.
+
+> ***Note:***
+> A valid Sudoku board (partially filled) is not necessarily solvable. Only the filled cells need to be validated.
+
+**Idea** I seperate the board into nine sections, and use mask to test if okay for sudoku.
+
+***C++***
+```C++
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        vector<int> rows(9,0);
+        vector<int> cols(9,0);
+        for (int i = 0;i < 3;i++) {
+            for (int j = 0;j < 3;j++){
+                int mask = 0;
+                for (int u = 0;u < 3;u++){
+                    for (int v = 0;v < 3;v++){
+                        int row = 3*i + u;
+                        int col = 3*j + v;
+                        if (board[row][col] == '.') continue;
+                        int num = board[row][col] - '0';
+                        if (mask & (1<<num) || rows[row] & (1<<num) || cols[col] & (1<<num)) return false;
+                        mask = mask | (1<<num);
+                        rows[row] = rows[row] | (1<<num);
+                        cols[col] = cols[col] | (1<<num);
+                    }
+                }
+            }
+        }
+        return true;
+    }
+};
+```
+
 ###<a name="39-combination-sum"></a>39 Combination Sum
 > Given a set of candidate numbers (C) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.
 
@@ -1842,7 +1883,7 @@ public:
 };
 ```
 
-###<a name="#77-combinations">77 Combinations
+###<a name="77-combinations">77 Combinations
 
 > Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.
 
@@ -1887,7 +1928,7 @@ public:
 };
 ```
 
-###<a name="#153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
+###<a name="153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
 > Suppose a sorted array is rotated at some pivot unknown to you beforehand.
 
@@ -1927,7 +1968,7 @@ public:
 };
 ```
 
-###<a name="#154-find-minimum-in-rotated-sorted-array-ii">153 Find Minimum in Rotated Sorted Array II
+###<a name="154-find-minimum-in-rotated-sorted-array-ii">153 Find Minimum in Rotated Sorted Array II
 > Follow up for "Find Minimum in Rotated Sorted Array":
 
 > What if duplicates are allowed?
@@ -1951,6 +1992,61 @@ public:
         }
         if (nums[low] >= nums[low + 1]) return nums[low+1];
         else return nums[low];
+    }
+};
+```
+
+###<a name="216-combination-sum-iii"></a>216 Combination Sum III
+
+> Find all possible combinations of k numbers that add up to a number n, given that only numbers from 1 to 9 can be used and each combination should be a unique set of numbers.
+
+> Ensure that numbers within the set are sorted in ascending order.
+
+
+> Example 1:
+
+<pre>
+Input: k = 3, n = 7
+
+Output:
+
+[[1,2,4]]
+</pre>
+
+> Example 2:
+
+<pre>
+Input: k = 3, n = 9
+
+Output:
+
+[[1,2,6], [1,3,5], [2,3,4]]
+</pre>
+
+**Idea**
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    void combinationsHelper(vector<vector<int>> &result,vector<int> &line,int k, int target,int start) {
+        if (line.size() == k && target == 0) {
+            result.push_back(line);
+            return;
+        }
+        for (int i = start;i <= 9;i++) {
+            if (target>=0) {
+                line.push_back(i);
+                combinationsHelper(result,line,k,target - i,i+1);
+                line.pop_back();
+            }
+        }
+    }
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>> result;
+        vector<int> line;
+        combinationsHelper(result,line,k,n,1);
+        return result;
     }
 };
 ```
