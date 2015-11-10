@@ -59,6 +59,45 @@
 * [58 Length of Last Word](#58-length-of-last-word)
 * [59 Spiral Matrix II](#59-spiral-matrix-ii)
 * [60 Permutation Sequence](#60-permutation-sequence)
+* [61 Rotate List](#61-rotate-list)
+* [62 Unique Paths](#62-unique-paths)
+* [63 Unique Paths II](#63-unique-paths-ii)
+* [64 Minimum Path Sum](#64-minimum-path-sum)
+* [65 Valid Number](#65-valid-number)
+* [66 Plus One](#66-plus-one)
+* [67 Add Binary](#67-add-binary)
+* [68 Text Justification](#68-text-justification)
+* [69 Sqrt](#69-sqrt)
+* [70 Climbing Stairs](#70-climbing-stairs)
+* [71 Simplify Path](#71-simplify-path)
+* [72 Edit Distance](#72-edit-distance)
+* [73 Set Matrix Zeroes](#73-set-matrix-zeroes)
+* [74 Search a 2D Matrix](#74-search-a-2d-matrix)
+* [75 Sort Colors](#75-sort-colors)
+* [76 Minimum Window Substring](#76-minimum-window-substring)
+* [77 Combinations](#77-combinations)
+* [78 Subsets](#78-subsets)
+* [79 Word Search](#79-word-search)
+* [80 Remove Duplicates from Sorted Array II](#80-remove-duplicates-from-sorted-array)
+* [81 Search in Rotated Sorted Array II](#81-search-in-rotated-sorted-array-ii)
+* [82 Remove Duplicates from Sorted List](#82-remove-duplicates-from-sorted-list)
+* [83 Remove Duplicates from Sorted List II](#83-remove-duplicates-from-sorted-list-ii)
+* [84 Largest Rectangle in Histogram](#84-largest-rectangle-in-histogram)
+* [85 Maximal Rectangle](#85-maximal-rectangle)
+* [86 Partition List](#86-partition-list)
+* [87 Scramble String](#87-sramble-string)
+* [89 Gray Code](#89-gray-code)
+* [90 Subsets II](#90-subsets-ii)
+* [91 Decode Ways](#91-decode-ways)
+* [92 Reverse Linked List II](#92-reverse-linked-list-ii)
+* [93 Restore IP Addresses](#93-restore-ip-addresses)
+* [94 Binary Tree Inorder Traversal](#94-binary-tree-inorder-traversal)
+* [95 Unique Binary Search Trees](#95-unique-binary-search-trees)
+* [96 Unique Binary Search Trees II](#96-unique-binary-search-trees)
+* [97 Interleaving String](#97-interleaving-string)
+* [98 Validate Binary Search Tree](#98-validate-binary-search-tree)
+* [99 Recover Binary Search Tree](#99-recover-binary-search-tree)
+* [100 Same Tree](#100-same-tree)
 * [153 Find Minimum in Rotated Sorted Array](#153-find-minimum-in-rotated-sorted-array)
 * [154 Find Minimum in Rotated Sorted Array II](#153-find-minimum-in-rotated-sorted-array-ii)
 
@@ -1707,7 +1746,52 @@ public:
 };
 ```
 
+###<a name="#77-combinations">77 Combinations
 
+> Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.
+
+> For example,
+
+> If n = 4 and k = 2, a solution is:
+
+<pre>
+[
+  [2,4],
+  [3,4],
+  [2,3],
+  [1,2],
+  [1,3],
+  [1,4],
+]
+</pre>
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    void combinationsHelper(vector<vector<int>> &result,vector<int> &line,vector<int> &visited,int n, int k, int start) {
+        if (line.size() == k) {
+            result.push_back(line);
+            return;
+        }
+        for (int i = start;i < n;i++) {
+            if (visited[i]!=0) continue;
+            line.push_back(i+1);
+            visited[i] = 1;
+            combinationsHelper(result,line,visited,n,k,i+1);
+            line.pop_back();
+            visited[i] = 0;
+        }
+    }
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>> result;
+        vector<int> line;
+        vector<int> visited(n,0);
+        combinationsHelper(result,line,visited,n,k,0);
+        return result;
+    }
+};
+```
 
 ###<a name="#153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
