@@ -1357,6 +1357,130 @@ public:
     }
 };
 ```
+###<a name="33-search-in-rotated-sorted-array">33 Search in Rotated Sorted Array
+
+> Suppose a sorted array is rotated at some pivot unknown to you beforehand.
+
+> (i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
+
+> You are given a target value to search. If found in the array return its index, otherwise return -1.
+
+> You may assume no duplicate exists in the array.
+
+**Idea**注意判断条件，一定要完全满足
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int low = 0, high = (int)nums.size() - 1;
+        while (low + 1< high) {
+            int mid = low + (high - low)/2;
+            if (nums[mid] == target) return mid;
+            if (nums[low] <= nums[mid]) { // 左边有序
+                if (target >= nums[low] && target <= nums[mid]) high = mid;
+                else low = mid;
+            }
+            else {
+                if (target <= nums[high] && target >= nums[mid]) low = mid;
+                else high = mid;
+            }
+        }
+        if (nums[low] == target) return low;
+        else if (nums[high] == target) return high;
+        else return -1;
+    }
+};
+```
+
+###<a name="34-Search-for-a-range">34 Search for a Range
+
+> Given a sorted array of integers, find the starting and ending position of a given target value.
+
+> Your algorithm's runtime complexity must be in the order of O(log n).
+
+> If the target is not found in the array, return [-1, -1].
+
+<pre>
+For example,
+Given [5, 7, 7, 8, 8, 10] and target value 8,
+return [3, 4].
+</pre>
+
+**Idea** Use binary search twice, one left one right.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int left = binarySearchLeft(nums, target);
+        int right = binarySearchRight(nums, target);
+        vector<int> result = {left,right};
+        return result;
+    }
+    
+    int binarySearchLeft(vector<int>& nums,int target) {
+        int low = 0, high = (int)nums.size() - 1;
+        while (low + 1 < high) {
+            int mid = low + ((high - low)>>1);
+            //if (target == nums[mid]) return mid;
+            if (target > nums[mid]) low = mid;
+            else high = mid;
+        }
+        if (nums[low] == target) return low;
+        if (nums[high] == target) return high;
+        return -1;
+    }
+
+    int binarySearchRight(vector<int>& nums,int target) {
+        int low = 0, high = (int)nums.size() - 1;
+        while (low + 1 < high) {
+            int mid = low + ((high - low)>>1);
+            //if (target == nums[mid]) return mid;
+            if (target < nums[mid]) high = mid;
+            else low = mid;
+        }
+        if (nums[high] == target) return high;
+        if (nums[low] == target) return low;
+        return -1;
+    }
+};
+```
+
+###<a name="35-search-insert-position"></a>35 Search Insert Position
+
+> Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be > if it were inserted in order.
+
+<pre>
+Here are few examples.
+[1,3,5,6], 5 → 2
+[1,3,5,6], 2 → 1
+[1,3,5,6], 7 → 4
+[1,3,5,6], 0 → 0
+</pre>
+
+> You may assume no duplicates in the array.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int searchInsert(vector<int>& nums, int target) {
+        int low = 0, high = (int)nums.size()-1;
+        while (low + 1 < high) {
+            int mid = low + (high - low)/2;
+            if (nums[mid] == target) return mid;
+            else if (target < nums[mid]) high = mid;
+            else low = mid;
+        }
+        if (nums[low]>=target) return low;
+        else if (nums[high]>=target) return high;
+        else return high+1;
+    }
+};
+```
 
 ###<a name="46-permutations"></a>46 Permutations
 > Given a collection of numbers, return all possible permutations.
@@ -1583,97 +1707,7 @@ public:
 };
 ```
 
-###<a name="33-search-in-rotated-sorted-array">33 Search in Rotated Sorted Array
 
-> Suppose a sorted array is rotated at some pivot unknown to you beforehand.
-
-> (i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
-
-> You are given a target value to search. If found in the array return its index, otherwise return -1.
-
-> You may assume no duplicate exists in the array.
-
-**Idea**注意判断条件，一定要完全满足
-
-***C++ Code***
-```C++
-class Solution {
-public:
-    int search(vector<int>& nums, int target) {
-        int low = 0, high = (int)nums.size() - 1;
-        while (low + 1< high) {
-            int mid = low + (high - low)/2;
-            if (nums[mid] == target) return mid;
-            if (nums[low] <= nums[mid]) { // 左边有序
-                if (target >= nums[low] && target <= nums[mid]) high = mid;
-                else low = mid;
-            }
-            else {
-                if (target <= nums[high] && target >= nums[mid]) low = mid;
-                else high = mid;
-            }
-        }
-        if (nums[low] == target) return low;
-        else if (nums[high] == target) return high;
-        else return -1;
-    }
-};
-```
-
-###<a name="34-Search-for-a-range">34 Search for a Range
-
-> Given a sorted array of integers, find the starting and ending position of a given target value.
-
-> Your algorithm's runtime complexity must be in the order of O(log n).
-
-> If the target is not found in the array, return [-1, -1].
-
-<pre>
-For example,
-Given [5, 7, 7, 8, 8, 10] and target value 8,
-return [3, 4].
-</pre>
-
-**Idea** Use binary search twice, one left one right.
-
-***C++ Code***
-```C++
-class Solution {
-public:
-    vector<int> searchRange(vector<int>& nums, int target) {
-        int left = binarySearchLeft(nums, target);
-        int right = binarySearchRight(nums, target);
-        vector<int> result = {left,right};
-        return result;
-    }
-    
-    int binarySearchLeft(vector<int>& nums,int target) {
-        int low = 0, high = (int)nums.size() - 1;
-        while (low + 1 < high) {
-            int mid = low + ((high - low)>>1);
-            //if (target == nums[mid]) return mid;
-            if (target > nums[mid]) low = mid;
-            else high = mid;
-        }
-        if (nums[low] == target) return low;
-        if (nums[high] == target) return high;
-        return -1;
-    }
-
-    int binarySearchRight(vector<int>& nums,int target) {
-        int low = 0, high = (int)nums.size() - 1;
-        while (low + 1 < high) {
-            int mid = low + ((high - low)>>1);
-            //if (target == nums[mid]) return mid;
-            if (target < nums[mid]) high = mid;
-            else low = mid;
-        }
-        if (nums[high] == target) return high;
-        if (nums[low] == target) return low;
-        return -1;
-    }
-};
-```
 
 ###<a name="#153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
