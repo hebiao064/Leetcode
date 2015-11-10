@@ -1601,6 +1601,17 @@ int recursive(int x){
 It should be O(n), as we should draw the recursion tree, we will find it may be O(2^n), but in the stack frame.
 For example when Fib(2) = Fib(1) + Fib(0) done, the stack memory of Fib(1) and Fib(0) will return so the memory will pop back, then the maximum stack memory should be Fib(n-1) + Fib(n-2) + ... + Fib(1) = O(n);
 
+***Recursive C++ using O(n)***
+```C++
+int fib(int term, int val = 1, int prev = 0)
+{
+    if(term == 0) return prev;
+    if(term == 1) return val;
+    return fib(term - 1, val+prev, val);
+}
+```
+
+
 ***Iterative C++ Code***
 ```C++
 int iterative(int n) {
