@@ -1765,29 +1765,27 @@ public:
 ]
 </pre>
 
+**Idea** In here we don't need the visited matrix, because we move forward next loop using (i+1) instead of (start+1), so it won't get 1,1,1,1 because we moved forward.
+
 ***C++ Code***
 ```C++
 class Solution {
 public:
-    void combinationsHelper(vector<vector<int>> &result,vector<int> &line,vector<int> &visited,int n, int k, int start) {
+    void combinationsHelper(vector<vector<int>> &result,vector<int> &line,int n, int k, int start) {
         if (line.size() == k) {
             result.push_back(line);
             return;
         }
         for (int i = start;i < n;i++) {
-            if (visited[i]!=0) continue;
             line.push_back(i+1);
-            visited[i] = 1;
-            combinationsHelper(result,line,visited,n,k,i+1);
+            combinationsHelper(result,line,n,k,i+1);
             line.pop_back();
-            visited[i] = 0;
         }
     }
     vector<vector<int>> combine(int n, int k) {
         vector<vector<int>> result;
         vector<int> line;
-        vector<int> visited(n,0);
-        combinationsHelper(result,line,visited,n,k,0);
+        combinationsHelper(result,line,n,k,0);
         return result;
     }
 };
