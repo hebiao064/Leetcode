@@ -1620,6 +1620,8 @@ public:
 };
 ```
 
+###<a name="34-Search-for-a-range">34 Search for 
+
 ###<a name="#153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
 > Suppose a sorted array is rotated at some pivot unknown to you beforehand.
