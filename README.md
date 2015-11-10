@@ -1583,6 +1583,43 @@ public:
 };
 ```
 
+###<a name="33-search-in-rotated-sorted-array">33 Search in Rotated Sorted Array
+
+> Suppose a sorted array is rotated at some pivot unknown to you beforehand.
+
+> (i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
+
+> You are given a target value to search. If found in the array return its index, otherwise return -1.
+
+> You may assume no duplicate exists in the array.
+
+**Idea**注意判断条件，一定要完全满足
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int low = 0, high = (int)nums.size() - 1;
+        while (low + 1< high) {
+            int mid = low + (high - low)/2;
+            if (nums[mid] == target) return mid;
+            if (nums[low] <= nums[mid]) { // 左边有序
+                if (target >= nums[low] && target <= nums[mid]) high = mid;
+                else low = mid;
+            }
+            else {
+                if (target <= nums[high] && target >= nums[mid]) low = mid;
+                else high = mid;
+            }
+        }
+        if (nums[low] == target) return low;
+        else if (nums[high] == target) return high;
+        else return -1;
+    }
+};
+```
+
 ###<a name="#153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
 > Suppose a sorted array is rotated at some pivot unknown to you beforehand.
