@@ -1631,7 +1631,7 @@ int iterative(int n) {
 
 ###<a name="2-binary-search-template"></a>2 Binary Search Template
 
-***C++ Code***
+***C++ Code*** 天真模版
 ```C++
 bool binarySearch(vector<int>& nums,int target) {
     int low = 0, high = (int)nums.size() - 1;
@@ -1642,5 +1642,21 @@ bool binarySearch(vector<int>& nums,int target) {
         else high = mid - 1;
     }
     return false;
+}
+```
+
+***C++ Code***万能模版
+```C++
+int binarySearch(vector<int>& nums,int target) {
+    int low = 0, high = (int)nums.size() - 1;
+    while (low + 1 < high) {
+        int mid = low + ((high - low)>>1);
+        if (target == nums[mid]) return mid;
+        else if (target > nums[mid]) low = mid;
+        else high = mid;
+    }
+    if (nums[low] == target) return low;
+    if (nums[high] == target) return high;
+    return -1;
 }
 ```
