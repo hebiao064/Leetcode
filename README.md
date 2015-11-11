@@ -1396,6 +1396,63 @@ public:
     }
 };
 ```
+
+###<a name="32-longest-valid-parentheses"></a>32 Longest Valid Parentheses
+> Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.
+
+> For "(()", the longest valid parentheses substring is "()", which has length = 2.
+
+> Another example is ")()())", where the longest valid parentheses substring is "()()", which has length = 4.
+
+**Idea**
+for循环,stack存储 '(' or ')' 的index
+
+遇见'('直接push
+
+遇见')'达成匹配时 计算result
+
+若不打成匹配，push')'的下标，以便计算result
+
+四种情况:
+
+1. char == '(' 
+
+直接push
+
+2. char == ')' && stack.top() == '('
+
+达成匹配，s.pop() then 判断stack是否为空
+
+2.1 若为空 result ＝ max(result, i+1)
+
+2.2 若不为空 result = max(result,i-s.top())
+
+3. char == ')' but stack.empty() or stack.top() == ')'
+
+s.push(i)
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+        stack<int> stk;
+        int result = 0;
+        for (int i = 0;i < s.length();i++) {
+            if (s[i] == '(') stk.push(i);
+            else {
+                if (!stk.empty() && s[stk.top()] == '(') {
+                    stk.pop();
+                    result = max(stk.empty() ? i+1:i-stk.top(), result);
+                }
+                else stk.push(i);
+            }
+        }
+        return result;
+    }
+};
+```
+
 ###<a name="33-search-in-rotated-sorted-array">33 Search in Rotated Sorted Array
 
 > Suppose a sorted array is rotated at some pivot unknown to you beforehand.
