@@ -104,6 +104,7 @@
 ###Others
 * [1 Fibonacci](#1-fibonacci)
 * [2 Binary Search Template](#2-binary-search-template)
+* [3 Merge Sort](#3-merge-sort)
 
 <br>
 ### <a name="1-two-sum"></a>1 Two Sum
@@ -2244,5 +2245,61 @@ int binarySearch(vector<int>& nums,int target) {
     if (nums[low] == target) return low;
     if (nums[high] == target) return high;
     return -1;
+}
+```
+
+###<a name = "3-merge-sort"></a>3 Merge Sort
+
+***C++ Code***
+```C++
+
+void merge(vector<int> &a,int low, int high, int mid) {
+    {
+        int i, j, k, c[(int)a.size()-1];
+        i = low;
+        k = low;
+        j = mid + 1;
+        while (i <= mid && j <= high)
+        {
+            if (a[i] < a[j])
+            {
+                c[k] = a[i];
+                k++;
+                i++;
+            }
+            else
+            {
+                c[k] = a[j];
+                k++;
+                j++;
+            }
+        }
+        while (i <= mid)
+        {
+            c[k] = a[i];
+            k++;
+            i++;
+        }
+        while (j <= high)
+        {
+            c[k] = a[j];
+            k++;
+            j++;
+        }
+        for (i = low; i < k; i++)
+        {
+            a[i] = c[i];
+        }
+    }
+    
+}
+void mergesort(vector<int> &nums, int low, int high) {
+    if (low < high) {
+        int mid = low + (high - low)/2;
+        mergesort(nums, low, mid);
+        mergesort(nums, mid+1, high);
+        merge(nums,low,high,mid);
+    }
+    return;
 }
 ```
