@@ -105,6 +105,7 @@
 * [1 Fibonacci](#1-fibonacci)
 * [2 Binary Search Template](#2-binary-search-template)
 * [3 Merge Sort](#3-merge-sort)
+* [4 Quick Sort](#4-quick-sort)
 
 <br>
 ### <a name="1-two-sum"></a>1 Two Sum
@@ -2301,5 +2302,37 @@ void mergesort(vector<int> &nums, int low, int high) {
         merge(nums,low,high,mid);
     }
     return;
+}
+```
+
+###<a name="4-quick-sort"></a>4 Quick Sort
+
+***C++ Code***
+```C++
+void quickSort(int arr[], int left, int right) {
+    int i = left, j = right;
+    int tmp;
+    int pivot = arr[(left + right) / 2];
+    
+    /* partition */
+    while (i <= j) {
+        while (arr[i] < pivot)
+            i++;
+        while (arr[j] > pivot)
+            j--;
+        if (i <= j) {
+            tmp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = tmp;
+            i++;
+            j--;
+        }
+    };
+    
+    /* recursion */
+    if (left < j)
+        quickSort(arr, left, j);
+    if (i < right)
+        quickSort(arr, i, right);
 }
 ```
