@@ -2311,7 +2311,6 @@ void mergesort(vector<int> &nums, int low, int high) {
 ```C++
 void quickSort(int arr[], int left, int right) {
     int i = left, j = right;
-    int tmp;
     int pivot = arr[(left + right) / 2];
     
     /* partition */
@@ -2321,9 +2320,7 @@ void quickSort(int arr[], int left, int right) {
         while (arr[j] > pivot)
             j--;
         if (i <= j) {
-            tmp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = tmp;
+            swap(arr[i],arr[j]);
             i++;
             j--;
         }
