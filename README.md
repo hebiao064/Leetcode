@@ -1561,6 +1561,65 @@ public:
 };
 ```
 
+###<a name="37-sudoku-solver"></a>37 Sudoku Solver
+
+> Write a program to solve a Sudoku puzzle by filling the empty cells.
+
+> Empty cells are indicated by the character '.'.
+
+> You may assume that there will be only one unique solution.
+
+**Idea** Use isvalid every time, and back tracking. Keep in mind we need bool helper function to do recursion.
+
+***C++ Code***
+
+```C++
+class Solution {
+public:
+    void solveSudoku(vector<vector<char>>& board){
+        solveSudokuHelper(board);
+    }
+    bool solveSudokuHelper(vector<vector<char>>& board) {
+        for (int i = 0;i < board.size();i++) {
+            for (int j = 0;j < board[0].size();j++) {
+                if (board[i][j] == '.') {
+                    for (int k = 0;k < 9;k++) {
+                        board[i][j] = k + '1';
+                        if (isValidSudoku(board) && solveSudokuHelper(board)) return true;
+                        board[i][j] = '.';
+                    }
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    bool isValidSudoku(vector<vector<char>>& board) {
+        vector<int> rows(9,0);
+        vector<int> cols(9,0);
+        for (int i = 0;i < 3;i++) {
+            for (int j = 0;j < 3;j++){
+                int mask = 0;
+                for (int u = 0;u < 3;u++){
+                    for (int v = 0;v < 3;v++){
+                        int row = 3*i + u;
+                        int col = 3*j + v;
+                        if (board[row][col] == '.') continue;
+                        int num = board[row][col] - '0';
+                        if (mask & (1<<num) || rows[row] & (1<<num) || cols[col] & (1<<num)) return false;
+                        mask = mask | (1<<num);
+                        rows[row] = rows[row] | (1<<num);
+                        cols[col] = cols[col] | (1<<num);
+                    }
+                }
+            }
+        }
+        return true;
+    } 
+};
+```
+
 ###<a name="39-combination-sum"></a>39 Combination Sum
 > Given a set of candidate numbers (C) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.
 
