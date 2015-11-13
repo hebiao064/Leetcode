@@ -1775,6 +1775,40 @@ public:
 };
 ```
 
+###<a name = "43-multiply-strings"></a>43 Multiply Strings
+> Given two numbers represented as strings, return multiplication of the numbers as a string.
+
+> ***Note:*** The numbers can be arbitrarily large and are non-negative.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    string multiply(string num1, string num2) {
+        if (num1 == "0" || num2 == "0") return "0";
+        string s = "";
+        vector<int> result(num1.size()+num2.size(),0);
+        string number1(num1.rbegin(),num1.rend());
+        string number2(num2.rbegin(),num2.rend());
+        for (int i = 0;i < number1.length();i++) {
+            int a = number1[i] - '0';
+            for (int j = 0;j < number2.length();j++) {
+                int b = number2[j] - '0';
+                int c = result[i+j];
+                result[i+j] = (c+a*b)%10;
+                result[i+j+1] += (c+a*b)/10;
+            }
+        }
+        if(result[num1.size()+num2.size()-1]>0) {
+            s += result[num1.size()+num2.size()-1] + '0';
+        }
+        for (int i = int(num1.length()+num2.length())-2;i >= 0;i--){
+            s += result[i]+'0';
+        }
+        return s;
+    }
+};
+```
 
 ###<a name="46-permutations"></a>46 Permutations
 > Given a collection of numbers, return all possible permutations.
