@@ -1679,6 +1679,51 @@ public:
 };
 ```
 
+###<a name="38-count-and-say"></a>38 Count and Say
+> The count-and-say sequence is the sequence of integers beginning as follows:
+
+> 1, 11, 21, 1211, 111221, ...
+
+> 1 is read off as "one 1" or 11.
+
+> 11 is read off as "two 1s" or 21.
+
+> 21 is read off as "one 2, then one 1" or 1211.
+
+> Given an integer n, generate the nth sequence.
+
+> Note: The sequence of integers will be represented as a string.
+
+**Idea**  注意 单独的最后处理
+
+***C++ Code***
+```C++
+class Solution {  
+public:  
+    string countAndSay(int n) {
+    string str = "1";
+    for (int i = 1;i < n;i++) {
+        int count = 0;
+        char ch = '0';
+        string str2 = "";
+        for (int j = 0;j < str.length();j++) {
+            if (str[j]==ch) count++;
+            else {
+                if (count > 0) {
+                    str2 = str2 + char(count+'0') + ch;
+                }
+                count = 1;
+                ch = str[j];
+            }
+        }
+        str2 = str2 + char(count + '0') + ch;
+        str = str2;
+    }
+    return str;
+} 
+};  
+```
+
 ###<a name="39-combination-sum"></a>39 Combination Sum
 > Given a set of candidate numbers (C) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.
 
