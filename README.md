@@ -1820,6 +1820,8 @@ public:
 };
 ```
 
+###<a name="41-first-missing-number">
+
 ###<a name = "43-multiply-strings"></a>43 Multiply Strings
 > Given two numbers represented as strings, return multiplication of the numbers as a string.
 
