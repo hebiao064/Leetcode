@@ -1822,6 +1822,37 @@ public:
 
 ###<a name="41-first-missing-number">
 
+> Given an unsorted integer array, find the first missing positive integer.
+
+> For example,
+
+> Given [1,2,0] return 3,
+
+> and [3,4,-1,1] return 2.
+
+> Your algorithm should run in O(n) time and uses constant space.
+
+**Idea** Swap these numbers to make it to their own position.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int firstMissingPositive(vector<int>& nums) {
+        for (int i = 0;i < nums.size();) {
+            if (nums[i]!=i+1 && nums[i]>0 && nums[i]<=nums.size() && nums[i]!=nums[nums[i]-1]) {
+                swap(nums[i],nums[nums[i]-1]);
+            }
+            else i++;
+        }
+        for (int i = 0;i < nums.size();i++) {
+            if (nums[i] != i+1) return i+1;
+        }
+        return nums.size() + 1;
+    }
+};
+```
+
 ###<a name = "43-multiply-strings"></a>43 Multiply Strings
 > Given two numbers represented as strings, return multiplication of the numbers as a string.
 
