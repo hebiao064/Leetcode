@@ -2211,7 +2211,63 @@ public:
     }
 };
 ```
+###<a name="54-spiral-matrix"></a>53 Spiral Matrix
+> Given a matrix of m x n elements (m rows, n columns), return all elements of the matrix in spiral order.
 
+> For example,
+
+> Given the following matrix:
+
+<pre>
+[
+ [ 1, 2, 3 ],
+ [ 4, 5, 6 ],
+ [ 7, 8, 9 ]
+]
+</pre>
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int> > &matrix) {
+        vector<int> ans;
+        if (matrix.size()==0) return ans;
+        int left=0;
+        int up=0;
+        int right=matrix[0].size()-1;
+        int down=matrix.size()-1;
+        
+        while (left<=right&&up<=down)
+        {
+            for (int i=left;i<=right;i++)
+             {
+                 ans.push_back(matrix[up][i]);
+             }
+             up++;
+             for (int i=up;i<=down;i++)
+             {
+                 ans.push_back(matrix[i][right]);
+             }
+             right--;
+             if (up>down||left>right) return ans;
+             for (int i=right;i>=left;i--)
+             {
+                 ans.push_back(matrix[down][i]);
+             }
+             down--;
+             for (int i=down;i>=up;i--)
+             {
+                 ans.push_back(matrix[i][left]);
+             }
+             left++;
+             
+        }
+        return ans;
+        
+    }
+};
+```
 ###<a name = "55-jump-game"></a>55 Jump Game
 > Given an array of non-negative integers, you are initially positioned at the first index of the array.
 
