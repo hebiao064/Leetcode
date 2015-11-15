@@ -2299,6 +2299,37 @@ public:
 };
 ```
 
+###<a name="58-length-of-last-word"></a>58 Length of Last Word
+> Given a string s consists of upper/lower-case alphabets and empty space characters ' ', return the length of last word in the string.
+
+> If the last word does not exist, return 0.
+
+> Note: A word is defined as a character sequence consists of non-space characters only.
+
+> For example, 
+
+> Given s = "Hello World",
+
+> return 5.
+
+*** C++ Code***
+```C++
+class Solution {
+public:
+    int lengthOfLastWord(string s) {
+        int count = 0;
+        int i = s.length()-1;
+        while (s[i] == ' ') i--;
+        if (i < 0) return count;
+        for (int j = i;j >= 0;j--) {
+            if (s[j] == ' ') return count;
+            count++;
+        }
+        return count;
+    }
+};
+```
+
 ###<a name="59-spiral-matrix-ii"></a>59 Spiral Matrix II
 > Given an integer n, generate a square matrix filled with elements from 1 to n2 in spiral order.
 
@@ -2315,6 +2346,7 @@ public:
 </pre>
 You should return the following matrix:
 
+***C++ Code***
 ```C++
 class Solution {
 public:
