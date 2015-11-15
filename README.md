@@ -2112,6 +2112,54 @@ public:
 };
 ```
 
+###<a name="49-group-anagrams"></a>49 Group Anagrams
+> Given an array of strings, group anagrams together.
+
+> For example, given: ["eat", "tea", "tan", "ate", "nat", "bat"], 
+
+> Return:
+
+<pre>
+[
+  ["ate", "eat","tea"],
+  ["nat","tan"],
+  ["bat"]
+]
+</pre>
+
+Note:
+
+For the return value, each inner list's elements must follow the lexicographic order.
+
+All inputs will be in lower-case.
+
+**Idea** Using a hashmap to store the vector's index;
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        vector<vector<string>> result;
+        unordered_map<string,int> mp;
+        for (auto s:strs) {
+            string temp = s;
+            sort(temp.begin(),temp.end());
+            auto it = mp.find(temp);
+            if (it == mp.end()) {
+                mp[temp] = result.size();
+                result.push_back(vector<string>({s}));
+            }
+            else {
+                result[it->second].push_back(s);
+                sort(result[it->second].begin(),result[it->second].end());
+            }
+        }
+        return result;
+    }
+ };
+```
+
 ###<a name = "55-jump-game"></a>55 Jump Game
 > Given an array of non-negative integers, you are initially positioned at the first index of the array.
 
