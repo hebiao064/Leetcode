@@ -1927,6 +1927,46 @@ public:
 };
 ```
 
+###<a name="45-jump-game"></a>45 Jump Game
+> Given an array of non-negative integers, you are initially positioned at the first index of the array.
+
+> Each element in the array represents your maximum jump length at that position.
+
+> Your goal is to reach the last index in the minimum number of jumps.
+
+> For example:
+
+> Given array A = [2,3,1,1,4]
+
+> The minimum number of jumps to reach the last index is 2. (Jump 1 step from index 0 to 1, then 3 steps to the last index.)
+
+**Idea** We use "last" to keep track of the maximum distance that has been reached by using the minimum steps "ret", whereas "curr" is the maximum distance that can be reached by using "ret+1" steps. Thus, 
+
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int ret = 0;      //当前跳数
+        int last = 0;     //上一跳可达最远距离
+        int curr = 0;     // 当前一跳可达最远距
+        for (int i = 0;i < nums.size();i++) {
+            //无法向前继跳直接返回 
+            if (i > curr) return -1;
+            //需要进行下次跳跃，则更新last和当执行的跳数ret  
+            if (i > last) {
+                last = curr;
+                ret++;
+            }
+            //记录当前可达的最远点 
+            curr = max(curr,i+nums[i]);
+        }
+        return ret;
+    }
+};
+```
+
 ###<a name="46-permutations"></a>46 Permutations
 > Given a collection of numbers, return all possible permutations.
 
@@ -2036,6 +2076,36 @@ public:
             }
             
         }
+    }
+};
+```
+###<a name = "55-jump-game"></a>55 Jump Game
+> Given an array of non-negative integers, you are initially positioned at the first index of the array.
+
+> Each element in the array represents your maximum jump length at that position.
+
+> Determine if you are able to reach the last index.
+
+> For example:
+
+> A = [2,3,1,1,4], return true.
+
+> A = [3,2,1,0,4], return false.
+
+**Idea** Keep a remainder to record how many step it can go as far as possible.
+
+***C++***
+```C++
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        if(nums.size() <= 1) return true;
+        int rmd = nums[0];
+        for (int i = 0;i < nums.size();i++) {
+            if (--rmd < 0) return false;
+            rmd = max(rmd,nums[i]);
+        }
+        return true;
     }
 };
 ```
