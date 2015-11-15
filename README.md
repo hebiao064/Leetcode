@@ -101,6 +101,7 @@
 * [153 Find Minimum in Rotated Sorted Array](#153-find-minimum-in-rotated-sorted-array)
 * [154 Find Minimum in Rotated Sorted Array II](#153-find-minimum-in-rotated-sorted-array-ii)
 * [216 Combination Sum III](#216-combination-sum-iii)
+* [268 Missing Number](#268-missing-number)
 ###Others
 * [1 Fibonacci](#1-fibonacci)
 * [2 Binary Search Template](#2-binary-search-template)
@@ -2280,6 +2281,51 @@ public:
     }
 };
 ```
+
+###<a name="268-missing-number"></a>268 Missing Number
+> Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the one that is missing from the array.
+
+> For example,
+
+> Given nums = [0, 1, 3] return 2.
+
+> ***Note:***
+
+> Your algorithm should run in linear runtime complexity. Could you implement it using only constant extra space complexity?
+
+**Idea** 
+
+- Using Math, to sum the numbers, and delete them one by one.
+- Using bit manipulation, it can avoid overflow. ***Optimal***
+- Using extra spaces, like a array or hashmap.
+
+***C++ Solution 1***
+```C++
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int sum = 0;
+        for (auto s:nums) sum += s;
+        return (nums.size()*(nums.size()+1))/2 - sum;
+    }
+};
+```
+***C++ Solution 2***
+```C++
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int ret = 0;
+        for (int i = 0;i < nums.size();i++) {
+            ret ^= nums[i];
+            ret ^= i+1;
+        }
+        return ret;
+    }
+};
+```
+
+
 
 ###Others
 
