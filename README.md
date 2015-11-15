@@ -1853,7 +1853,45 @@ public:
     }
 };
 ```
+###<a name = "42-trapping-rain-water"></a>42 Trapping Rain Water
+> Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
 
+> For example, 
+
+> Given [0,1,0,2,1,0,1,3,2,1,2,1], return 6.
+
+**Idea**
+- First loop, find the peak index;
+- Second and Third loop, sum the result by the difference of temp peak and current height.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int result = 0;
+        int peak = 0;
+        int which = 0;
+        for (int i = 0;i < height.size();i++) {
+            if (peak < height[i]) {
+                peak = height[i];
+                which = i;
+            }
+        }
+        int leftMax = 0;
+        for (int i = 0; i < which;i++) {
+            if (height[i] >= leftMax) leftMax = height[i];
+            else result += leftMax - height[i];
+        }
+        int rightMax = 0;
+        for (int i = height.size() - 1;i > which;i--) {
+            if (height[i] >= rightMax) rightMax = height[i];
+            else result += rightMax - height[i];
+        }
+        return result;
+    }
+};
+```
 ###<a name = "43-multiply-strings"></a>43 Multiply Strings
 > Given two numbers represented as strings, return multiplication of the numbers as a string.
 
