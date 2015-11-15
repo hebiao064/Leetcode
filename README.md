@@ -2079,6 +2079,39 @@ public:
     }
 };
 ```
+
+###<a name="48-rotate-image"></a>48 Rotate Image
+> You are given an n x n 2D matrix representing an image.
+
+> Rotate the image by 90 degrees (clockwise).
+
+> Follow up:
+
+> Could you do this in-place?
+
+**Idea** swap twice
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        if (matrix.size() <= 1 || matrix[0].size() <= 1) return;
+        int n = matrix.size();
+        for (int i = 0;i < n/2;i++) {
+            for (int j = 0;j < n;j++) {
+                swap(matrix[i][j],matrix[n-i-1][j]);
+            }
+        }
+        for (int i = 0;i < n;i++) {
+            for (int j = i+1;j < n;j++) {
+                swap(matrix[i][j],matrix[j][i]);
+            }
+        }
+    }
+};
+```
+
 ###<a name = "55-jump-game"></a>55 Jump Game
 > Given an array of non-negative integers, you are initially positioned at the first index of the array.
 
