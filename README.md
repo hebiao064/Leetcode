@@ -2160,6 +2160,36 @@ public:
  };
 ```
 
+###<a name = "50-pow"></a>50 Pow(x,n)
+> Implement pow(x, n).
+
+**Idea** x^2n = (x^2)^n
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    double myPow(double x, int n) {
+        if (n < 0) {
+            x = 1/x;
+            n = -n;
+        };
+        double result = 1;
+        while (n) {
+            if (n % 2 == 1) {
+                result = result * x;
+                n--;
+            }
+            else {
+                x = x*x;
+                n = n/2;
+            }
+        }
+        return result;
+    }
+};
+```
+
 ###<a name = "55-jump-game"></a>55 Jump Game
 > Given an array of non-negative integers, you are initially positioned at the first index of the array.
 
