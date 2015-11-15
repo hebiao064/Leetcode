@@ -2299,6 +2299,57 @@ public:
 };
 ```
 
+###<a name="59-spiral-matrix-ii"></a>59 Spiral Matrix II
+> Given an integer n, generate a square matrix filled with elements from 1 to n2 in spiral order.
+
+> For example,
+
+> Given n = 3,
+
+<pre>
+[
+ [ 1, 2, 3 ],
+ [ 8, 9, 4 ],
+ [ 7, 6, 5 ]
+]
+</pre>
+You should return the following matrix:
+
+```C++
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        int up = 0, left = 0;
+        int down = n - 1, right = n - 1;
+        int elem = 1;
+        vector<vector<int>> ret(n,vector<int>(n,0));
+        while (up <= down && left <= right) {
+            for (int i = left;i <= right;i++) {
+                ret[up][i] = elem;
+                elem++;
+            }
+            up++;
+            for (int i = up;i <= down;i++) {
+                ret[i][right] = elem;
+                elem++;
+            }
+            right--;
+            for (int i = right; i >= left;i--) {
+                ret[down][i] = elem;
+                elem++;
+            }
+            down--;
+            for (int i = down;i >= up;i--) {
+                ret[i][left] = elem;
+                elem++;
+            }
+            left++;
+        }
+        return ret;
+    }
+};
+```
+
 ###<a name="60-permutation-sequence"></a>60 Permutation Sequence
 
 > The set [1,2,3,…,n] contains a total of n! unique permutations.
