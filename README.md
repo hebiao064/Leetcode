@@ -2190,6 +2190,28 @@ public:
 };
 ```
 
+###<a name="53-maximum-subarray"></a>53 Maximum Subarray
+> Find the contiguous subarray within an array (containing at least one number) which has the largest sum.
+
+> For example, given the array [−2,1,−3,4,−1,2,1,−5,4],
+
+> the contiguous subarray [4,−1,2,1] has the largest sum = 6.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int temp = 0, result = nums[0];
+        for (int i = 0;i < nums.size();i++) {
+            temp = max(temp+nums[i],nums[i]);
+            result = max(result,temp);
+        }
+        return result;
+    }
+};
+```
+
 ###<a name = "55-jump-game"></a>55 Jump Game
 > Given an array of non-negative integers, you are initially positioned at the first index of the array.
 
