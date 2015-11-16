@@ -2615,6 +2615,58 @@ public:
 };
 ```
 
+###<a name = "64-minumum-path-sum"></a>64 Minimum Path Sum
+> Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right which minimizes the sum of all numbers along its path.
+
+> Note: You can only move either down or right at any point in time.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        if (m < 1 || n < 1) return 0;
+        for (int i = 1;i < n;i++) {
+            grid[0][i] += grid[0][i-1];
+        }
+        for (int i = 1;i < m;i++) {
+            grid[i][0] += grid[i-1][0];
+        }
+        for (int i = 1;i < m;i++) {
+            for (int j = 1;j < n;j++) {
+                grid[i][j] += min(grid[i-1][j],grid[i][j-1]);
+            }
+        }
+        return grid[m-1][n-1];
+    }
+};
+```
+
+###<a name = "66-plus-one"></a>66 Plus One
+
+> Given a non-negative number represented as an array of digits, plus one to the number.
+
+> The digits are stored such that the most significant digit is at the head of the list.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        for (int i = digits.size()-1;i >= 0;i--) {
+            if (digits[i] != 9) {digits[i]++;return digits;}
+            else {
+                digits[i] = 0;
+            }
+        }
+        if (digits[0] == 0) digits.insert(digits.begin(),1);
+        return digits;
+    }
+};
+```
+
 ###<a name="77-combinations"></a>77 Combinations
 
 > Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.
