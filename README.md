@@ -2667,6 +2667,75 @@ public:
 };
 ```
 
+###<a name = "67-add-binary"></a>67 Add Binary
+> Given two binary strings, return their sum (also a binary string).
+
+> For example,
+
+> a = "11"
+
+> b = "1"
+
+> Return "100".
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        int i = a.length()-1, j = b.length()-1;
+        string result;
+        int carry = 0;
+        while (i >= 0 && j >= 0) {
+            int elem = a[i] - '0' + b[j] - '0' + carry;
+            if (elem == 3) {
+                result = "1" + result;
+                carry = 1;
+            }
+            else if(elem == 2) {
+                result = "0" + result;
+                carry = 1;
+            }
+            else {
+                if (elem == 1) result.insert(result.begin(),'1');
+                else result.insert(result.begin(),'0');
+                carry = 0;
+            }
+            --i;
+            --j;
+        }
+        while (i >= 0) {
+            int elem = a[i] - '0' + carry;
+            if (elem == 2) {
+                result = "0" + result;
+                carry = 1;
+            }
+            else {
+                if (elem == 1) result.insert(result.begin(),'1');
+                else result.insert(result.begin(),'0');
+                carry = 0;
+            }
+            i--;
+        }
+        while (j >= 0) {
+            int elem = b[j] - '0' + carry;
+            if (elem == 2) {
+                result = "0" + result;
+                carry = 1;
+            }
+            else {
+                if (elem == 1) result.insert(result.begin(),'1');
+                else result.insert(result.begin(),'0');
+                carry = 0;
+            }
+            j--;
+        }
+        if (carry) result = "1" + result;
+        return result;
+    }
+};
+```
+
 ###<a name="77-combinations"></a>77 Combinations
 
 > Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.
