@@ -2736,6 +2736,33 @@ public:
 };
 ```
 
+###<a name="69-sqrt"></a>69 Sqrt(x)
+> Implement int sqrt(int x).
+
+> Compute and return the square root of x.
+
+**Idea** Using binary search to find it, and be care of sqrt(10) is 3, so if 3*3 < 10 && 4*4 > 10, can be a criterion to find it.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int mySqrt(int x) {
+        if (x < 0) return -1;
+        if (x == 0) return 0;
+        int low = 1;
+        int high = x/2;
+        while (low <= high) {
+            int mid = low + (high - low)/2;
+            if (mid <= x / mid && (mid+1 >= x/(mid + 1) )) return mid;
+            else if (mid < x / mid) low = mid + 1;
+            else high = mid - 1;
+        }
+        return low;
+    }
+};
+```
+
 ###<a name="77-combinations"></a>77 Combinations
 
 > Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.
