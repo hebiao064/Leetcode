@@ -2763,6 +2763,134 @@ public:
 };
 ```
 
+###<a name="70-climbing-stairs"></a>70 Climbing Stairs
+> You are climbing a stair case. It takes n steps to reach to the top.
+
+> Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int climbStairs(int n) {
+        vector<int> dp;
+        dp.push_back(1);
+        dp.push_back(2);
+        for (int i = 2;i < n;i++) {
+            dp.push_back(dp[i-1]+dp[i-2]);
+        }
+        return dp[n-1];
+    }
+};
+```
+
+###<a name = "70-simplify-path"></a>70 Simplify Path
+> Given an absolute path for a file (Unix-style), simplify it.
+
+> For example,
+
+> path = "/home/", => "/home"
+
+> path = "/a/./b/../../c/", => "/c"
+
+> ***Corner Cases:***
+
+> Did you consider the case where path = "/../"?
+
+> In this case, you should return "/".
+
+> Another corner case is the path might contain multiple slashes '/' together, such as "/home//foo/".
+
+> In this case, you should ignore redundant slashes and return "/home/foo".
+
+**Idea** At first, we should ignore redundant "/", and then push the useful path like "home" into stack, if it's ".." then pop out, if it's ".", then do nothing;
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    string simplifyPath(string path) {
+        stack<string> s;
+        string result = "";
+        for (int i = 0;i < path.length();i++) {
+            while (path[i] == '/') i++;
+            if (i == path.length()) break;
+            string elem = "";
+            while (path[i]!='/' && i < path.length()) {elem = elem + path[i];i++;}
+            if (elem == "..") {
+                if (!s.empty()) s.pop();
+            }
+            else if (elem != ".") s.push(elem);
+        }
+        if (s.empty()) result = "/";
+        else {
+            while (!s.empty()) {
+                result = "/" +s.top() + result;
+                s.pop();
+            }
+        }
+        return result;
+    }
+};
+```
+
+###<a name = "72-edit-distance"></a>72 Edit Distance
+> Given two words word1 and word2, find the minimum number of steps required to convert word1 to word2. (each operation is counted as 1 step.)
+
+> You have the following 3 operations permitted on a word:
+
+> a) Insert a character
+
+> b) Delete a character
+
+> c) Replace a character
+
+**Idea* Here are three dynamic programming problems' solution:
+
+1. Longest Common Subsequence (算法书原题)
+1.1 c[i,j] = 0 (if i=0 or j=0)
+1.2 c[i,j] = c[i-1,j-1]+1 (if a[i]=b[j])
+1.3 c[i,j] = min(c[i-1][j], c[i][j-1]) (if a[i]!=b[j])
+Finally return c[a.length()][b.length()];
+
+2. Longest Common Substring
+2.1 c[i,j] = 0 (if i=0 or j=0)
+2.2 c[i,j] = c[i-1,j-1]+1 (if a[i]=b[j])
+2.3 c[i,j] = 0 (if a[i]!=b[j])
+Return the max value of all entries;
+
+3. Edit Distance(Minimum Changes to make the same)
+3.1 c[i,0] or c[0,i] = i 
+3.2 c[i,j] = c[i-1,j-1] (if a[i]=b[j])
+3.3 c[i,j] = min(c[i-1][j], c[i][j-1],c[i-1][j-1]) + 1 (if a[i]!=b[j])
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int minDistance(string word1, string word2) {
+        vector<vector<int>> dp(word1.length()+1,vector<int>(word2.length()+1,0));
+        for(int i = 0;i <= word1.length();i++) {
+            dp[i][0] = i; 
+        }
+        for(int i = 0;i <= word2.length();i++) {
+            dp[0][i] = i;
+        }
+        for(int i = 1;i <= word1.length();i++) {
+            for (int j = 1;j <= word2.length();j++) {
+                if (word1[i-1] == word2[j-1]) {
+                    dp[i][j] = dp[i-1][j-1];
+                }
+                else {
+                    dp[i][j] = min(min(dp[i-1][j],dp[i][j-1]),dp[i-1][j-1]) + 1;
+                }
+            }
+        }
+        return dp[word1.length()][word2.length()];
+    }
+};
+```
+
 ###<a name="77-combinations"></a>77 Combinations
 
 > Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.
@@ -2980,7 +3108,7 @@ public:
 
 
 
-###Others
+### Others
 
 ###<a name="1-fibonacci"></a>1 Fibonacci
 
