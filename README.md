@@ -2891,6 +2891,108 @@ public:
 };
 ```
 
+###<a name="73-set-matrix-zeroes"></a>73 Set Matrix Zeroes
+
+> Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in place.
+
+**Idea** 
+1. O(n^2) solution, using a matrix to store if or else this entry should be zero;
+2. O(n) solution, using a row and col to store if or else this col or row should be zero;
+3. Find one zero entry first, then use his row and col to do O(n) solution, because it's not extra space,so it's O(1).
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        int row, col;
+        int flag = 1;
+        for (int i = 0;i < matrix.size();i++) {
+            for (int j = 0;j < matrix[0].size();j++) {
+                if (matrix[i][j] == 0) 
+                {
+                    row = i;
+                    col = j;
+                    flag = 0;
+                    break;
+                }
+            }
+        }
+        if (flag) return;
+        for (int i = 0;i < matrix.size();i++) {
+            for (int j = 0;j < matrix[0].size();j++) {
+                if (matrix[i][j] == 0) 
+                {
+                    matrix[row][j] = 0;
+                    matrix[i][col] = 0;
+                }
+            }
+        }
+        //Clean the row;
+        for (int i = 0;i < matrix.size();i++) {
+            if (i != row && matrix[i][col] == 0) {
+                for (int j = 0;j < matrix[0].size();j++) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+        //Clean the col
+        for (int j = 0;j < matrix[0].size();j++) {
+            if (j != col && matrix[row][j] == 0) {
+                for (int i = 0;i < matrix.size();i++) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+        for (int i = 0;i < matrix.size();i++) {
+            matrix[i][col] = 0;
+        }
+        for (int i = 0;i < matrix[0].size();i++) {
+            matrix[row][i] = 0;
+        }
+        
+    }
+};
+```
+
+
+###<a name="75-sort-colors"></a>75 Sort Colors
+
+> Given an array with n objects colored red, white or blue, sort them so that objects of the same color are adjacent, with the 
+> colors in the order red, white and blue.
+
+> Here, we will use the integers 0, 1, and 2 to represent the color red, white, and blue respectively.
+
+> ***Note:***
+
+> You are not suppose to use the library's sort function for this problem.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int red = 0;
+        int white = 0;
+        for (int i = 0;i < nums.size();i++) {
+            if (nums[i] == 0) red++;
+            else if (nums[i] == 1) white++;
+        }
+        for (int i = 0;i < red;i++) {
+            nums[i] = 0;
+        }
+        for (int i = red;i < red+white;i++) {
+            nums[i] = 1;
+        }
+        for (int i = red+white;i < nums.size();i++) {
+            nums[i] = 2;
+        }
+        return;
+    }
+};
+```
+
+
 ###<a name="77-combinations"></a>77 Combinations
 
 > Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.
