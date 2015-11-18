@@ -2955,6 +2955,47 @@ public:
 };
 ```
 
+###<a name="74-search-a-2d-matrix"></a>74 Search a 2D Matrix
+Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
+
+* Integers in each row are sorted from left to right.
+* 
+* The first integer of each row is greater than the last integer of the previous row.
+* 
+For example,
+
+Consider the following matrix:
+<pre>
+[
+  [1,   3,  5,  7],
+  [10, 11, 16, 20],
+  [23, 30, 34, 50]
+]
+</pre>
+
+Given target = 3, return true.
+**Idea** Recognize the matrix as a long array
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int m = matrix.size();
+        int n = matrix[0].size();
+        if (m*n == 0) return false;
+        int low = 0, high = m*n - 1;
+        while (low + 1 < high) {
+            int mid = low + (high - low)/2;
+            if (matrix[mid/n][mid%n] == target) return true;
+            else if (matrix[mid/n][mid%n] > target) high = mid-1;
+            else low = mid+1;
+        }
+        if (matrix[low/n][low%n] == target || matrix[high/n][high%n] == target) return true;
+        return false;
+    }
+};
+```
 
 ###<a name="75-sort-colors"></a>75 Sort Colors
 
@@ -2992,7 +3033,41 @@ public:
 };
 ```
 
+###<a name="76-minimum-size-subarray-sum"></a>76 Minimum Size Subarray Sum
+> Given an array of n positive integers and a positive integer s, find the minimal length of a subarray of which the sum ≥ s. 
 
+> If there isn't one, return 0 instead.
+
+> For example, given the array [2,3,1,2,4,3] and s = 7,
+
+> the subarray [4,3] has the minimal length under the problem constraint.
+
+**Idea** Sliding window, if bigger, then move start to right, if less, move end to right
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int minSubArrayLen(int s, vector<int>& nums) {
+        int ret = INT32_MAX;
+        int temp = 0;
+        int start = 0, end = 0;
+        if (nums.size() < 1) return 0;
+        while (start <= end && end < nums.size()) {
+            while (temp < s && end < nums.size()) {
+                temp += nums[end];
+                end++;
+            }
+            while (temp >= s && start <= end) {
+                temp = temp-nums[start];
+                ret = min(ret,end-start);
+                start++;
+            }
+        }
+        return ret == INT32_MAX? 0:ret;
+    }
+};
+```
 ###<a name="77-combinations"></a>77 Combinations
 
 > Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.
@@ -3161,6 +3236,46 @@ public:
         vector<int> line;
         combinationsHelper(result,line,k,n,1);
         return result;
+    }
+};
+```
+
+###<a name="240-search-a-2d-matrix-ii"></a>240 Search a 2D Matrix II
+> Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
+
+> Integers in each row are sorted in ascending from left to right.
+
+> Integers in each column are sorted in ascending from top to bottom.
+
+> For example,
+
+> Consider the following matrix:
+<pre>
+[
+  [1,   4,  7, 11, 15],
+  [2,   5,  8, 12, 19],
+  [3,   6,  9, 16, 22],
+  [10, 13, 14, 17, 24],
+  [18, 21, 23, 26, 30]
+]
+</pre>
+
+> Given target = 5, return true.
+
+> Given target = 20, return false.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int i = 0, j = matrix[0].size()-1; 
+        while (i < matrix.size() && j >= 0) {
+            if (matrix[i][j] == target) return true;
+            else if (matrix[i][j] < target) i++;
+            else j--;
+        }
+        return false;
     }
 };
 ```
