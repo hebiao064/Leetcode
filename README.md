@@ -3117,6 +3117,101 @@ public:
 };
 ```
 
+###<a name="78-subsets"></a>78 Subsets
+> Given a set of distinct integers, nums, return all possible subsets.
+
+> Note:
+
+> Elements in a subset must be in non-descending order.
+
+> The solution set must not contain duplicate subsets.
+
+> For example,
+
+> If nums = [1,2,3], a solution is:
+
+<pre>
+[
+  [3],
+  [1],
+  [2],
+  [1,2,3],
+  [1,3],
+  [2,3],
+  [1,2],
+  []
+]
+</pre>
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> result;
+        vector<int> line;
+        sort(nums.begin(),nums.end());
+        subsetsHelper(result,line,nums,0);
+        return result;
+    }
+    void subsetsHelper(vector<vector<int>> &result,vector<int> &line,vector<int> nums, int start) {
+        result.push_back(line);
+        for (int i = start;i < nums.size();i++) {
+            line.push_back(nums[i]);
+            subsetsHelper(result,line,nums,i+1);
+            line.pop_back();
+        }
+    }
+};
+```
+
+###<a name= "90-subsets-ii"></a>90 Subsets II
+> Given a collection of integers that might contain duplicates, nums, return all possible subsets.
+
+> Note:
+
+> Elements in a subset must be in non-descending order.
+
+> The solution set must not contain duplicate subsets.
+
+> For example,
+
+> If nums = [1,2,2], a solution is:
+
+<pre>
+[
+  [2],
+  [1],
+  [1,2,2],
+  [2,2],
+  [1,2],
+  []
+]
+</pre>
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        vector<vector<int>> result;
+        vector<int> line;
+        sort(nums.begin(),nums.end());
+        subsetsHelper(result,line,nums,0);
+        return result;
+    }
+    void subsetsHelper(vector<vector<int>> &result,vector<int> &line,vector<int> nums, int start) {
+        result.push_back(line);
+        for (int i = start;i < nums.size();i++) {
+            if (i > start && nums[i] == nums[i-1]) continue; 
+            line.push_back(nums[i]);
+            subsetsHelper(result,line,nums,i+1);
+            line.pop_back();
+        }
+    }
+};
+```
+
 ###<a name="153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
 > Suppose a sorted array is rotated at some pivot unknown to you beforehand.
