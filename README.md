@@ -78,7 +78,7 @@
 * [77 Combinations](#77-combinations)
 * [78 Subsets](#78-subsets)
 * [79 Word Search](#79-word-search)
-* [80 Remove Duplicates from Sorted Array II](#80-remove-duplicates-from-sorted-array)
+* [80 Remove Duplicates from Sorted Array II](#80-remove-duplicates-from-sorted-array-ii)
 * [81 Search in Rotated Sorted Array II](#81-search-in-rotated-sorted-array-ii)
 * [82 Remove Duplicates from Sorted List](#82-remove-duplicates-from-sorted-list)
 * [83 Remove Duplicates from Sorted List II](#83-remove-duplicates-from-sorted-list-ii)
