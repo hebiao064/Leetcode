@@ -3165,6 +3165,44 @@ public:
 };
 ```
 
+###<a name = "80-remove-duplicates-from-sorted-array-ii"></a>80 Remove Duplicates from Sorted Array II
+> Follow up for "Remove Duplicates":
+
+> What if duplicates are allowed at most twice?
+
+> For example,
+
+> Given sorted array nums = [1,1,1,2,2,3],
+
+> Your function should return length = 5, with the first five elements of nums being 1, 1, 2, 2 and 3. It doesn't matter what 
+
+> you leave beyond the new length.
+
+**Idea** Two pointers:
+有个误区，按照常理我会在循环中写
+```C++
+if (nums[i] == nums[i-1] && nums[i] == nums[i-2]) continue;
+```
+然而考虑到遍历[1,1,1,2,2,3]到第二个‘2’时，此时nums已经是[1,1,2,2,2,3]，因此按照上述判断会跳过第二个2导致错误
+
+应该使用如下代码：
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        if (nums.size() <= 2) return nums.size();
+        int p = 2;
+        for (int i = 2;i < nums.size();i++) {
+            if (nums[i] == nums[p-1] && nums[i] == nums[p-2]) continue;
+            nums[p++] = nums[i];  
+        }
+        return p;
+    }
+};
+```
+
 ###<a name= "90-subsets-ii"></a>90 Subsets II
 > Given a collection of integers that might contain duplicates, nums, return all possible subsets.
 
