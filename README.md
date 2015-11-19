@@ -3203,6 +3203,105 @@ public:
 };
 ```
 
+###<a name="80-remove-duplicates-from-sorted-list-ii"></a>
+> Given a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list.
+
+> For example,
+
+> Given 1->2->3->3->4->4->5, return 1->2->5.
+
+> Given 1->1->1->2->3, return 2->3.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode dummyNode(0);
+        dummyNode.next = head;
+        ListNode *prev = &dummyNode;
+        int flag = 0;
+        while(head) {
+            while (head && head->next && head->val == head->next->val) {
+                head->next = head->next->next;
+                flag = 1;
+            }
+            if (flag == 1) {
+                prev->next = prev->next->next;
+                head = prev->next;
+                flag = 0;
+            }
+            else {
+                prev = prev->next;
+                head = head->next; 
+            }
+        }
+        return dummyNode.next;
+        
+    }
+};
+```
+
+###<a name = "81-search-in-rotated-array-ii"></a>81 Search in Rotated Array II
+> Follow up for "Search in Rotated Sorted Array":
+
+> What if duplicates are allowed?
+
+> Would this affect the run-time complexity? How and why?
+
+> Write a function to determine if a given target is in the array.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    bool search(vector<int>& nums, int target) {
+        int low = 0, high = (int)nums.size() - 1;
+        while (low + 1< high) {
+            int mid = low + (high - low)/2;
+            if (nums[mid] == target) return true;
+            if (nums[low] < nums[mid]) { // 左边有序
+                if (target >= nums[low] && target <= nums[mid]) high = mid;
+                else low = mid;
+            }
+            else if (nums[low] > nums[mid]){
+                if (target <= nums[high] && target >= nums[mid]) low = mid;
+                else high = mid;
+            }
+            else low++;
+        }
+        if (nums[low] == target) return true;
+        else if (nums[high] == target) return true;
+        else return false;
+    }
+};
+```
+
+###<a name="83-remove-duplicates-from-sorted-list"></a>83 Remove Duplicates from Sorted List
+> Given a sorted linked list, delete all duplicates such that each element appear only once.
+
+> For example,
+
+> Given 1->1->2, return 1->2.
+
+> Given 1->1->2->3->3, return 1->2->3.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        if (head == NULL) return head;
+        ListNode* cur = head;
+        while (cur && cur->next) {
+            if (cur->val == cur->next->val) cur->next = cur->next->next;
+            else cur = cur->next; 
+        }
+        return head;
+    }
+};
+```
+
 ###<a name= "90-subsets-ii"></a>90 Subsets II
 > Given a collection of integers that might contain duplicates, nums, return all possible subsets.
 
