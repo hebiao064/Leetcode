@@ -3165,7 +3165,7 @@ public:
 };
 ```
 
-###<a name = "80-remove-duplicates-from-sorted-array-ii"></a>80 Remove Duplicates from Sorted Array II
+###<a name = "82-remove-duplicates-from-sorted-array-ii"></a>80 Remove Duplicates from Sorted Array II
 > Follow up for "Remove Duplicates":
 
 > What if duplicates are allowed at most twice?
@@ -3202,6 +3202,42 @@ public:
     }
 };
 ```
+
+###<a name = "81-search-in-rotated-array-ii"></a>81 Search in Rotated Array II
+> Follow up for "Search in Rotated Sorted Array":
+
+> What if duplicates are allowed?
+
+> Would this affect the run-time complexity? How and why?
+
+> Write a function to determine if a given target is in the array.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    bool search(vector<int>& nums, int target) {
+        int low = 0, high = (int)nums.size() - 1;
+        while (low + 1< high) {
+            int mid = low + (high - low)/2;
+            if (nums[mid] == target) return true;
+            if (nums[low] < nums[mid]) { // 左边有序
+                if (target >= nums[low] && target <= nums[mid]) high = mid;
+                else low = mid;
+            }
+            else if (nums[low] > nums[mid]){
+                if (target <= nums[high] && target >= nums[mid]) low = mid;
+                else high = mid;
+            }
+            else low++;
+        }
+        if (nums[low] == target) return true;
+        else if (nums[high] == target) return true;
+        else return false;
+    }
+};
+```
+
 
 ###<a name="80-remove-duplicates-from-sorted-list-ii"></a>
 > Given a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list.
@@ -3242,40 +3278,6 @@ public:
 };
 ```
 
-###<a name = "81-search-in-rotated-array-ii"></a>81 Search in Rotated Array II
-> Follow up for "Search in Rotated Sorted Array":
-
-> What if duplicates are allowed?
-
-> Would this affect the run-time complexity? How and why?
-
-> Write a function to determine if a given target is in the array.
-
-***C++ Code***
-```C++
-class Solution {
-public:
-    bool search(vector<int>& nums, int target) {
-        int low = 0, high = (int)nums.size() - 1;
-        while (low + 1< high) {
-            int mid = low + (high - low)/2;
-            if (nums[mid] == target) return true;
-            if (nums[low] < nums[mid]) { // 左边有序
-                if (target >= nums[low] && target <= nums[mid]) high = mid;
-                else low = mid;
-            }
-            else if (nums[low] > nums[mid]){
-                if (target <= nums[high] && target >= nums[mid]) low = mid;
-                else high = mid;
-            }
-            else low++;
-        }
-        if (nums[low] == target) return true;
-        else if (nums[high] == target) return true;
-        else return false;
-    }
-};
-```
 
 ###<a name="83-remove-duplicates-from-sorted-list"></a>83 Remove Duplicates from Sorted List
 > Given a sorted linked list, delete all duplicates such that each element appear only once.
