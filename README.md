@@ -3165,78 +3165,6 @@ public:
 };
 ```
 
-###<a name = "82-remove-duplicates-from-sorted-array-ii"></a>80 Remove Duplicates from Sorted Array II
-> Follow up for "Remove Duplicates":
-
-> What if duplicates are allowed at most twice?
-
-> For example,
-
-> Given sorted array nums = [1,1,1,2,2,3],
-
-> Your function should return length = 5, with the first five elements of nums being 1, 1, 2, 2 and 3. It doesn't matter what 
-
-> you leave beyond the new length.
-
-**Idea** Two pointers:
-有个误区，按照常理我会在循环中写
-```C++
-if (nums[i] == nums[i-1] && nums[i] == nums[i-2]) continue;
-```
-然而考虑到遍历[1,1,1,2,2,3]到第二个‘2’时，此时nums已经是[1,1,2,2,2,3]，因此按照上述判断会跳过第二个2导致错误
-
-应该使用如下代码：
-
-***C++ Code***
-```C++
-class Solution {
-public:
-    int removeDuplicates(vector<int>& nums) {
-        if (nums.size() <= 2) return nums.size();
-        int p = 2;
-        for (int i = 2;i < nums.size();i++) {
-            if (nums[i] == nums[p-1] && nums[i] == nums[p-2]) continue;
-            nums[p++] = nums[i];  
-        }
-        return p;
-    }
-};
-```
-
-###<a name = "81-search-in-rotated-array-ii"></a>81 Search in Rotated Array II
-> Follow up for "Search in Rotated Sorted Array":
-
-> What if duplicates are allowed?
-
-> Would this affect the run-time complexity? How and why?
-
-> Write a function to determine if a given target is in the array.
-
-***C++ Code***
-```C++
-class Solution {
-public:
-    bool search(vector<int>& nums, int target) {
-        int low = 0, high = (int)nums.size() - 1;
-        while (low + 1< high) {
-            int mid = low + (high - low)/2;
-            if (nums[mid] == target) return true;
-            if (nums[low] < nums[mid]) { // 左边有序
-                if (target >= nums[low] && target <= nums[mid]) high = mid;
-                else low = mid;
-            }
-            else if (nums[low] > nums[mid]){
-                if (target <= nums[high] && target >= nums[mid]) low = mid;
-                else high = mid;
-            }
-            else low++;
-        }
-        if (nums[low] == target) return true;
-        else if (nums[high] == target) return true;
-        else return false;
-    }
-};
-```
 
 
 ###<a name="80-remove-duplicates-from-sorted-list-ii"></a>
@@ -3277,7 +3205,78 @@ public:
     }
 };
 ```
+###<a name = "81-search-in-rotated-array-ii"></a>81 Search in Rotated Array II
+> Follow up for "Search in Rotated Sorted Array":
 
+> What if duplicates are allowed?
+
+> Would this affect the run-time complexity? How and why?
+
+> Write a function to determine if a given target is in the array.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    bool search(vector<int>& nums, int target) {
+        int low = 0, high = (int)nums.size() - 1;
+        while (low + 1< high) {
+            int mid = low + (high - low)/2;
+            if (nums[mid] == target) return true;
+            if (nums[low] < nums[mid]) { // 左边有序
+                if (target >= nums[low] && target <= nums[mid]) high = mid;
+                else low = mid;
+            }
+            else if (nums[low] > nums[mid]){
+                if (target <= nums[high] && target >= nums[mid]) low = mid;
+                else high = mid;
+            }
+            else low++;
+        }
+        if (nums[low] == target) return true;
+        else if (nums[high] == target) return true;
+        else return false;
+    }
+};
+```
+
+###<a name = "82-remove-duplicates-from-sorted-array-ii"></a>80 Remove Duplicates from Sorted Array II
+> Follow up for "Remove Duplicates":
+
+> What if duplicates are allowed at most twice?
+
+> For example,
+
+> Given sorted array nums = [1,1,1,2,2,3],
+
+> Your function should return length = 5, with the first five elements of nums being 1, 1, 2, 2 and 3. It doesn't matter what 
+
+> you leave beyond the new length.
+
+**Idea** Two pointers:
+有个误区，按照常理我会在循环中写
+```C++
+if (nums[i] == nums[i-1] && nums[i] == nums[i-2]) continue;
+```
+然而考虑到遍历[1,1,1,2,2,3]到第二个‘2’时，此时nums已经是[1,1,2,2,2,3]，因此按照上述判断会跳过第二个2导致错误
+
+应该使用如下代码：
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        if (nums.size() <= 2) return nums.size();
+        int p = 2;
+        for (int i = 2;i < nums.size();i++) {
+            if (nums[i] == nums[p-1] && nums[i] == nums[p-2]) continue;
+            nums[p++] = nums[i];  
+        }
+        return p;
+    }
+};
+```
 
 ###<a name="83-remove-duplicates-from-sorted-list"></a>83 Remove Duplicates from Sorted List
 > Given a sorted linked list, delete all duplicates such that each element appear only once.
@@ -3341,6 +3340,8 @@ public:
     }
 };
 ```
+
+
 
 ###<a name= "90-subsets-ii"></a>90 Subsets II
 > Given a collection of integers that might contain duplicates, nums, return all possible subsets.
@@ -3508,6 +3509,42 @@ public:
         vector<int> line;
         combinationsHelper(result,line,k,n,1);
         return result;
+    }
+};
+```
+
+###<a name="221-maximal-square"></a>221 Maximal Square
+> Given a 2D binary matrix filled with 0's and 1's, find the largest square containing all 1's and return its area.
+
+> For example, given the following matrix:
+
+<pre>
+1 0 1 0 0
+1 0 1 1 1
+1 1 1 1 1
+1 0 0 1 0
+</pre>
+
+**Idea** 二维DP 比如 ["11","11"]得到4，而DP矩形里应该返回["11","12"]，意思是右下角表示之前累计的边长。
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int maximalSquare(vector<vector<char>>& matrix) {
+        if (matrix.size() < 1 || matrix[0].size() < 1) return 0;
+        vector<vector<int>> dp(matrix.size(),vector<int>(matrix[0].size(),0));
+        int ret = 0;
+        for (int i = 0;i < matrix.size();i++) {
+            for (int j = 0;j < matrix[0].size();j++) {
+                dp[i][j] = matrix[i][j] - '0';
+                if (i > 0 && j > 0 && dp[i][j] == 1) {
+                    dp[i][j] += min(dp[i-1][j-1],min(dp[i][j-1],dp[i-1][j]));
+                }
+                ret = max(ret,dp[i][j]);
+            }
+        }
+        return ret*ret;
     }
 };
 ```
