@@ -3304,6 +3304,44 @@ public:
 };
 ```
 
+###<a name="84-largest-rectangle-in-histogram"></a>84 Largest Rectangle in Histogram
+> Given n non-negative integers representing the histogram's bar height where the width of each bar is 1, find the area of largest rectangle in the histogram.
+
+**Idea**
+http://www.cnblogs.com/felixfang/p/3676193.html
+1. O(n^2) solution: 中心开花思想，比如从其中的某一个中心向两侧扩展，如果比它小停止，否则累加。
+
+2. O(n) solution: 一维DP，根据stack弹入弹出计算。第一步弹入0，以防出现一直上升情况，考虑case:[1,2,3,4,5,1];
+每次当height[i]大于栈顶元素便push
+若小于，则将stack里的元素一个个弹出，在每次弹出的同时计算curmax。
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& height) {
+        height.push_back(0);
+        stack<int> s;
+        int ret = 0;
+        for (int i = 0;i < height.size();i++) {
+            if (s.empty() || height[i] > height[s.top()]) s.push(i);
+            else {
+                int tmp = s.top();
+                s.pop();
+                if (s.empty()) {
+                    ret = max(ret,height[tmp]*i);
+                }
+                else {
+                    ret = max(ret,height[tmp]*(i-1-s.top()));
+                }
+                i--;
+            }
+        }
+        return ret;
+    }
+};
+```
+
 ###<a name= "90-subsets-ii"></a>90 Subsets II
 > Given a collection of integers that might contain duplicates, nums, return all possible subsets.
 
