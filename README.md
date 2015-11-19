@@ -3341,7 +3341,46 @@ public:
 };
 ```
 
+###<a name="85-maximal-rectangle"></a>85 Maximal Rectangle
+> Given a 2D binary matrix filled with 0's and 1's, find the largest rectangle containing all ones and return its area.
 
+***C++ Code***
+```C++
+class Solution {
+public:
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        if (matrix.size() < 1 || matrix[0].size() < 1) return 0;
+        vector<vector<int>> dp(matrix.size(),vector<int>(matrix[0].size(),0)); 
+        for (int i = 0;i < matrix.size();i++) {
+            for (int j = 0;j < matrix[0].size();j++) {
+                dp[i][j] = matrix[i][j] -'0';
+                if (dp[i][j] != 0 && i > 0) {
+                    dp[i][j] += dp[i-1][j];
+                }
+            }
+        }
+        int result = 0;
+        for (int i = 0;i < matrix.size();i++) result = max(result,maximalRectangleHelper(dp[i]));
+        return result;
+    }
+    int maximalRectangleHelper(vector<int> &height) {
+        height.push_back(0);
+        stack<int> s;
+        int ret = 0;
+        for (int i = 0;i < height.size();i++) {
+            if (s.empty() || height[i] > height[s.top()]) s.push(i);
+            else {
+                int tmp = s.top();
+                s.pop();
+                if (s.empty()) ret = max(ret,height[tmp]*i);
+                else ret = max(ret,height[tmp]*(i-1-s.top()));
+                i--;
+            }
+        }
+        return ret;
+    }
+};
+```
 
 ###<a name= "90-subsets-ii"></a>90 Subsets II
 > Given a collection of integers that might contain duplicates, nums, return all possible subsets.
