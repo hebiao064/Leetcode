@@ -3543,6 +3543,163 @@ public:
 };
 ```
 
+###<a name="91-decode-ways"></a>91 Decode Ways
+> A message containing letters from A-Z is being encoded to numbers using the following mapping:
+<pre>
+'A' -> 1
+'B' -> 2
+...
+'Z' -> 26
+<pre>
+
+> Given an encoded message containing digits, determine the total number of ways to decode it.
+
+> For example,
+
+> Given encoded message "12", it could be decoded as "AB" (1 2) or "L" (12).
+
+> The number of ways decoding "12" is 2.
+
+**Idea**
+
+> 每次对于当前的字符判断是否属于1-9（0肯定不行，因为0不在1-26中，
+
+> 如果属于，那么当前的字符可以被decode，并且和f[n-1]组合，f[n] += f[n-1]
+
+> 然后对于当前字符和前一个字符组成的字符串判断是否属于10-26，
+
+> 如果属于，那么这两个字符可以被decode，并且和f[n-2]组合，f[n] += f[n-2]
+
+> 有点条件斐波那契的意思
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int numDecodings(string s) {
+        if (s.empty() || s.length() == 0) return 0;
+        vector<int> dp(s.length()+1,0);
+        dp[0] = 1;
+        for (int i = 0;i < s.length();i++) {
+            int cur = s[i] - '0';
+            if (cur > 0 && cur <= 9) dp[i+1] += dp[i];
+            if (i >= 1) {
+                int sum = cur + 10 * (s[i-1] - '0');
+                if (sum >= 10 && sum <= 26) {
+                    dp[i+1] += dp[i-1];
+                }
+            }
+        }
+        return dp[s.length()];
+    }
+};
+```
+
+###<a name = "92-reverse-linked-list"></a>92 Reverse Linked List
+> Reverse a linked list from position m to n. Do it in-place and in one-pass.
+
+> For example:
+
+> Given 1->2->3->4->5->NULL, m = 2 and n = 4,
+
+> return 1->4->3->2->5->NULL.
+
+> Note:
+
+> Given m, n satisfy the following condition:
+
+> 1 ≤ m ≤ n ≤ length of list.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int m, int n) {
+        if (!head || !head->next||(m==n)) return head;
+        ListNode* a = NULL;
+        ListNode* b = head;
+        ListNode* c = NULL;
+        int count = 1;
+        if (m == 1) {
+            while (count <= n) {
+                c = b->next;
+                b->next = a;
+                a = b;
+                b = c;
+                count++;
+            }
+            head->next = b;
+            return a;
+        }
+        else {
+            ListNode* dummy = head;
+            count = 1;
+            while (count < m-1) {
+                dummy = dummy->next;
+                count++;
+            }
+            count = 0;
+            ListNode *start = dummy->next;
+            b = start;
+            while (count <= n-m) {
+                c = b->next;
+                b->next = a;
+                a = b;
+                b = c;
+                count++;
+            }
+            start->next = b;
+            dummy->next = a;
+            return head;
+        }
+    }
+};
+```
+
+###<a name="93-restore-ip-addresses"></a>93 Restore IP Addresses
+> Given a string containing only digits, restore it by returning all possible valid IP address combinations.
+
+> For example:
+
+> Given "25525511135",
+
+> return ["255.255.11.135", "255.255.111.35"]. (Order does not matter)
+
+***C++ Code***
+```C++
+class Solution {
+private:
+    void ipHelper(string str,vector<string> &result,string elem, int start, int part)
+    {
+        if (str.size() - start > (4 - part)*3) return;
+        if (str.size() - start < (4 - part)) return;
+        if (start == str.size() && part == 4) {
+            elem.pop_back();
+            result.push_back(elem);
+            return;
+        }
+        int count = 0;
+        for (int i = 0;i < 3;i++) {
+            count = count*10 + str[start+i]-'0';
+            if (count <= 255) {
+                elem += str[start+i];
+                ipHelper(str, result, elem+'.', start+i+1, part+1);
+            }
+            if (count == 0) break;
+        }
+        
+        
+    }
+public:
+    vector<string> restoreIpAddresses(string s) {
+        vector<string> result;
+        string line;
+        ipHelper(s, result, line, 0, 0);
+        return result;
+    }
+};
+```
+
 ###<a name="153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
 > Suppose a sorted array is rotated at some pivot unknown to you beforehand.
