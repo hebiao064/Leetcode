@@ -3700,6 +3700,69 @@ public:
 };
 ```
 
+###<a name = "94-binary-tree-inorder-travesal"></a>94 Binary Tree Inorder Travesal
+> Given a binary tree, return the inorder traversal of its nodes' values.
+
+> For example:
+
+> Given binary tree {1,#,2,3},
+<pre>
+   1
+    \
+     2
+    /
+   3
+ </pre>
+ 
+> return [1,3,2].
+
+> ***Note:*** Recursive solution is trivial, could you do it iteratively?
+
+***C++ Recursive Solution***
+```C++
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> result;
+        if (root == NULL) return result;
+        dfs(result,root);
+        return result;
+    }
+    void dfs(vector<int> &result, TreeNode* root) {
+        if (root == NULL) return;
+        dfs(result,root->left);
+        result.push_back(root->val);
+        dfs(result,root->right);
+    }
+};
+```
+
+***C++ Iterative Solution***
+```C++
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        stack<TreeNode *> s;
+        vector<int> result;
+        if (root == NULL) return result;
+        TreeNode* cur = root;
+        while (!s.empty() || cur) {
+            if (cur) {
+                s.push(cur);
+                cur = cur->left;
+            }
+            else {
+                cur = s.top();
+                result.push_back(cur->val);
+                s.pop();
+                cur = cur->right;
+            }
+        }
+        return result;
+    }
+};
+```
+
 ###<a name="153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
 > Suppose a sorted array is rotated at some pivot unknown to you beforehand.
