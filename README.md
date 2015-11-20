@@ -3382,6 +3382,120 @@ public:
 };
 ```
 
+###<a name="86-partition-list"></a>86 Partition List
+> Given a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
+
+> You should preserve the original relative order of the nodes in each of the two partitions.
+
+> For example,
+
+> Given 1->4->3->2->5->2 and x = 3,
+
+> return 1->2->2->4->3->5.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+        ListNode* l = new ListNode(0);
+        ListNode* r = new ListNode(0);
+        ListNode *dummyl = l;
+        ListNode *dummyr = r;
+        while (head) {
+            if (head->val < x) {
+                l->next = head;
+                l = l->next;
+            }
+            else {
+                r->next = head;
+                r = r->next;
+            }
+            head = head->next;
+        }
+        r->next = NULL;
+        l->next = dummyr->next;
+        return dummyl->next;
+    }
+};
+```
+
+###<89-gray-code></a>89 Gray Code
+> The gray code is a binary numeral system where two successive values differ in only one bit.
+
+> Given a non-negative integer n representing the total number of bits in the code, print the sequence of gray code. A gray code sequence must begin with 0.
+
+> For example, given n = 2, return [0,1,3,2]. Its gray code sequence is:
+<pre>
+00 - 0
+01 - 1
+11 - 3
+10 - 2
+</pre>
+
+> Note:
+
+> For a given n, a gray code sequence is not uniquely defined.
+
+> For example, [0,2,3,1] is also a valid gray code sequence according to the above definition.
+
+> For now, the judge is able to judge based on one instance of gray code sequence. Sorry about that.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    vector<int> grayCode(int n) {
+        int x = 1<<n;
+        vector<int> result;
+        for (int i = 0;i < x;i++) {
+            result.push_back(i^(i>>1));
+        }
+        return result;
+    }
+};
+```
+
+###<a name = "88-merge-sorted-array"></a>88 Merge Sorted Array
+> Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array.
+
+> Note:
+
+> You may assume that nums1 has enough space (size that is greater or equal to m + n) to hold additional elements from nums2. 
+
+> The number of elements initialized in nums1 and nums2 are m and n respectively.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int i = m - 1;
+        int j = n - 1;
+        while (i>=0 && j>=0) nums1[i+j+1] = nums1[i]>nums2[j]? nums1[i--]: nums2[j--];
+        while(j>=0) nums1[j] = nums2[j--];
+    }
+};
+```
+
+###<89-gray-code></a>89 Gray Code
+> The gray code is a binary numeral system where two successive values differ in only one bit.
+
+Given a non-negative integer n representing the total number of bits in the code, print the sequence of gray code. A gray code sequence must begin with 0.
+
+For example, given n = 2, return [0,1,3,2]. Its gray code sequence is:
+
+00 - 0
+01 - 1
+11 - 3
+10 - 2
+Note:
+For a given n, a gray code sequence is not uniquely defined.
+
+For example, [0,2,3,1] is also a valid gray code sequence according to the above definition.
+
+For now, the judge is able to judge based on one instance of gray code sequence. Sorry about that.
+
 ###<a name= "90-subsets-ii"></a>90 Subsets II
 > Given a collection of integers that might contain duplicates, nums, return all possible subsets.
 
