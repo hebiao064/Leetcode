@@ -3763,6 +3763,61 @@ public:
 };
 ```
 
+###<a name="95-unique-binary-search-trees"></a>95 Unique Binary Search Trees
+> Given n, how many structurally unique BST's (binary search trees) that store values 1...n?
+
+> For example,
+
+> Given n = 3, there are a total of 5 unique BST's.
+
+<pre>
+   1         3     3      2      1
+    \       /     /      / \      \
+     3     2     1      1   3      2
+    /     /       \                 \
+   2     1         2                 3
+</pre>
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int numTrees(int n) {
+        vector<int> dp(n+1,0);
+        dp[0] = 1;
+        dp[1] = 1;
+        for (int i = 2;i <= n;i++) {
+            for (int j = 1;j <= i;j++) {
+                dp[i] += dp[j-1] * dp[i-j];
+            }
+        }
+        return dp[n];
+    }
+};
+```
+
+
+###<a name="100-same-tree"></a>100 Same Tree
+> Given two binary trees, write a function to check if they are equal or not.
+
+> Two binary trees are considered equal if they are structurally identical and the nodes have the same value.
+
+***C++ Code***
+```C++ 
+class Solution {
+public:
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        if (p == NULL && q == NULL) return true;
+        if (p != NULL || q != NULL) {
+            if (p != NULL && q != NULL) {
+                if (p->val == q->val) return isSameTree(p->left,q->left) && isSameTree(p->right,q->right);
+            }
+            return false;
+        }
+    }
+};
+```
+
 ###<a name="153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
 > Suppose a sorted array is rotated at some pivot unknown to you beforehand.
