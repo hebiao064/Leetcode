@@ -3796,6 +3796,39 @@ public:
 };
 ```
 
+###<a name="98-validate-binary-search-tree"></a>98 Validate Binary Tree
+> Given a binary tree, determine if it is a valid binary search tree (BST).
+
+> Assume a BST is defined as follows:
+
+1. The left subtree of a node contains only nodes with keys less than the node's key.
+2. The right subtree of a node contains only nodes with keys greater than the node's key.
+3. Both the left and right subtrees must also be binary search trees.
+
+**Idea** Print the inorder travesal and check if it's inorder.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        if (root == NULL || (root->left == NULL && root->right == NULL)) return true;
+        vector<int> result;
+        dfs(result,root);
+        for (int i = 0;i < result.size()-1;i++) {
+            if (result[i] >= result[i+1]) return false;
+        }
+        return true;
+    }
+    void dfs(vector<int> &result, TreeNode* root) {
+        if (root == NULL) return;
+        dfs(result,root->left);
+        result.push_back(root->val);
+        dfs(result,root->right);
+    }
+};
+```
+
 
 ###<a name="100-same-tree"></a>100 Same Tree
 > Given two binary trees, write a function to check if they are equal or not.
@@ -3818,6 +3851,44 @@ public:
 };
 ```
 
+###<a name="101-symmetric-tree"></a>101 Symmetric Tree
+> Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
+
+> For example, this binary tree is symmetric:
+<pre>
+    1
+   / \
+  2   2
+ / \ / \
+3  4 4  3
+</pre>
+
+> But the following is not:
+<pre>
+    1
+   / \
+  2   2
+   \   \
+   3    3
+</pre>
+
+**Idea** 主意是判断A->left ==  B->right && B->left == A->right
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        if (root == NULL) return true;
+        else return isSym(root->left,root->right);
+    }
+    bool isSym(TreeNode* A, TreeNode* B) {
+        if (!A && !B) return true;
+        else if (A && B) return (A->val == B->val) && isSym(A->left, B->right) && isSym(A->right,B->left);
+        else return false;
+    } 
+};
+```
 ###<a name="153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
 > Suppose a sorted array is rotated at some pivot unknown to you beforehand.
