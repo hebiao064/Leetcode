@@ -148,10 +148,144 @@
 * [148 Sort List](#148-sort-list)
 * [149 Max Points on a Line](#149-max-points-on-a-line)
 * [150 Evaluate Reverse Polish Notation](#150-Evaluate-Reverse-Polish-Notation)
+* [151 Reverse Words in a String](#151-reverse-words-in-a-string)
+* [152 Maximum Product Subarray](#152-maximum-product-subarray)
 * [153 Find Minimum in Rotated Sorted Array](#153-find-minimum-in-rotated-sorted-array)
-* [154 Find Minimum in Rotated Sorted Array II](#153-find-minimum-in-rotated-sorted-array-ii)
+* [154 Find Minimum in Rotated Sorted Array II](#154-find-minimum-in-rotated-sorted-array-ii)
+* [155 Min Stack](#155-min-stack)
+* [156 Binary Tree Upside Down](#156-binary-tree-upside-down)
+* [157 Read N Characters Given Read4](#157-read-n-characters-given-read4)
+* [158 Read N Characters Given Read4 II - Call multiple times](#158-read-n-characters-given-read4-ii-call-multiple-times) 
+* [159 Longest String with At Most Two Distinct Characters](#159-longest-string-with-at-most-two-distinct-characters)
+* [160 Intersection of Two Linked Lists](#160-intersection-of-two-linked-lists)
+* [161 One edit distance](#161-one-edit-distance)
+* [162 Find Peak Element](#162-find-peak-element)
+* [163 Missing Ranges](#163-missing-ranges)
+* [164 Maximum Gap](#164-maximum-gap)
+* [165 Compare Version Numbers](#165-compare-version-numbers)
+* [166 Fraction to Recurring Decimal](#166-fraction-to-recurring-decimal)
+* [167 Two Sum II Input array is sorted](#167-two-sum-ii-input-array-is-sorted)
+* [168 Excel Sheet Column Title](#168-excel-sheet-column-title)
+* [169 Majority Element](#169-majority-element)
+* [170 Two Sum III Data Structure Design](#170-two-sum-iii-data-structure-design)
+* [171 Excel Sheet Column Number](#171-excel-sheet-column-number)
+* [172 Factorial Trailing zeros](#172-factorial-trailing-zeros)
+* [173 Binary Search Tree Iterator](#173-binary-search-tree-iterator)
+* [174 Dungeon Game](#174-dungeon-game)
+* [179 Largest Number](#179-largest-number)
+* [186 Reverse Words in a String II](#186-reverse-words-in-a-string-ii)
+* [187 Repeated DNA Sequences](#187-repeated-dna-sequences) 
+* [188 Best Time to Buy and Sell Stock IV](#188-best-time-to-buy-and-sell-stock-iv)
+* [189 Rotate Array](#189-rotate-array)
+* [190 Reverse Bits](#190-reverse-bits)
+* [191 Number of 1 Bits](#191-number-of-1-bits)
+* [198 House Robber](#198-house-robber)
+* [199 Binary Tree Right Side View](#199-binary-tree-right-side-view)
+* [200 Number of Islands](#200-number-of-islands)
+* [201 Bitwise AND of Numbers Range](#201-bitwise-and-of-numbers-range)
+* [202 Happy Number](#202-happy-number)
+* [203 Remove Linked List Elements](#203-remove-linked-list-elements)
+* [204 Count Primes](#204-count-primes)
+* [205 Isomorphic Strings](#205-isomorphic-strings)
+* [206 Reverse Linked List](#206-reverse-linked-list)
+* [207 Course Schedule](#207-course-schedule)
+* [208 Implement Trie Prefix Tree](#208-implement-trie-prefix-tree)
+* [209 Minimum Size Subarray Sum](#209-minimum-size-subarray-sum)
+* [210 Course Schedule II](#210-course-schedule-ii)
+* [211 Add and Search Word Data structure design](#211-add-and-search-word-data-structure-design)
+* [212 Word Search II](#212-word-search-ii)
+* [213 House Robber II](#213-house-robber-ii)
+* [214 Shortest Palindrome](#214-shortest-palindrome)
+* [215 Kth Largest Element in an Array](#215-kth-largest-element-in-an-array)
 * [216 Combination Sum III](#216-combination-sum-iii)
+* [217 Contains Duplicate](#217-contains-duplicates)
+* [218 The Skyline Problem](#218-the-skyline-problem)
+* [219 Contains Duplicate II](#219-contains-duplicates-ii)
+* [220 Contains Duplicate III](#220-contains-duplicates-iii)
+* [221 Maximal Square](#221-maximal-square)
+* [222 Count Complete Tree Nodes](#222-count-complete-tree-nodes)
+* [223 Rectangle Area](#223-rectangle-area)
+* [224 Basic Calculator](#224-basic-calculator)
+* [225 Implement Stack using Queues](#225-implement-stack-using-queues)
+* [226 Invert Binary Tree](#226-invert-binary-tree)
+* [227 Basic Calculator II](#227-basic-calculator-ii)
+* [228 Summary Ranges](#228-summary-ranges)
+* [229 Majority Element II](#229-majority-element-ii)
+* [230 Kth Smallest Element in a BST](#230-kth-smallest-element-in-a-bst)
+* [231 Power of Two](#231-power-of-two)
+* [232 Implement Queue using Stacks](#232-implement-queue-using-stacks)
+* [233 Number of Digit One](#233-number-of-digit-one)
+* [234 Palindrome Linked List](#234-palindrome-linked-list)
+* [235 Lowest Common Ancestor of a Binary Search Tree](#235-lowest-common-ancestor-of-a-binary-search-tree)
+* [236 Lowest Common Ancestor of a Binary Tree](#236-lowest-common-ancestor-of-a-binary-tree)
+* [237 Delete Node in a Linked List](#237-delete-node-in-a-linked-list)
+* [238 Product of Array Except Self](#238-product-of-array-except-self)
+* [239 Sliding Window Maximum](#239-sliding-window-maximum)
+* [240 Search a 2D Matrix II](#240-search-a-2d-matrix-ii)
+* [241 Different Ways to Add Parentheses](#241-different-ways-to-add-parentheses)
+* [242 Valid Anagram](#242-Valid Anagram)
+* [243 Shortest Word Distance](#243-shortest-word-distance)
+* [244 Shortest Word Distance II](#244-shortest-word-distance-ii)
+* [245 Shortest Word Distance III](#245-shortest-word-distance-iii)
+* [246 Strobogrammatic Number](#246-strobogrammatic-number)
+* [247 Strobogrammatic Number](#247-strobogrammatic-number-ii)
+* [248 Strobogrammatic Number](#248-strobogrammatic-number-iii)
+* [249 Group Shifted Strings](#249-group-shifted-strings)
+* [250 Count Univalue Subtrees](#250-count-univalue-subtrees)
+* [251 Flatten 2D Vector](#251-flatten-2d-vector)
+* [252 Meeting Rooms](#252-meeting-rooms)
+* [253 Meeting Rooms II](#253-meeting-rooms-ii)
+* [254 Factor Combinations](#254-factor-combinations)
+* [255 Verify Preorder Sequence in Binary Search Tree](#255-verify-preorder-sequence-in-binary-search-tree)
+* [256 Paint House](#256-paint-house)
+* [257 Binary Tree Paths](#257-binary-tree-paths)
+* [258 Add Digits](#258-add-digits)
+* [259 3Sum Smaller](#259-3sum-smaller)
+* [260 Single Number III](#260-single-number-iii)
+* [261 Graph Valid Tree](#261-graph-valid-tree)
+* [263 Ugly Number](#263-ugly-number)
+* [264 Ugly Number II](#264-ugly-number-ii)
+* [265 Paint House II](#265-paint-house-ii)
+* [266 Palindrome Permutation](#266-palindrome-permutation)
+* [267 Palindrome Permutation II](#267-palindrome-permutation-ii)
 * [268 Missing Number](#268-missing-number)
+* [269 Alien Dictionary](#269-alien-dictionary)
+* [270 Closest Binary Search Tree Value](#270-Closest Binary Search Tree Value)
+* [271 Encode and Decode Strings](#271-encode-and-encode-strings)
+* [272 Closest Binary Search Tree Value II](#270-Closest Binary Search Tree Value II)
+* [273 Integer to English Words](#273-integer-to-english-words)
+* [274 H-Index](#274-h-index)
+* [275 H-Index II](#275-h-index-ii)
+* [276 Paint Fence](#276-Paint-fence)
+* [277 Find the Celebrity](#277-find-the-celebrity)
+* [278 First Bad Version](#278-first-bad-version)
+* [279 Perfect Squares](#279-perfect-squares)
+* [280 Wiggle Sort](#280-wiggle-sort)
+* [281 Zigzag Iterator](#281-zigzag-iterator)
+* [282 Expression Add Operators](#282-expression-add-operators)
+* [283 Move Zeroes](#283-move-zeroes)
+* [284 Peeking Iterator](#284-peeking-iterator)
+* [285 Inorder Successor in BST](#285-inorder0-successor-in-bst)
+* [286 Walls and Gates](#286-walls-and-gates)
+* [287 Find the Duplicate Number](#287-find-the-duplicate-number)
+* [288 Unique Word Abbreviation](#288-unique-word-abbreviation)
+* [289 Game of Life](#289-game-of-life)
+* [290 Word Pattern](#290-word-pattern)
+* [291 Word Pattern II](#291-word-pattern-ii)
+* [292 Nim Game](#292-nim-game)
+* [293 Flip Game](#293-flip-game)
+* [294 Flip Game II](#294-flip-game)
+* [295 Find Median from Data Stream](#295-find-median-from-data-stream)
+* [296 Best Meeting Point](#296-best-meeting-point)
+* [297 Serialize and Deserialize Binary Tree](#297-serialize-and-deserialize-binary-tree)
+* [298 Binary Tree Longest Consecutive Sequence](#298-binary-tree-longest-consecutive-sequence)
+* [299 Bulls and Cows](#299-bulls-and-cows)
+* [300 Longest Increasing Subsequence](#300-longest-increasing-subsequence)
+* [301 Remove Invalid Parentheses](#301-remove-invalid-parentheses)
+* [302 Smallest Rectangle Enclosing Black Pixels](#302-smallest-rectangle-enclosing-black-pixels)
+* [303 Range Sum Query Immutable](#303=range-sum-query-immutable)
+* [304 Range Sum Query 2D Immutable](#304-range-sum-query-2d-immutable)
+* [305 Number of Islands II](#305-number-of-islands-ii)
 ###Others
 * [1 Fibonacci](#1-fibonacci)
 * [2 Binary Search Template](#2-binary-search-template)
@@ -4054,6 +4188,90 @@ public:
     }
 };
 ```
+###<a name="207-course-schedule"></a>207 Course Schedule
+> There are a total of n courses you have to take, labeled from 0 to n - 1.
+
+> Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: [0,1]
+
+> Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses?
+
+> For example:
+
+<pre>2, [[1,0]]</pre>
+> There are a total of 2 courses to take. To take course 1 you should have finished course 0. So it is possible.
+
+<pre>2, [[1,0],[0,1]]</pre>
+> There are a total of 2 courses to take. To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<pair<int, int>>& prerequisites) {
+        vector<vector<int>> topo(numCourses,vector<int>(0));
+        vector<int> inDegree(numCourses,0);
+        for (auto s:prerequisites) {
+            topo[s.second].push_back(s.first);
+            inDegree[s.first]++;
+        }
+        queue<int> q;
+        for (int i = 0;i < numCourses;i++) {
+            if (inDegree[i] == 0) q.push(i);
+        }
+        int count = 0;
+        while (!q.empty()) {
+            int temp = q.front();
+            q.pop();
+            count++;
+            for (auto x:topo[temp]) {
+                inDegree[x]--;
+                if (inDegree[x] == 0) q.push(x);
+            }
+        }
+        return count == numCourses;
+    }
+};
+```
+
+###<a name="210-course-schedule-ii"></a>207 Course Schedule II
+> Store the sequence.
+
+***C++***
+```c++
+class Solution {
+public:
+    vector<int> findOrder(int numCourses, vector<pair<int, int>>& prerequisites) {
+        vector<int> result;
+        if (numCourses <= 0) return result;
+        vector<vector<int>> topo(numCourses, vector<int>(0));
+        vector<int> inDegree(numCourses, 0);
+        for (auto i : prerequisites) {
+            topo[i.second].push_back(i.first);
+            ++inDegree[i.first];
+        }
+        queue<int> q;
+        for (int i = 0;i < numCourses;i++) {
+            if (inDegree[i] == 0) {
+                q.push(i);
+            }
+        }
+        int count = 0;
+        while (!q.empty()) {
+            int temp = q.front();
+            ++count;
+            result.push_back(temp);
+            q.pop();
+            for (int j: topo[temp]) {
+                --inDegree[j];
+                if (inDegree[j] == 0) q.push(j);
+            }
+        }
+        vector<int> a;
+        return count==numCourses?result:a;
+    }
+};
+```
+
 
 ###<a name="216-combination-sum-iii"></a>216 Combination Sum III
 
