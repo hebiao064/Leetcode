@@ -4121,6 +4121,114 @@ public:
     } 
 };
 ```
+
+###<a name="102-binary-tree-level-order-travesal"></a>102 Binary Tree Level Order Traversal
+> Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
+
+**Idea** 小技巧：在push root的同时push NULL，之后每次遇到NULL并且q里不为空时 将整行push并加入新的NULL
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        queue<TreeNode*> q;
+        vector<vector<int>> result;
+        vector<int> line;
+        if(!root) return result;
+        q.push(root);
+        q.push(NULL);
+        
+        while (!q.empty()) {
+            TreeNode* curr = q.front();
+            q.pop();
+            if (curr == NULL) {
+                result.push_back(line);
+                line.clear();
+                if (!q.empty()) q.push(NULL);
+                continue;
+            }
+            line.push_back(curr->val);
+            if (curr->left) q.push(curr->left);
+            if (curr->right) q.push(curr->right);
+        }
+        
+        return result;
+    }
+};
+```
+
+###<a name="103-binary-tree-zigzag-level-order-travesal"></a>103 Binary Tree Zigzag Level Order Travesal
+> Given a binary tree, return the zigzag level order traversal of its nodes' values. (ie, from left to right, then right to left for the next level and alternate between).
+
+**Idea**
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>> result;
+        vector<int> line;
+        queue<TreeNode*> q;
+        bool flag = true;
+        if (!root) return result;
+        q.push(root);q.push(NULL);
+        while (!q.empty()) {
+            TreeNode* curr = q.front();q.pop();
+            if (curr == NULL) {
+                result.push_back(line);
+                line.clear();
+                flag = !flag;
+                if (!q.empty()) q.push(NULL);
+                continue;
+            }
+            if (flag) line.push_back(curr->val);
+            else line.insert(line.begin(),curr->val);
+            
+            if (curr->left) q.push(curr->left);
+            if (curr->right) q.push(curr->right);
+        }
+        return result;
+    }
+};
+```
+
+###<a name="107-binary-tree-level-order-travesal-ii"></a>107 Binary Tree Level Order Traversal II
+> Given a binary tree, return the bottom-up level order traversal of its nodes' values. (ie, from left to right, level by level from leaf to root).
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    vector<vector<int>> levelOrderBottom(TreeNode* root) {
+        vector<vector<int>> result;
+        vector<int> line;
+        queue<TreeNode*> q;
+        if (root == NULL) return result;
+        q.push(root);
+        q.push(NULL);
+        while(!q.empty()) {
+            TreeNode* curr = q.front();
+            q.pop();
+            if (curr == NULL) {
+                result.insert(result.begin(),line);
+                line.clear();
+                if (!q.empty()) {
+                    q.push(NULL);
+                }
+                continue;
+            }
+            line.push_back(curr->val);
+            if (curr->left) q.push(curr->left);
+            if (curr->right) q.push(curr->right);
+        }
+        return result;
+    }
+};
+```
+
+
 ###<a name="153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
 > Suppose a sorted array is rotated at some pivot unknown to you beforehand.
