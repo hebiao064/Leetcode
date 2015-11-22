@@ -98,6 +98,56 @@
 * [98 Validate Binary Search Tree](#98-validate-binary-search-tree)
 * [99 Recover Binary Search Tree](#99-recover-binary-search-tree)
 * [100 Same Tree](#100-same-tree)
+* [101 Symmetric Tree](#101-symmetric-tree)
+* [102 Binary Tree Level Order Traversal](#102-binary-tree-level-order-traversal)
+* [103 Binary Tree Zigzag Level Order Traversal](#103-binary-tree-zigzag-level-order-traversal)
+* [104 Maximum Depth of Binary Tree](#104-maximum-depth-of-binary-tree)
+* [105 Construct Binary Tree from Preorder and Inorder Traversal](#105-construct-binary-tree-from-preorder-and-inorder-traversal)
+* [106 Construct Binary Tree from Inorder and Postorder Traversal](#106-construct-binary-tree-from-inorder-and-postorder-traversal)
+* [107 Binary Tree Level Order Traversal II](#107-binary-tree-level-order-traversal-ii)
+* [108 Convert Sorted Array to Binary Search Tree](#108-convert-sorted-array-to-binary-search-tree)
+* [109 Convert Sorted List to Binary Search Tree](#109-convert-sorted-list-to-binary-search-tree)
+* [110 Balanced Binary Tree](#110-balanced-binary-tree)
+* [111 Minimum Depth of Binary Tree](#111-minimum-depth-of-binary-tree)
+* [112 Path Sum](#112-path-sum)
+* [113 Path Sum II](#113-path-sum-ii)
+* [114 Flatten Binary Tree to Linked List](#114-flatten-binary-tree-to-linked-list)
+* [115 Distinct Subsequences](#115-distinct-subsequences)
+* [116 Populating Next Right Pointers in Each Node](#116-populating-next-right-pointers-in-each-node)
+* [117 Populating Next Right Pointers in Each Node II](#117-populating-next-right-pointers-in-each-node-ii)
+* [118 Pascal Triangle](#118-pascal-triangle)
+* [119 Pascal Triangle II](#119-pascal-triangle-ii)
+* [120 Triangle](#120-triangle)
+* [121 Best Time to Buy and Sell Stock](#121-best-time-to-buy-and-sell-stock)
+* [122 Best Time to Buy and Sell Stock II](#122-best-time-to-buy-and-sell-stock-ii)
+* [123 Best Time to Buy and Sell Stock III](#123-best-time-to-buy-and-sell-stock-iii)
+* [124 Binary Tree Maximum Path Sum](#124-binary-tree-maximum-path-sum)
+* [125 Valid Palindrome](#125-valid-palindrome)
+* [126 Word Ladder](#126-word-ladder)
+* [127 Word Ladder II](#127-word-ladder-ii)
+* [128 Longest Consecutive Sequence](#128-longest-consecutive-sequence)
+* [129 Sum Root to Leaf Numbers](#129-sum-root-to-leaf-numbers)
+* [130 Surrounded Regions](#130-Surrounded-regions)
+* [131 Parlindrome partitioning](#131-parlindrome-partitioning)
+* [132 Parlindrome partitioning II](#132-parlindrome-partitioning-ii)
+* [133 Clone Graph](#133-clone-graph)
+* [134 Gas Station](#134-gas-station)
+* [135 Candy](#135-candy)
+* [136 Single Number](#136-single-number)
+* [137 Single Number II](#136-single-number-ii)
+* [138 Copy List With Random Pointer](#138-copy-list-with-random-pointer)
+* [139 Word Break](#139-word-break)
+* [140 Word Break II](#140-word-break-ii)
+* [141 Linked List Cycle](#141-linked-list-cycle)
+* [142 Linked List Cycle II](#142-linked-list-cycle-ii)
+* [143 Reorder List](#143-reorder-list)
+* [144 Binary Tree Preorder Traversal](#144-binary-tree-preorder-traversal)
+* [145 Binary Tree Postorder Traversal](#145-binary-tree-postorder-traversal)
+* [146 LRU Cache](#146-lru-cache)
+* [147 Insertion Sort List](#147-insertion-sort-list)
+* [148 Sort List](#148-sort-list)
+* [149 Max Points on a Line](#149-max-points-on-a-line)
+* [150 Evaluate Reverse Polish Notation](#150-Evaluate-Reverse-Polish-Notation)
 * [153 Find Minimum in Rotated Sorted Array](#153-find-minimum-in-rotated-sorted-array)
 * [154 Find Minimum in Rotated Sorted Array II](#153-find-minimum-in-rotated-sorted-array-ii)
 * [216 Combination Sum III](#216-combination-sum-iii)
@@ -3796,6 +3846,54 @@ public:
 };
 ```
 
+###<a name="96-unique-binary-search-trees"></a>96 Unique Binary Search Trees
+> Given n, generate all structurally unique BST's (binary search trees) that store values 1...n.
+
+> For example,
+
+> Given n = 3, your program should return all 5 unique BST's shown below.
+<pre>
+   1         3     3      2      1
+    \       /     /      / \      \
+     3     2     1      1   3      2
+    /     /       \                 \
+   2     1         2                 3
+</pre>
+**Idea** 此题像subset，help函数里三个for loop，一个正常for loop，for loop，另外两个for loop用于遍历left 和 right 数组
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    vector<TreeNode*> generateTrees(int n) {
+        vector<TreeNode*> result;
+        if (n == 0) return result;
+        generateHelper(result,1,n);
+        return result;
+    }
+    void generateHelper(vector<TreeNode*> &result, int start, int end) {
+        if (start > end) {
+            TreeNode *nor = NULL;
+            result.push_back(nor);
+        }
+        for (int i = start;i <= end;i++) {
+            vector<TreeNode*> lefts;
+            generateHelper(lefts,start,i-1);
+            vector<TreeNode*> rights;
+            generateHelper(rights,i+1,end);
+            for (int li = 0;li < lefts.size();li++) {
+                for (int ri = 0;ri < rights.size();ri++) {
+                    TreeNode* curr = new TreeNode(i);
+                    curr->left = lefts[li];
+                    curr->right = rights[ri];
+                    result.push_back(curr);
+                }
+            }
+        }
+    }
+};
+```
+
 ###<a name="98-validate-binary-search-tree"></a>98 Validate Binary Tree
 > Given a binary tree, determine if it is a valid binary search tree (BST).
 
@@ -4084,6 +4182,39 @@ public:
             else j--;
         }
         return false;
+    }
+};
+```
+###<a name="241-different-ways-to-add-parentheses"></a>241 Different Ways to Add Parentheses
+> Given a string of numbers and operators, return all possible results from computing all the different possible ways to group > numbers and operators. The valid operators are +, - and *.
+
+***C++ Code***
+```C++
+class Solution {
+    int compute(int a, int b, char sym) {
+        if (sym == '+') return a+b;
+        if (sym == '-') return a-b;
+        if (sym == '*') return a*b;
+        return 0;
+    }
+public:
+    vector<int> diffWaysToCompute(string input) {
+        vector<int> result;
+        bool flag = false;
+        for (int i = 0;i < input.size();i++) {
+            if (input[i] == '+' || input[i] == '-' || input[i]== '*') {
+                flag = true;
+                vector<int> lefts = diffWaysToCompute(input.substr(0,i));
+                vector<int> rights = diffWaysToCompute(input.substr(i+1,input.size()-1));
+                for (int k = 0;k < lefts.size();k++) {
+                    for (int l = 0;l < rights.size();l++) {
+                        result.push_back(compute(lefts[k],rights[l],input[i]));
+                    }
+                }
+            }
+        }
+        if(!flag) result.push_back(stoi(input));
+        return result;
     }
 };
 ```
