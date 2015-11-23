@@ -4194,6 +4194,88 @@ public:
 };
 ```
 
+###<a name="104-maximum-depth-of-binary-tree"></a>104 Maximum Depth of Binary Tree
+> Given a binary tree, find its maximum depth.
+
+> The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if (root == NULL) return 0;
+        return max(maxDepth(root->left)+1,maxDepth(root->right)+1);
+    }
+};
+```
+
+###<a name="105-construct-binary-tree-from-preorder-and-inorder-traversal"></a>105 Construct Binary Tree from Preorder and Inorder Traversal
+> Given preorder and inorder traversal of a tree, construct the binary tree.
+
+**Idea**
+若前序为 6 5 4 8 7 9
+而中序为 4 5 6 7 8 9
+从 6 开始，找到中序6的位置。则6左边的都是左子树，右边都是右子数，依此递归即可
+http://blog.csdn.net/benbenab/article/details/8139440
+
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        if (preorder.size() == 0 || inorder.size() == 0 || preorder.size() != inorder.size()) return NULL;
+        return buildTreeHelper(preorder,0,preorder.size()-1,inorder,0,inorder.size()-1);
+    }
+    TreeNode* buildTreeHelper(vector<int>& preorder, int preStart, int preEnd,vector<int>& inorder, int inStart, int inEnd) {
+        if (preStart > preEnd) return NULL;
+        TreeNode *curr = new TreeNode(preorder[preStart]);
+        if (preStart == preEnd) return curr;
+        int i = 0;
+        for (i = inStart;i < inEnd;i++) {
+            if (inorder[i] == curr->val) break;
+        }
+        curr->left = buildTreeHelper(preorder,preStart + 1,preStart + i - inStart,inorder,inStart,i-1);
+        curr->right = buildTreeHelper(preorder,preStart + i - inStart + 1,preEnd,inorder,i+1,inEnd);
+        return curr;
+    }
+};
+````
+
+###<a name="106-construct-binary-tree-from-inorder-and-postorder-traversal"></a>106 Construct Binary Tree from Inorder and Postorder Traversal
+> Given inorder and postorder traversal of a tree, construct the binary tree.
+**Idea**
+中序为 4 5 6 7 8 9
+后序为4 5 7 9 8 6 
+从 6 开始，找到中序6的位置。则6左边的都是左子树，右边都是右子数，依此递归即可
+
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        if (postorder.size() == 0 || inorder.size() == 0 || postorder.size() != inorder.size()) return NULL;
+        return buildTreeHelper(inorder,0,inorder.size()-1,postorder,postorder.size()-1,0);
+    }
+    TreeNode* buildTreeHelper(vector<int>& inorder, int inStart, int inEnd,vector<int>& postorder, int postStart, int postEnd) {
+        if (postEnd > postStart) return NULL;
+        TreeNode* curr = new TreeNode(postorder[postStart]);
+        if (postEnd == postStart) return curr;
+        int i = 0;
+        for (i = inStart;i < inEnd;i++) {
+            if (inorder[i] == curr->val) break;
+        }
+        curr->right = buildTreeHelper(inorder, i+1, inEnd, postorder, postStart - 1, postStart - 1 - (inEnd - 1 - i));
+        curr->left = buildTreeHelper(inorder, inStart, i-1, postorder, postStart - 1 - (inEnd - 1 - i) - 1,postEnd);
+        return curr;
+    }
+};
+
+```
+
+
 ###<a name="107-binary-tree-level-order-travesal-ii"></a>107 Binary Tree Level Order Traversal II
 > Given a binary tree, return the bottom-up level order traversal of its nodes' values. (ie, from left to right, level by level from leaf to root).
 
@@ -4468,6 +4550,44 @@ public:
             }
         }
         return ret*ret;
+    }
+};
+```
+
+###<a name="226-invert-binary-tree"></a>226 Invert Binary Tree
+> Invert a binary tree.
+<pre>
+     4
+   /   \
+  2     7
+ / \   / \
+1   3 6   9
+</pre>
+to
+<pre>
+     4
+   /   \
+  7     2
+ / \   / \
+9   6 3   1
+</pre>
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        invertHelper(root);
+        return root;
+    }
+    
+    void invertHelper(TreeNode* root) {
+        if (root == NULL) return;
+        TreeNode* temp = root->left;
+        root->left = root->right;
+        root->right = temp;
+        invertHelper(root->left);
+        invertHelper(root->right);
     }
 };
 ```
