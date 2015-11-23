@@ -4310,6 +4310,125 @@ public:
 };
 ```
 
+###<a name="108-convert-sorted-array-to-binary-search-tree"></a>108 Convert Sorted Array to Binary Search Tree
+> Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        if (nums.size() == 0) return NULL;
+        return sortedHelper(nums,0,nums.size()-1);
+    }
+    TreeNode* sortedHelper(vector<int>& nums,int start,int end) {
+        if (start > end) return NULL;
+        int mid = (start + end) / 2;
+        TreeNode* curr = new TreeNode(nums[mid]);
+        if (start == end) return curr;
+        curr->left = sortedHelper(nums,start,mid-1);
+        curr->right = sortedHelper(nums,mid+1,end);
+        return curr;
+    }
+};
+```
+
+###<a name="109-convert-sorted-list-to-binary-search-tree"></a>109 Convert Sorted List to Binary Search Tree
+> Given a singly linked list where elements are sorted in ascending order, convert it to a height balanced BST.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    TreeNode* sortedListToBST(ListNode* head) {
+        if (head == NULL) return NULL;
+        if (head->next ==NULL) {
+            TreeNode* curr = new TreeNode(head->val);
+            return curr;
+        }
+        ListNode* fast = head->next->next;
+        ListNode* slow = head;
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        ListNode* right = slow->next->next;
+        TreeNode* curr = new TreeNode(slow->next->val);
+        slow->next = NULL;
+        curr->left = sortedListToBST(head);
+        curr->right = sortedListToBST(right);
+        return curr;
+    }
+};
+```
+
+###<a name= "110-balanced-binary-tree"></a>110 Balanced Binary Tree
+> Given a binary tree, determine if it is height-balanced.
+
+> For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
+
+***C++ Code O(NLogN)***
+```C++
+class Solution {
+public:
+    bool isBalanced(TreeNode *root) 
+    {
+        if (root==NULL) return true;
+        if (abs(maxDepth(root->left)-maxDepth(root->right))<=1)
+            return isBalanced(root->left)&&isBalanced(root->right);
+        else
+            return false;
+    }
+    
+    int maxDepth(TreeNode *root)
+    {
+        if (root == NULL ) return 0;
+        return max(maxDepth(root->left),maxDepth(root->right))+1;
+    }
+};
+```
+
+
+***C++ Code O(N)***
+```C++
+class Solution {
+public:
+    bool isBalanced(TreeNode* root) {
+        if (maxDepth(root) == -1) return false;
+        else return true;
+    }
+    int maxDepth(TreeNode* root) {
+        if (root == NULL) return 0;
+        int leftHeight = maxDepth(root->left);
+        if (leftHeight == -1) return -1;
+        int rightHeight = maxDepth(root->right);
+        if (rightHeight == -1) return -1;
+        cout<< 1;
+        int heightDiff = leftHeight - rightHeight;
+        if (abs(heightDiff) > 1) return -1;
+        else return (max(leftHeight,rightHeight)+1);
+    }
+};
+```
+
+###<a name= "111-minimum-depth-of-binary-tree"></a>111 Minimum Depth of Binary Tree
+> Given a binary tree, find its minimum depth.
+
+> The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
+
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int minDepth(TreeNode* root) {
+        if (root ==NULL) return 0;
+        if (!root->left) return 1+minDepth(root->right);
+        if (!root->right) return 1+minDepth(root->left);
+        return min(minDepth(root->left),minDepth(root->right))+1;
+    }
+};
+```
 
 ###<a name="153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
