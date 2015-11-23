@@ -4430,6 +4430,83 @@ public:
 };
 ```
 
+###<a name= "112-path-sum"></a>112 Path Sum
+> Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up all the values along the path equals the given sum.
+
+> For example:
+
+> Given the below binary tree and sum = 22,`
+<pre>
+              5
+             / \
+            4   8
+           /   / \
+          11  13  4
+         /  \      \
+        7    2      1
+</pre>
+> return true, as there exist a root-to-leaf path 5->4->11->2 which sum is 22.
+***C++ Code***
+```C++
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int sum) {
+        if (!root) return false;
+        //watch out for the return true condition
+        if (root->left == NULL && root->right == NULL && root->val == sum) return true;
+        else return hasPathSum(root->left,sum-root->val) || hasPathSum(root->right,sum-root->val);
+    }
+};
+```
+
+###<a name= "113-path-sum-ii"></a>113 Path Sum II
+> Given a binary tree and a sum, find all root-to-leaf paths where each path's sum equals the given sum.
+
+> For example:
+
+> Given the below binary tree and sum = 22,
+
+<pre>
+              5
+             / \
+            4   8
+           /   / \
+          11  13  4
+         /  \    / \
+        7    2  5   1
+</pre>
+
+> return
+
+<pre>
+[
+   [5,4,11,2],
+   [5,8,4,5]
+]
+</pre>
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        vector<vector<int>> result;
+        vector<int> line;
+        dfs(root,sum,result,line);
+        return result;
+    }
+    void dfs(TreeNode* root, int sum, vector<vector<int>> &result,vector<int> &line) {
+        if (!root) return;
+        line.push_back(root->val);
+        if (!root->left && !root->right && root->val == sum) {result.push_back(line);}
+        
+        dfs(root->left, sum-root->val, result,line);
+        dfs(root->right, sum-root->val, result,line);
+        line.pop_back();
+    }
+};
+```
+
 ###<a name="153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
 > Suppose a sorted array is rotated at some pivot unknown to you beforehand.
