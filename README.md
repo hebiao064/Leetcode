@@ -4507,6 +4507,114 @@ public:
 };
 ```
 
+###<a name="114-flatten-binary-tree-to-linked-list"></a>114 Flatten Binary Tree to Linked List
+> Given a binary tree, flatten it to a linked list in-place.
+
+> For example,
+> Given
+<pre>
+         1
+        / \
+       2   5
+      / \   \
+     3   4   6
+</pre>
+The flattened tree should look like:
+<pre>
+   1
+    \
+     2
+      \
+       3
+        \
+         4
+          \
+           5
+            \
+             6
+</pre>
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    void flatten(TreeNode* root) {
+        if (!root || !root->left && !root->right) return;
+        while(root) {
+            if (root->left) {
+                TreeNode* temp = root->left;
+                while (temp->right) temp = temp->right;
+                temp->right = root->right;
+                root->right = root->left;
+                root->left = NULL;
+            }
+            root = root->right;
+        }
+    }
+};
+```
+
+###<a name="115-pascal-triangle"></a>115 Pascal Triangle
+> Given numRows, generate the first numRows of Pascal's triangle.
+
+> For example, given numRows = 5,
+
+> Return
+
+<pre>
+[
+     [1],
+    [1,1],
+   [1,2,1],
+  [1,3,3,1],
+ [1,4,6,4,1]
+]
+</pre>
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    vector<vector<int>> generate(int numRows) {
+        vector<vector<int>> result;
+        if (numRows == 0) return result;
+        for (int i = 0;i < numRows;i++) {
+            vector<int> line(i+1,1);
+            for (int j = 1;j <= i-1;j++) {
+                line[j] = result[i-1][j-1] + result[i-1][j];
+            }
+            result.push_back(line);
+        }
+        return result;
+    }
+};
+```
+
+###<a name="116-pascal-triangle-ii"></a>116 Pascal Triangle II
+> Given an index k, return the kth row of the Pascal's triangle.
+
+> For example, given k = 3,
+
+> Return [1,3,3,1].
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    vector<int> getRow(int rowIndex) {
+        vector<int> line;
+        if (rowIndex < 0) return line;
+        line.push_back(1);
+        for (int i = 1;i <= rowIndex;i++) {
+            line.push_back(1);
+            for (int j = i-1;j >= 1;j--) {
+                line[j] = line[j-1] + line[j];
+            }
+        }
+        return line;
+    }
+};
+```
 ###<a name="153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
 > Suppose a sorted array is rotated at some pivot unknown to you beforehand.
