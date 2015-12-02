@@ -5012,6 +5012,48 @@ public:
 };
 ```
 
+###<a name=“306-additive-number”></a>306 Additive Number
+
+> For example:
+
+> "112358" is an additive number because the digits can form an additive sequence: 1, 1, 2, 3, 5, 8.
+<pre>
+1 + 1 = 2, 1 + 2 = 3, 2 + 3 = 5, 3 + 5 = 8
+</pre>
+
+**Idea**  先判断前两个，有一定的位置需求，然后递归判断前两个之和是不是包含于rem里。应该是有限制的暴力搜索
+
+***C++ Code*** 
+```C++
+class Solution {
+public:
+    bool isAdditiveNumber(string num) {
+        int n = (int)num.length();
+        if (n < 3) return false;
+        for (int i = 1;i <= (n-1)/2;i++) {
+            if (num[0] == '0' && i >= 2) continue;
+            for (int j = i+1;n-j>=max(i,j-i);j++) {
+                if (num[i] == '0' && j-i>=2) continue;
+                long num1 = stoi(num.substr(0,i).c_str());
+                long num2 = stoi(num.substr(i,j-i).c_str());
+                string rem = num.substr(j);
+                if (isAdditiveHelper(rem,num1,num2)) return true;
+                else continue;
+            }
+        }
+        return false;
+    }
+    
+    bool isAdditiveHelper(string rem, long num1, long num2) {
+        if (rem.empty()) return true;
+        long sum = num1+num2;
+        string prefix = to_string(sum);
+        if (rem.substr(0,prefix.size()) != prefix) return false;
+        return isAdditiveHelper(rem.substr(prefix.size()),num2,sum);
+    }
+};
+```
+
 ###<a name="310-minimum-height-trees"></a>310 Minimum Height Trees
 > For a undirected graph with tree characteristics, we can choose any node as the root. The result graph is then a rooted tree. Among all possible rooted trees, those with minimum height are called minimum height trees (MHTs). Given such a graph, write a function to find all the MHTs and return a list of their root labels.
 
