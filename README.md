@@ -5012,7 +5012,77 @@ public:
 };
 ```
 
+###<a name="310-minimum-height-trees"></a>310 Minimum Height Trees
+> For a undirected graph with tree characteristics, we can choose any node as the root. The result graph is then a rooted tree. Among all possible rooted trees, those with minimum height are called minimum height trees (MHTs). Given such a graph, write a function to find all the MHTs and return a list of their root labels.
 
+> Format
+
+> The graph contains n nodes which are labeled from 0 to n - 1. You will be given the number n and a list of undirected edges (each edge is a pair of labels).
+
+> You can assume that no duplicate edges will appear in edges. Since all edges are undirected, [0, 1] is the same as [1, 0] and thus will not appear together in edges.
+
+> Example 1:
+
+> Given n = 4, edges = [[1, 0], [1, 2], [1, 3]]
+
+<pre>
+        0
+        |
+        1
+       / \
+      2   3
+</pre>
+
+> return [1]
+
+> Example 2:
+
+> Given n = 6, edges = [[0, 3], [1, 3], [2, 3], [4, 3], [5, 4]]
+
+<pre>
+     0  1  2
+      \ | /
+        3
+        |
+        4
+        |
+        5
+</pre>
+> return [3, 4]
+
+**Idea**
+> Solve like course schedule problem
+> 像course schedule一样，利用topo排序的bfs思想，将leave结点一层层的往里渗透，再删减，知道剩下的结点不超过2，则返回leves数列
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    vector<int> findMinHeightTrees(int n, vector<pair<int, int>>& edges) {
+        if (n==1) return vector<int>(1,0);
+        vector<set<int>> topo(n,set<int>());
+        for (auto x:edges) {
+            topo[x.first].insert(x.second);
+            topo[x.second].insert(x.first);
+        }
+        vector<int> leaves;
+        for (int i = 0;i < topo.size();i++) {
+            if (topo[i].size() == 1) leaves.push_back(i);
+        }
+        while (n > 2) {
+            n = n-leaves.size();
+            vector<int> newleaves;
+            for (auto i:leaves) {
+                int j = *topo[i].begin();
+                topo[j].erase(i);
+                if (topo[j].size() == 1) newleaves.push_back(j);
+            }
+            leaves = newleaves;
+        }
+        return leaves;
+    }
+};
+```
 
 ### Others
 
