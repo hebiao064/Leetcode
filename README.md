@@ -4703,6 +4703,124 @@ return result[0];
 
 > The minimum path sum from top to bottom is 11 (i.e., 2 + 3 + 5 + 1 = 11).
 
+###<a name="121-best-time-to-buy-and-sell-stock"></a>121 Best Time to Buy and Sell Stock
+
+> Say you have an array for which the ith element is the price of a given stock on day i.
+
+> If you were only permitted to complete at most one transaction (ie, buy one and sell one share of the stock), design an algorithm to find the maximum profit.
+
+**Idea** Maximum subarray
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int temp = 0, result = 0;
+        for (int i = 1;i < prices.size();i++) {
+            temp = max(0,temp + prices[i]-prices[i-1]);
+            result = max(result,temp);
+        }
+        return result;
+    }
+};
+```
+
+###<a name="122-best-time-to-buy-and-sell-stock-ii"></a>121 Best Time to Buy and Sell Stock II
+
+> You may complete as many transactions as you like (ie, buy one and sell one share of the 
+> stock multiple times). However, you may not engage in multiple transactions at the same time (> ie, you must sell the stock before you buy again).
+***C++ Code***
+```C++
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int ret = 0;
+        for (int i = 1;i < prices.size();i++) {
+            ret = ret + max(0,prices[i]-prices[i-1]);
+        }
+        return ret;
+    }
+};
+```
+
+###<a name="122-best-time-to-buy-and-sell-stock-iii"></a>121 Best Time to Buy and Sell Stock III
+> You may engage in at most 2 transactions
+
+**Idea** 其实这是本系列题第一题的变种，分别求从左到右的最大子序列和，记录在列，再求从右到左的最大子序列和。
+然后遍历两个dp数列求和取最大值
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        if (prices.size()<2) return 0;
+        vector<int> left(prices.size()-1,0);
+        vector<int> right(prices.size()-1,0);
+        int temp = 0, maxleft = 0, maxright = 0;
+        for (int i = 1;i < prices.size();i++) {
+            temp = max(0,temp + prices[i] - prices[i-1]);
+            maxleft = max(temp,maxleft);
+            left[i-1] = maxleft;
+        }
+        temp = 0;
+        for (int j = prices.size() - 1;j >= 1;j--) {
+            temp = max(0,temp + prices[j] - prices[j-1]);
+            maxright = max(temp,maxright);
+            right[j-1] = maxright;
+        }
+        int result = 0;
+        for (int i = 1;i < left.size();i++) {
+            result = max(result,left[i-1]+right[i]);
+        }
+        if (result == 0) return left[0];
+        return result;
+    }
+};
+```
+
+
+###<a name="122-best-time-to-buy-and-sell-stock-iv"></a>121 Best Time to Buy and Sell Stock IV
+> You may engage in at most k transactions
+
+**Idea**
+
+***C++ Code***
+```C++
+
+```
+
+###<a name="125-valid-palidrome">125 Valid Palindrome
+> Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
+
+> For example,
+
+> "A man, a plan, a canal: Panama" is a palindrome.
+> "race a car" is not a palindrome.
+
+> Note:
+> Have you consider that the string might be empty? This is a good question to ask during an interview.
+
+> For the purpose of this problem, we define empty string as valid palindrome.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        int i = 0, j = s.length()-1;
+        while (i < j) {
+            while(!isalpha(s[i]) && !isdigit(s[i]) && i < j) i++;
+            while(!isalpha(s[j]) && !isdigit(s[j]) && j > i) j--;
+            if (tolower(s[i]) != tolower(s[j])) return false;
+            i++;
+            j--;
+        }
+        return true;
+    }
+};
+```
 
 
 ###<a name="153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
@@ -4982,6 +5100,45 @@ public:
         root->right = temp;
         invertHelper(root->left);
         invertHelper(root->right);
+    }
+};
+```
+
+###<a name="234-palindrome-linked-list">234 Palindrome Linked List
+
+**Idea** Reverse the right part of the linked list, and move the head and tail pointer towards middle of linked list.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    ListNode* ReverseList(ListNode* node) {
+            ListNode* prev = NULL;
+            ListNode* now = node;
+            ListNode* after = NULL;
+            while (now) {
+                after = now->next;
+                now->next = prev;
+                prev = now;
+                now = after;
+            }
+            return prev;
+        }
+    bool isPalindrome(ListNode* head) {
+        if (head == NULL) return true;
+        ListNode* tail = head;
+        ListNode* mid = head;
+        while (tail && tail->next) {
+            mid = mid ->next;
+            tail = tail->next->next;
+        }
+        tail = ReverseList(mid);
+        while(head != mid){
+            if (tail->val != head->val) return false;
+            tail = tail->next;
+            head = head->next;
+        }
+        return true;
     }
 };
 ```
