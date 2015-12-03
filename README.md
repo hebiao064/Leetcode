@@ -4663,6 +4663,48 @@ public:
     }
 };
 ```
+
+###<a name="120-triangle"></a>120 Triangle
+> Given a triangle, find the minimum path sum from top to bottom. Each step you may move to adjacent numbers on the row below.
+
+> For example, given the following triangle
+
+<pre>
+[
+[2],
+[3,4],
+[6,5,7],
+[4,1,8,3]
+]
+</pre>
+
+**Idea** Dynamic Programming, start from the last row of this triangle. 
+result[i] = triangle[i][j] + min(result[j]+result[j+1);
+
+***C++ Code***
+```C++
+class Solution {
+public:
+int minimumTotal(vector<vector<int>>& triangle) {
+int n = triangle.size();
+if (n == 1) return triangle[0][0];
+
+vector<int> result = triangle[n-1];
+for (int i = n-2;i>=0;i--) {
+for (int j = 0;j < triangle[i].size();j++) {
+result[j] = triangle[i][j] + min(result[j],result[j+1]);
+
+}
+}
+return result[0];
+}
+};
+```
+
+> The minimum path sum from top to bottom is 11 (i.e., 2 + 3 + 5 + 1 = 11).
+
+
+
 ###<a name="153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
 > Suppose a sorted array is rotated at some pivot unknown to you beforehand.
