@@ -4554,7 +4554,55 @@ public:
 };
 ```
 
-###<a name="115-pascal-triangle"></a>115 Pascal Triangle
+###<a name="116-populate-next-right-pointer-in-each-node"></a>116 Populate Next Right Pointer in Each Node
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    void connect(TreeLinkNode *root) {
+        if (!root) return;
+        while (root->left) {
+            TreeLinkNode* curr = root;
+            while (curr) {
+                curr->left->next = curr->right;
+                if (curr->next) {
+                    curr->right->next = curr->next->left;
+                }
+                curr = curr->next;
+            }
+        root = root->left;
+        }
+    }
+};
+```
+
+###<a name="117-populate-next-right-pointer-in-each-node-ii"></a>116 Populate Next Right Pointer in Each Node II
+
+**Idea** Using leftmost to store every leftmost node in every level, and remember to construct leftmost->next to his left at first.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+void connect(TreeLinkNode *root) {
+if (!root) return;
+TreeLinkNode* leftmost = new TreeLinkNode(0);
+while (root) {
+TreeLinkNode* curr = leftmost;
+while(root) {
+if (root->left) {curr->next = root->left;curr = curr->next;}
+if (root->right) {curr->next = root->right;curr = curr->next;}
+root = root->next;
+}
+root = leftmost->next;
+leftmost->next = NULL;
+}
+}
+};
+```
+
+###<a name="118-pascal-triangle"></a>118 Pascal Triangle
 > Given numRows, generate the first numRows of Pascal's triangle.
 
 > For example, given numRows = 5,
@@ -4590,7 +4638,7 @@ public:
 };
 ```
 
-###<a name="116-pascal-triangle-ii"></a>116 Pascal Triangle II
+###<a name="119-pascal-triangle-ii"></a>119 Pascal Triangle II
 > Given an index k, return the kth row of the Pascal's triangle.
 
 > For example, given k = 3,
@@ -4969,6 +5017,65 @@ public:
 };
 ```
 
+###<a name="263-ugly-number"></a>263 Ugly Number
+> Write a program to check whether a given number is an ugly number.
+
+> Ugly numbers are positive numbers whose prime factors only include 2, 3, 5. For example,
+
+> 6, 8 are ugly while 14 is not ugly since it includes another prime factor 7.
+
+> Note that 1 is typically treated as an ugly number.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+bool isUgly(int num) {
+if (num == 0) return false;
+while (num % 2 == 0) {num /= 2;}
+while (num % 3 == 0) {num /= 3;}
+while (num % 5 == 0) {num /= 5;}
+return (num == 1);
+}
+};
+```
+
+###<a name="264-ugly-number-ii"></a>264 Ugly Number II
+> Write a program to find the n-th ugly number.
+
+> Ugly numbers are positive numbers whose prime factors only include 2, 3, 5. For example,
+
+> 1, 2, 3, 4, 5, 6, 8, 9, 10, 12 is the sequence of the first 10 ugly numbers.
+
+> Note that 1 is typically treated as an ugly number.
+
+**Idea** Consider it like merge three list:
+the first list is  1*2, 2*2, 3*2, 4*2, 5*2, 6*2, 8*2
+the second list is 1*3, 2*3, 3*3, 4*3, 5*3, 6*3, 8*3
+the third list is  1*5, 2*5, 3*5, 4*5, 5*5, 6*5, 8*5
+看的粗来在2，3，5的前面的乘数便是我们要的ugly number，所以巧妙的递进即可;
+
+***C++ Code***
+```C++
+class Solution {
+public:
+int nthUglyNumber(int n) {
+vector<int> result({1});
+int i=0, j=0, k=0, count = 0;
+while(count++ < n) {
+int threemin = min(min(result[i]*2,result[j]*3),result[k]*5);
+if (threemin == result[i]*2) i++;
+if (threemin == result[j]*3) j++;
+if (threemin == result[k]*5) k++;
+result.push_back(threemin);
+}
+return result[n-1];
+}
+};
+```
+
+
+
 ###<a name="268-missing-number"></a>268 Missing Number
 > Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the one that is missing from the array.
 
@@ -5123,6 +5230,64 @@ public:
         }
         return leaves;
     }
+};
+```
+
+###<a name="312-burst-ballons"></a>312 Burst Ballons
+> Given n balloons, indexed from 0 to n-1. Each balloon is painted with a number on it 
+> represented by array nums. You are asked to burst all the balloons. If the you burst 
+> balloon i you will get nums[left] * nums[i] * nums[right] coins. Here left and right are
+> adjacent indices of i. After the burst, the left and right then becomes adjacent.
+
+> Find the maximum coins you can collect by bursting the balloons wisely.
+
+> Note: 
+> (1) You may imagine nums[-1] = nums[n] = 1. They are not real therefore you can not burst them.
+> (2) 0 ≤ n ≤ 500, 0 ≤ nums[i] ≤ 100
+
+> Example:
+
+> Given [3, 1, 5, 8]
+
+> Return 167
+
+<pre>
+nums = [3,1,5,8] --> [3,5,8] -->   [3,8]   -->  [8]  --> []
+coins =  3*1*5      +  3*5*8    +  1*3*8      + 1*8*1   = 167
+</pre>
+
+**Idea** For example, calculate the burst ballons of {1,2,3}, at first expand to {1,1,2,3,4,1}.
+Then construct three nested for loop. (O(n^3))
+first loop for the length, second for the left bound and set up the right bound, then
+third loop for index i as the last ballon to burst. Then only need to calculate nums[i]*nums[left]*nums[right];
+
+Then calculate 
+<pre>
+dp[0][2],dp[1][3],dp[2][4];
+dp[0][3],dp[1][4];
+dp[0][4];
+</pre>
+
+***C++ Code***
+```C++
+class Solution {
+public:
+int maxCoins(vector<int>& num) {
+vector<int> nums = num;
+nums.insert(nums.begin(),1);
+nums.push_back(1);
+int n = (int)nums.size();
+vector<vector<int>> dp(n,vector<int>(n,0));
+for (int k = 3;k <= n;++k) {
+for (int left = 0;left <= n-k;++left) {
+int right = left + k - 1;
+for(int i = left+1;i < right;i++) {
+dp[left][right] = max(dp[left][right],nums[left]*nums[i]*nums[right] + dp[left][i] + dp[i][right]);
+}
+}
+}
+return dp[0][n-1];
+}
 };
 ```
 
