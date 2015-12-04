@@ -4860,6 +4860,47 @@ private:
 //BFS
 ```
 
+###<a name = "128-longest-consecutive-sequence">128 Longest Consecutive Sequence
+> Given an unsorted array of integers, find the length of the longest consecutive elements sequence.
+
+> For example,
+
+> Given [100, 4, 200, 1, 3, 2],
+
+> The longest consecutive elements sequence is [1, 2, 3, 4]. Return its length: 4.
+
+> Your algorithm should run in O(n) complexity.
+
+**Idea** 用一个hashmap存储这个数目前所构成的最大连续长度，只要维护好最边上的两点即可
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        unordered_map<int,int> mp;
+        int result = 0;
+        for (int i = 0;i < nums.size();i++) {
+            if (mp.count(nums[i])==0) {
+                int left = 0,right = 0;
+                if (mp.count(nums[i]-1)>0) {
+                    left = mp[nums[i]-1];
+                }
+                if (mp.count(nums[i]+1)>0) {
+                    right = mp[nums[i]+1];
+                }
+                int sum = left + right + 1;
+                mp[nums[i]-left] = sum;
+                mp[nums[i]] = sum;
+                mp[nums[i]+right] = sum;
+                result = max(result,sum);
+            }
+        }
+        return result;
+    }
+};
+```
+
 ###<a name="129-sum-root-to-leaf-numbers">129 Sum Root to Leaf Numbers
 > Given a binary tree containing digits from 0-9 only, each root-to-leaf path could represent a number.
 
