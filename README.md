@@ -4726,7 +4726,7 @@ public:
 };
 ```
 
-###<a name="122-best-time-to-buy-and-sell-stock-ii"></a>121 Best Time to Buy and Sell Stock II
+###<a name="122-best-time-to-buy-and-sell-stock-ii"></a>122 Best Time to Buy and Sell Stock II
 
 > You may complete as many transactions as you like (ie, buy one and sell one share of the 
 > stock multiple times). However, you may not engage in multiple transactions at the same time (> ie, you must sell the stock before you buy again).
@@ -4744,7 +4744,7 @@ public:
 };
 ```
 
-###<a name="122-best-time-to-buy-and-sell-stock-iii"></a>121 Best Time to Buy and Sell Stock III
+###<a name="123-best-time-to-buy-and-sell-stock-iii"></a>123 Best Time to Buy and Sell Stock III
 > You may engage in at most 2 transactions
 
 **Idea** 其实这是本系列题第一题的变种，分别求从左到右的最大子序列和，记录在列，再求从右到左的最大子序列和。
@@ -4781,16 +4781,6 @@ public:
 ```
 
 
-###<a name="122-best-time-to-buy-and-sell-stock-iv"></a>121 Best Time to Buy and Sell Stock IV
-> You may engage in at most k transactions
-
-**Idea**
-
-***C++ Code***
-```C++
-
-```
-
 ###<a name="125-valid-palidrome">125 Valid Palindrome
 > Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
 
@@ -4822,6 +4812,53 @@ public:
 };
 ```
 
+###<a name="127-word-ladder">127 Word Ladder
+> Given two words (beginWord and endWord), and a dictionary's word list, find the length of shortest transformation sequence from beginWord to endWord, such that:
+
+> Only one letter can be changed at a time
+
+> Each intermediate word must exist in the word list
+
+**Idea** Using BFS thinking, to traverse the 1-distance word, and then 2,3 until *it == endWord
+
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, unordered_set<string>& wordList) {
+        if(beginWord.length() == 0 || endWord.length() == 0) return 0;
+        queue<pair<string,int>> q;
+        q.push(make_pair(beginWord,1));
+        
+        while (!q.empty()) {
+            auto curr = q.front();
+            q.pop();
+            for (auto it = wordList.begin();it != wordList.end();) {
+                if (isNeighbor(curr.first,*it)) {
+                    if (*it == endWord) return (curr.second + 1);
+                    q.push(make_pair(*it,curr.second+1));
+                    it = wordList.erase(it);
+                }
+                else it++;
+            }
+        }
+        return 0;
+        
+    }
+private:
+    bool isNeighbor(const string &s1, const string &s2) {
+        if (s1.length() != s2.length()) return false;
+        int count = 0;
+        for (int i = 0;i < s1.length();i++) {
+            if (s1[i] != s2[i]) count++;
+            if (count > 1) return false;
+        }
+        return count == 1;
+    }
+};
+//BFS
+```
 
 ###<a name="153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
