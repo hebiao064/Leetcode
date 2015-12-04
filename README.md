@@ -4860,6 +4860,44 @@ private:
 //BFS
 ```
 
+###<a name="129-sum-root-to-leaf-numbers">129 Sum Root to Leaf Numbers
+> Given a binary tree containing digits from 0-9 only, each root-to-leaf path could represent a number.
+
+> An example is the root-to-leaf path 1->2->3 which represents the number 123.
+
+> Find the total sum of all root-to-leaf numbers.
+ 
+> For example,
+
+<pre>
+	1
+   / \
+  2   3
+</pre>
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int sumNumbers(TreeNode* root) {
+        if (!root) return 0;
+        vector<int> memo;
+        dfs(root,memo,0);
+        int count = 0;
+        for (auto x:memo) {
+            count += x;
+        }
+        return count;
+    }
+    
+    void dfs(TreeNode* root, vector<int> &memo, int temp) {
+        if (!root->left && !root->right) {memo.push_back(temp*10 + root->val);}
+        if (root->left) dfs(root->left,memo,temp*10 + root->val);
+        if (root->right) dfs(root->right,memo,temp*10 + root->val);
+    }
+};
+```
+
 ###<a name="153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
 > Suppose a sorted array is rotated at some pivot unknown to you beforehand.
