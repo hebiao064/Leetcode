@@ -4939,6 +4939,130 @@ public:
 };
 ```
 
+###<a name = "130-surrounded-regions"></a>130 Surrounded Regions
+> Given a 2D board containing 'X' and 'O', capture all regions surrounded by 'X'.
+
+> A region is captured by flipping all 'O's into 'X's in that surrounded region.
+
+> For example,
+
+<pre>
+X X X X
+X O O X
+X X O X
+X O X X
+</pre>
+
+After running your function, the board should be:
+<pre>
+X X X X
+X X X X
+X X X X
+X O X X
+</pre>
+
+**Idea** 矩阵中的O 只有在“通气”的前提下才能幸存，所以从最外层往里bfs，将通气的O用另一个字符保存。
+然后重新遍历整个矩阵，对于保存的字符还原，对于未保存的字符置为“X”；
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    void solve(vector<vector<char>>& board) {
+        int row = board.size();
+        if (row <= 2) return;
+        int col = board[0].size();
+        if (col <= 2) return;
+        for (int i = 0;i < row;i++) {
+            if (board[i][0] == 'O') populate(board,i,0);
+            if (board[i][col-1] == 'O') populate(board,i,col-1);
+        }
+        for (int i = 1;i < col-1;i++) {
+            if (board[0][i]=='O') populate(board,0,i);
+            if (board[row-1][i] == 'O') populate(board,row-1,i);
+        }
+        for (int i = 0;i < row;i++) {
+            for (int j = 0;j < col;j++) {
+                if (board[i][j] == '*') board[i][j] = 'O';
+                else board[i][j] = 'X';
+            }
+        }
+        
+    }
+    void populate(vector<vector<char>>& board, int i, int j) {
+        board[i][j] = '*';
+        if (i+1 < board.size() && board[i+1][j] == 'O') {
+            populate(board,i+1,j);
+        }
+        if (i > 0 && board[i-1][j] == 'O') {
+            populate(board,i-1,j);
+        }
+        if (j+1 < board[0].size() && board[i][j+1] == 'O') {
+            populate(board,i,j+1);
+        }
+        if (j-1 > 0 && board[i][j-1] == 'O') {
+            populate(board,i,j-1);
+        }
+    }
+    
+};
+```
+###<a name="131-palindrome-partitioning">131 Palindrome Partitioning
+> Given a string s, partition s such that every substring of the partition is a palindrome.
+
+> Return all possible palindrome partitioning of s.
+
+> For example, given s = "aab",
+
+> Return
+
+<pre>
+  [
+    ["aa","b"],
+    ["a","a","b"]
+  ]
+</pre>
+
+**Idea** In these condition, we don't substr target into next call, we only pass orginal string with index of current opearation position.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    vector<vector<string>> partition(string s) {
+        vector<vector<string>> result;
+        vector<string> line;
+        partitionHelper(result,line,s,0);
+        return result;
+    }
+    
+    void partitionHelper(vector<vector<string>> &result,vector<string> &line,string s,int start) {
+        if (start == s.size()) {
+            result.push_back(line);
+            return;
+        }
+        for (int i = start;i < s.length();i++) {
+            if (ispalidrome(s.substr(start,i-start+1))) {
+                line.push_back(s.substr(start,i-start+1));
+                partitionHelper(result, line, s, i+1);
+                line.pop_back();
+            }
+        }
+    }
+    
+    bool ispalidrome(string str) {
+        int i = 0, j = str.length()-1;
+        while (i < j) {
+            if (str[i]!=str[j]) return false;
+            i++;
+            j--;
+        }
+        return true;
+    }
+    
+};
+```
+
 ###<a name="153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
 > Suppose a sorted array is rotated at some pivot unknown to you beforehand.
