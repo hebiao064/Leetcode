@@ -5145,6 +5145,53 @@ public:
 };
 ```
 
+###<a name="134-gas-station"></a>134 Gas Station
+> There are N gas stations along a circular route, where the amount of gas at station i is gas[i].
+
+> You have a car with an unlimited gas tank and it costs cost[i] of gas to travel from station i to its next station (i+1). You begin the journey with an empty tank at one of the gas stations.
+
+> Return the starting gas station's index if you can travel around the circuit once, otherwise return -1.
+
+**Idea** 考虑到这个环形数组，要保证能走完的话，肯定是先攒油后耗油比较好，所以我们从maximum subarray的起点开始肯定没错，因此就转化成了计算最大子序列的起点。
+但是，由于是个环形数组，因此需要考虑到最大子序列可能跨越的边界，因此我们再计算一个最小子序列，在最小子序列的下一个index也是正确答案。判断使用哪个取决于最大值和最小值哪个更大
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        if (gas.size() == 0 || cost.size() == 0 ||gas.size() != cost.size()) return -1;
+        int tempmax = 0, resultmax = 0,indextempmax = 0,indexresultmax = 0;
+        int tempmin = INT32_MAX, resultmin = INT32_MAX,indexresultmin = 0;
+        int total = 0;
+        for (int i = 0;i < gas.size();i++) {
+            int diff = gas[i]-cost[i];
+            if (tempmax<=0) {
+                tempmax = diff;
+                indextempmax = i;
+            }
+            else tempmax += diff;
+            if (resultmax < tempmax) {
+                resultmax = tempmax;
+                indexresultmax = indextempmax;
+            }
+            if (tempmin >= 0) {
+                tempmin = diff;
+            }
+            else tempmin += diff;
+            
+            if (resultmin > tempmin) {
+                indexresultmin = i;
+                resultmin = tempmin;
+            }
+            total += diff;
+        }
+        if (total<0) return -1;
+        return resultmax >= (0-resultmin)?indexresultmax:((indexresultmin+1)%gas.size());
+        //0 can be replaced by total
+    }
+};
+```
 
 ###<a name="153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
