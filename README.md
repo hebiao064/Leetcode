@@ -5108,6 +5108,44 @@ public:
 /*http://blog.csdn.net/yutianzuijin/article/details/16850031*/
 ```
 
+###<a name="133-clone-graph"></a>133 Clone Graph
+
+> Clone an undirected graph. Each node in the graph contains a label and a list of its neighbors
+
+**Idea** Using BFS to travese the graph, because it's a undirected linked graph, so we need a vistited[] to store, actually hash map may be better to do this task.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
+        if (node == NULL) return NULL;
+        UndirectedGraphNode *copynode = new UndirectedGraphNode(node->label);
+        queue<UndirectedGraphNode*> q;
+        unordered_map<UndirectedGraphNode*,UndirectedGraphNode*> mp;
+        q.push(node);
+        mp[node] = copynode;
+        while (!q.empty()) {
+            UndirectedGraphNode *currNode = q.front();
+            q.pop();
+            for (int i = 0;i < currNode->neighbors.size();i++) {
+                if (mp.count(currNode->neighbors[i]) == 0) {
+                    UndirectedGraphNode *copyNeighbor = new UndirectedGraphNode(currNode->neighbors[i]->label);
+                    mp[currNode->neighbors[i]] = copyNeighbor;
+                    mp[currNode]->neighbors.push_back(copyNeighbor);
+                    q.push(currNode->neighbors[i]);
+                }
+                else {
+                    mp[currNode]->neighbors.push_back(mp[currNode->neighbors[i]]);
+                }
+            } 
+        }
+        return copynode;
+    }
+};
+```
+
+
 ###<a name="153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
 > Suppose a sorted array is rotated at some pivot unknown to you beforehand.
