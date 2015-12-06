@@ -3604,7 +3604,7 @@ public:
 };
 ```
 
-###<89-gray-code></a>89 Gray Code
+###<a name = "89-gray-code"></a>89 Gray Code
 > The gray code is a binary numeral system where two successive values differ in only one bit.
 
 > Given a non-negative integer n representing the total number of bits in the code, print the sequence of gray code. A gray code sequence must begin with 0.
@@ -5189,6 +5189,70 @@ public:
         if (total<0) return -1;
         return resultmax >= (0-resultmin)?indexresultmax:((indexresultmin+1)%gas.size());
         //0 can be replaced by total
+    }
+};
+```
+
+###<a name = "136-single-number"></a>
+> Given an array of integers, every element appears twice except for one. Find that single one.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int ret = 0;
+        for (int i = 0;i < nums.size();i++) {
+            ret = ret^nums[i];
+        }
+        return ret;
+    }
+};
+```
+
+###<a name = "137-single-number"></a>
+> Given an array of integers, every element appears three times except for one. Find that single one.
+
+**Idea** 
+方法一：O(n) time, O(n) space,用一个大小为32的数组保存每一位的出现次数，如果忽略单身狗的话应该倍数为三，因此把他模三之后的值就是单身狗了
+
+方法二：位运算，用ones twos threes三个int型作为掩码，不会
+
+***C++ Code Solution 1***
+```C++
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        vector<int> memo(32,0);
+        int result = 0;
+        for (int i = 0;i < 32;i++) {
+            for (auto x:nums) {
+                memo[i] += (x>>i & 1);
+            }
+            result += memo[i]%3 << i;
+        }
+        return result;
+    }
+};
+```
+
+***C++ Code Solution 2***
+```C++
+class Solution{
+public:
+    int singleNumber(int A[], int n){
+        int oneNum = 0;
+        int twoNum = 0;
+        int threeNum = 0;
+        for(int i = 0 ; i < n ;i++){
+            threeNum = twoNum & A[i];
+            twoNum = oneNum & A[i] | twoNum;
+            oneNum = oneNum | A[i];
+            oneNum = oneNum &(~threeNum);
+            twoNum = twoNum & (~threeNum);
+            threeNum = 0;
+        }
+        return oneNum;
     }
 };
 ```
