@@ -5063,6 +5063,51 @@ public:
 };
 ```
 
+###<a name="132-palindrome-partitioning-ii">132 Palindrome Partitioning II
+> Given a string s, partition s such that every substring of the partition is a palindrome.
+
+> Return the minimum cuts needed for a palindrome partitioning of s.
+
+> For example, given s = "aab",
+
+> Return 1 since the palindrome partitioning ["aa","b"] could be produced using 1 cut.
+
+**Idea** 跟131对比，131要求输出所有结果，适合用BFS or DFS(Backtracking)，本题要求输出最佳结果，适合用DP。
+首先想到可以根据之前的结果判断这一次的mincut，比如abcba 的最后一个字母，
+dp[0,4] = min(dp[0,3] + dp[4,4], dp[0,2] + dp[3,4], dp[0,1] + dp[2,4], dp[0,0] + dp[1,4])
+
+see http://blog.csdn.net/yutianzuijin/article/details/16850031
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    int minCut(string s) {
+        vector<vector<int>> dp(s.length(),vector<int>(s.length(),0));
+        for (int i = 0;i < s.length();i++) {
+            for (int j = 0;j <= i;j++) {
+                if (s[i] == s[j] && (i-j<2 || dp[j+1][i-1] == 1)) {
+                    dp[j][i] = 1;
+                }
+            }
+        }
+        vector<int> count(s.length()+1,0);
+        for (int i = s.length()-1;i>=0;i--) {
+            count[i] = INT32_MAX;
+            for (int j = i;j<s.length();j++) {
+                if (dp[i][j] == 1) {
+                    count[i] = min(count[i],count[j+1]+1);
+                }
+            }
+        }
+        return count[0]-1;
+    }
+};
+
+
+/*http://blog.csdn.net/yutianzuijin/article/details/16850031*/
+```
+
 ###<a name="153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
 > Suppose a sorted array is rotated at some pivot unknown to you beforehand.
