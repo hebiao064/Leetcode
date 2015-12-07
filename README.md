@@ -5257,6 +5257,47 @@ public:
 };
 ```
 
+###<a name="138-copy-list-with-random-pointer"></a>138 Copy List with Random Pointer
+> A linked list is given such that each node contains an additional random pointer which could point to any node in the list or null.
+
+> Return a deep copy of the list.
+
+**Idea** 1->2->3  =>  1->`1->2->`2->3->`3 copy it behind and connect the random, and then decouple.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    RandomListNode *copyRandomList(RandomListNode *head) {
+        if (head == NULL) return NULL;
+        RandomListNode *curr = head;
+        while(curr != NULL) {
+            RandomListNode *copycurr = new RandomListNode(curr->label);
+            copycurr->next = curr->next;
+            curr->next = copycurr;
+            curr = copycurr->next;
+        }
+        curr = head;
+        while(curr != NULL) {
+            RandomListNode *copycurr = curr->next;
+            if (curr->random != NULL) {
+                copycurr->random = curr->random->next;
+            }
+            curr = copycurr->next;
+        }
+        curr = head;
+        RandomListNode *truehead = curr->next;
+        while (curr != NULL) {
+            RandomListNode *copycurr = curr->next;
+            curr->next = copycurr->next;
+            if (curr->next !=NULL) copycurr->next = curr->next->next;
+            curr = curr->next;
+        }
+        return truehead;
+    }
+};
+```
+
 ###<a name="139-word-search"></a>139 Word Search
 > Given a string s and a dictionary of words dict, determine if s can be segmented into a space-separated sequence of one or more dictionary words.
 
