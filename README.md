@@ -3662,7 +3662,7 @@ public:
 };
 ```
 
-###<89-gray-code></a>89 Gray Code
+###<a name="89-gray-code"></a>89 Gray Code
 > The gray code is a binary numeral system where two successive values differ in only one bit.
 
 Given a non-negative integer n representing the total number of bits in the code, print the sequence of gray code. A gray code sequence must begin with 0.
@@ -5253,6 +5253,40 @@ public:
             threeNum = 0;
         }
         return oneNum;
+    }
+};
+```
+
+###<a name="139-word-search"></a>139 Word Search
+> Given a string s and a dictionary of words dict, determine if s can be segmented into a space-separated sequence of one or more dictionary words.
+
+> For example, given
+
+> s = "leetcode",
+
+> dict = ["leet", "code"].
+
+> Return true because "leetcode" can be segmented as "leet code".
+
+**Idea** O(n^2) nothing tricky 遍历下n^2种可能，其中要用dp存储以前的结果来判断现在是否能设置为1
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    bool wordBreak(string s, unordered_set<string>& wordDict) {
+        vector<int> dp(s.length()+1,0);
+        dp[0] = 1;
+        
+        for (int i = 1;i <= s.length();++i) {
+            for (int j = 0;j < i;++j) {
+                if (dp[j] && (wordDict.count(s.substr(j,i-j))>0)) {
+                    dp[i] = 1;
+                    break;
+                }
+            }
+        }
+        return (dp[s.length()] == 1);
     }
 };
 ```
