@@ -5395,7 +5395,7 @@ Consider the following linked list, where E is the cylce entry and X, the crossi
         Thus if two pointers start from head and X, respectively, one first reaches E, the other also reaches E. 
         In my solution, since fast starts at head.next, we need to move slow one step forward in the beginning of part 2
 
-        
+
 
 ***C++ Code***
 ```C++
@@ -5423,6 +5423,61 @@ public:
         }
         return NULL;
 
+    }
+};
+```
+
+###<a name="143-reorder-list"></a>143 Reorder List
+> Given a singly linked list L: L0→L1→…→Ln-1→Ln,
+
+> reorder it to: L0→Ln→L1→Ln-1→L2→Ln-2→…
+
+> You must do this in-place without altering the nodes' values.
+
+**Idea* 
+1->2->3->4->5->6->7->8 
+
+1->2->3->4 8->7->6->5
+
+1->8->2->7->3->6->4->5
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    void reorderList(ListNode* head) {
+        if (!head || !head->next) return;
+        ListNode* slow = head;
+        ListNode* fast = head;
+        ListNode* preSlow = NULL;
+        while (fast && fast->next) {
+            preSlow = slow;
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        if(fast) {
+            preSlow = slow;
+            slow = slow->next;
+        }
+        preSlow->next = NULL;
+        ListNode* curr = slow;
+        ListNode* prev = NULL;
+        ListNode* post = NULL;
+        while (curr){
+            post = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = post;
+        }
+        curr = prev;
+        ListNode* temp = NULL;
+        while (curr){
+            temp = head->next;
+            head->next = curr;
+            curr = curr->next;
+            head->next->next = temp;
+            head = temp;
+        }
     }
 };
 ```
