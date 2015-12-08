@@ -5339,9 +5339,25 @@ public:
 > Can you solve it without using extra space?
 
 **Idea** Slow and Fast pointer. 
-If with extra space, we can use hashmap.
+If with extra space, we can use hashset.
 
-***C++ Code***
+***C++ Code using hash_set***
+```C++
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        unordered_set<ListNode *> st;
+        while (head != NULL) {
+            if (st.count(head)>0) return true;
+            st.insert(head);
+            head = head->next;
+        }
+        return false;
+    }
+};
+```
+
+***C++ Code using two pointers***
 ```C++
 class Solution {
 public:
@@ -5354,6 +5370,50 @@ public:
             fast = fast->next->next;
         }
         return false;
+    }
+};
+```
+
+###142<a name="142-linked-list-cycle-ii"></a>142 Linked List Cycle II
+> Given a linked list, return the node where the cycle begins. If there is no cycle, return null
+
+**Idea**
+Assume that the distance from the head of the list to the joint point of the ring is K. The size of the ring is RING_SIZE. (Note: here we assume RING_SIZE > K. It is easy to derive the proof for the case where RING_SIZE < K). Two pointers: slow and fast; the slow pointer moves one step at a time, and the fast pointer moves two steps at a time.
+
+The algorithm locates the joint point of the ring within a linked list, in O(N) time complexity and constant space complexity, via the following steps.
+
+Both pointers start from the head of list. In K steps, the slow pointer reaches the joint point, while the fast pointer is K steps away from the joint point, since the fast pointer moves two times faster than the slow one. In other words, we could say that the fast pointer is (RING_SIZE - K) lagging behind the slow pointer, if the movement continues.
+
+To catch up with the slow pointer, it takes 2*(RING_SIZE-K) steps for the fast pointer. At the same time, the slow pointer is (RING_SIZE-K) away from the joint point. In other words, both pointers now, are (RING_SIZE - (RING_SIZE-K)) = K steps to the joint point.
+
+Now we could move the slow pointer to the head of the list, and keep the fast pointer at the first meeting point. Now, if both pointers move at the same pace, one step at a time, they would meet again, in K steps. And this time, as we can see from the step 2), they would meet at the joint point.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode *slow = head;
+        ListNode *fast = head;
+        while (fast!=NULL && fast->next!=NULL)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+            
+            if (slow==fast)
+            {
+                slow = head;
+                while (slow!=fast)
+                {
+                     slow=slow->next;
+                     fast=fast->next;
+                }
+                return slow;
+            }
+
+        }
+        return NULL;
+
     }
 };
 ```
