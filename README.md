@@ -5332,6 +5332,32 @@ public:
 };
 ```
 
+###<a name="141-linked-list-cycle"></a>141 Linked List Cycle
+> Given a linked list, determine if it has a cycle in it.
+
+> Follow up:
+> Can you solve it without using extra space?
+
+**Idea** Slow and Fast pointer. 
+If with extra space, we can use hashmap.
+
+***C++ Code***
+```C++
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        ListNode *slow = head;
+        ListNode *fast = head;
+        while(fast && fast->next) {
+            if (fast->next == slow) return true;
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        return false;
+    }
+};
+```
+
 ###<a name="153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
 > Suppose a sorted array is rotated at some pivot unknown to you beforehand.
