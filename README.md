@@ -5482,6 +5482,101 @@ public:
 };
 ```
 
+###<a name = "144-binary-tree-preorder-travesal">144 Binary Tree Preorder Travesal
+
+***C++ Code Recursion***
+```C++
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> result;
+        dfs(root,result);
+        return result;
+    }
+    void dfs(TreeNode* root, vector<int> &result) {
+        if (root == NULL) return;
+        result.push_back(root->val);
+        if (root->left) dfs(root->left,result);
+        if (root->right) dfs(root->right,result);
+    }
+};
+```
+
+***C# Code Iteration***
+```C#
+public class Solution {
+    public IList<int> PreorderTraversal(TreeNode root) {
+        List<int> result = new List<int>();
+        Stack<TreeNode> s = new Stack<TreeNode>();
+        if (root == null) return result;
+        s.Push(root);
+        while (s.Count > 0) {
+            root = s.Pop();
+            result.Add(root.val);
+            if (root.right != null) s.Push(root.right);
+            if (root.left != null) s.Push(root.left);
+        }
+        return result;
+    }
+}
+```
+
+***C# Code Recursion***
+```C#
+public class Solution {
+    public IList<int> PreorderTraversal(TreeNode root) {
+        List<int> result = new List<int>();
+        dfs(root,result);
+        return result;
+    }
+    public void dfs(TreeNode root, IList<int> result) {
+        if (root == null) return;
+        result.Add(root.val);
+        if (root.left != null) dfs(root.left, result);
+        if (root.right != null) dfs(root.right, result);
+    }
+}
+```
+
+###<a name = "145-binary-tree-postorder-travesal">144 Binary Tree Postorder Travesal
+
+***C++ Recursion Code***
+```C++
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> result;
+        dfs(root,result);
+        return result;
+    }
+    void dfs(TreeNode* root, vector<int>& result) {
+        if (root == NULL) return;
+        if (root->left) dfs(root->left,result);
+        if (root->right) dfs(root->right,result);
+        result.push_back(root->val);
+    }
+};
+```
+
+***C# Iteration Code***
+```C#
+public class Solution {
+    public IList<int> PostorderTraversal(TreeNode root) {
+        var result = new List<int>();
+        var s = new Stack<TreeNode>();
+        if (root == null) return result;
+        s.Push(root);
+        while (s.Count > 0) {
+            TreeNode curr = s.Pop();
+            result.Insert(0,curr.val);
+            if (curr.left != null) s.Push(curr.left);
+            if (curr.right != null) s.Push(curr.right);
+        }
+        return result;
+    }
+}
+```
+
 ###<a name="153-find-minimum-in-rotated-sorted-array">153 Find Minimum in Rotated Sorted Array
 
 > Suppose a sorted array is rotated at some pivot unknown to you beforehand.
